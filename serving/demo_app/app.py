@@ -9,6 +9,7 @@ if str(ROOT_DIR) not in sys.path:
 
 try:
     import gradio as gr
+    import gradio
 except ImportError as e:
     raise ImportError(
         "Gradio package is required to run the web application. "
