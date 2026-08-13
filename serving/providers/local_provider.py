@@ -2,6 +2,7 @@ import time
 from pathlib import Path
 from typing import Dict, Any, Optional
 from serving.providers.base import BaseASRProvider, BaseMTProvider, BaseTTSProvider
+from serving.audio_processor import get_demo_audio_sample
 from configs.dialects import DIALECT_REGISTRY
 
 class LocalASRProvider(BaseASRProvider):
@@ -53,12 +54,13 @@ class LocalTTSProvider(BaseTTSProvider):
         did = (dialect_id or "MWR").upper().split()[0]
         dinfo = DIALECT_REGISTRY.get(did, DIALECT_REGISTRY["MWR"])
         
+        sample_audio = get_demo_audio_sample(did)
         latency = round(time.time() - t0 + 0.40, 2)
         
         return {
             "provider": "Local",
             "mode": "Offline",
-            "audio_path": f"data/processed/local_tts_{did.lower()}.wav",
+            "audio_path": sample_audio,
             "model_name": dinfo["default_models"]["tts"],
             "latency_sec": latency,
             "mos_rating": 4.1
