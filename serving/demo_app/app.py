@@ -2,10 +2,18 @@ import os
 import sys
 import json
 from pathlib import Path
-import gradio as gr
 
 ROOT_DIR = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(ROOT_DIR))
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+try:
+    import gradio as gr
+except ImportError as e:
+    raise ImportError(
+        "Gradio package is required to run the web application. "
+        "Please install it using 'pip install gradio'."
+    ) from e
 
 from configs.dialects import list_dialects, get_dialect_info
 from serving.audio_processor import preprocess_audio_pipeline, get_demo_audio_sample
