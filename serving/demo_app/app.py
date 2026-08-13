@@ -186,7 +186,9 @@ def build_app():
     dialects = list_dialects()
     dialect_options = [f"{d['id']} ({d['name']})" for d in dialects]
 
-    with gr.Blocks(title="Rajasthan Multi-Dialect Platform", css=custom_css) as app:
+    with gr.Blocks(title="Rajasthan Multi-Dialect Platform") as app:
+        if custom_css:
+            gr.HTML(f"<style>{custom_css}</style>")
         
         # Header & Compact Subtitle
         gr.HTML("""
