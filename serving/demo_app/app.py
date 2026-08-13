@@ -178,7 +178,7 @@ def build_app():
     dialects = list_dialects()
     dialect_options = [f"{d['id']} ({d['name']})" for d in dialects]
 
-    with gr.Blocks(title="Rajasthan Multi-Dialect Platform") as app:
+    with gr.Blocks(title="Rajasthan Multi-Dialect Platform", css=custom_css) as app:
         
         # Header & Compact Subtitle
         gr.HTML("""
@@ -490,4 +490,4 @@ Run the pipeline above to inspect translation strategy, literal vs intended cult
 
 if __name__ == "__main__":
     app = build_app()
-    app.launch(css=custom_css, server_name="127.0.0.1", server_port=7860, share=False)
+    app.launch(server_name="127.0.0.1", server_port=7860, share=False)
