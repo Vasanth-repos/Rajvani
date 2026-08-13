@@ -40,7 +40,8 @@ def run_full_pipeline_ui(dialect_name: str, audio_file, text_input: str, provide
     asr_res = {}
     
     if audio_path:
-        processed_audio, prep_info = preprocess_audio_pipeline(audio_path)
+        prep_info = preprocess_audio_pipeline(audio_path)
+        processed_audio = prep_info.get("processed_path", audio_path)
         asr_res = asr_provider.transcribe(processed_audio, dialect_id=dialect_id, preferred_provider=provider_pref.lower())
         raw_text = asr_res.get("raw_transcript", "")
 
@@ -111,12 +112,10 @@ def save_human_correction_ui(raw_text: str, corrected_text: str, dialect_name: s
 def inspect_matrix_cell_ui(train_d: str, eval_d: str):
     res = explain_na_cell(train_d, eval_d)
     return f"""
-### 🔍 Transfer Cell Details: {train_d.split()[0]} → {eval_d.split()[0]}
-- **Status**: `{res['status']}`
-- **Train Dialect**: `{res['train_dialect']}`
-- **Evaluation Dialect**: `{res['eval_dialect']}`
-- **Details**: {res['reason']}
-- **Action Required**: {res['recommendation']}
+### 🔍 Transfer Cell Details: {res.get('pair', f'{train_d} -> {eval_d}')}
+- **Status**: `{res.get('status', 'Not Evaluated (N/A)')}`
+- **Reason**: {res.get('reason', 'No speaker-disjoint test set available.')}
+- **Scientific Note**: {res.get('scientific_note', 'N/A represents unevaluated pairs.')}
 """
 
 def format_proverb_cards_html(proverbs_list):
@@ -146,13 +145,15 @@ def submit_feedback_ui(dialect: str, asr_r: float, mt_r: float, cult_r: float, t
     if asr_r == 0 or mt_r == 0 or overall_r == 0:
         return "⚠️ Please rate all evaluation criteria (1-5 stars) before submitting."
     rec = record_user_feedback(
-        session_id="ui_session",
-        utterance_id="utt_demo_01",
-        dialect_id=dialect.split()[0],
-        scores={"asr": asr_r, "translation": mt_r, "cultural_preservation": cult_r, "tts": tts_r, "overall": overall_r},
-        comments=comments
+        asr_score=int(asr_r),
+        mt_score=int(mt_r),
+        cultural_score=int(cult_r),
+        tts_score=int(tts_r),
+        usefulness_score=int(overall_r),
+        comments=comments,
+        dialect_id=dialect.split()[0]
     )
-    return f"✓ Human feedback successfully recorded! ID: {rec['feedback_id']}. Thank you for evaluating."
+    return f"✓ Human feedback successfully recorded for dialect {rec['dialect_id']} at {rec['timestamp']}! Thank you for evaluating."
 
 def export_report_ui():
     report = {

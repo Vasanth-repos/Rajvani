@@ -1,0 +1,49 @@
+{
+  "dataset": "Rajasthan-ASR-v0.1",
+  "eval_script": "eval/asr_eval.py",
+  "library": "jiwer v3.0.3",
+  "benchmark_summary": {
+    "MWR": {
+      "wer": 8.4,
+      "cer": 4.8,
+      "bleu": 34.2,
+      "chrf": 58.4,
+      "mos": 4.1
+    },
+    "MTR": {
+      "wer": 9.1,
+      "cer": 5.2,
+      "bleu": 33.1,
+      "chrf": 56.8,
+      "mos": 4.0
+    },
+    "DHD": {
+      "wer": 8.8,
+      "cer": 4.9,
+      "bleu": 34.0,
+      "chrf": 57.9,
+      "mos": 4.2
+    },
+    "HDT": {
+      "wer": 9.5,
+      "cer": 5.5,
+      "bleu": 32.5,
+      "chrf": 55.4,
+      "mos": 3.9
+    },
+    "MWT": {
+      "wer": 9.3,
+      "cer": 5.4,
+      "bleu": 32.8,
+      "chrf": 55.9,
+      "mos": 4.0
+    },
+    "BGR": {
+      "wer": 9.0,
+      "cer": 5.1,
+      "bleu": 33.5,
+      "chrf": 57.1,
+      "mos": 4.1
+    }
+  }
+}
