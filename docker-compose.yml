@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    command: python -m serving.api.main
+    ports:
+      - "8000:8000"
+    environment:
+      - BHASHINI_API_KEY=${BHASHINI_API_KEY:-}
+      - APP_MODE=production
+    restart: always
+
+  frontend:
+    build: .
+    command: python serving/demo_app/app.py
+    ports:
+      - "7860:7860"
+    environment:
+      - BHASHINI_API_KEY=${BHASHINI_API_KEY:-}
+    depends_on:
+      - api
+    restart: always

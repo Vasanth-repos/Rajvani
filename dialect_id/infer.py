@@ -44,6 +44,10 @@ def infer_dialect_distribution(input_text: str = None, audio_path: str = None):
     top_dialect = max(dist, key=dist.get)
     return dist, top_dialect
 
+def predict_dialect_probabilities(input_text: str = None, audio_path: str = None):
+    dist, _ = infer_dialect_distribution(input_text, audio_path)
+    return dist
+
 def main():
     parser = argparse.ArgumentParser(description="Infer dialect probability distribution.")
     parser.add_argument("--text", type=str, help="Input text string")
