@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-08-13T20:20:00Z",
+  "overall_status": "PASS",
+  "dialects_checked": [
+    "MWR",
+    "MTR",
+    "DHD",
+    "HDT",
+    "MWT",
+    "BGR"
+  ],
+  "speaker_isolation_check": "PASSED (Speaker-Disjoint Isolation Enforced)",
+  "checks": {
+    "audio_valid": true,
+    "duration_valid": true,
+    "sample_rate_valid": true,
+    "transcript_exists": true,
+    "dialect_exists": true,
+    "no_duplicate_audio": true,
+    "no_duplicate_transcript": true,
+    "no_speaker_leakage": true,
+    "consent_exists": true
+  },
+  "dialect_stats": {
+    "MWR": {
+      "status": "PASS",
+      "record_count": 40
+    },
+    "MTR": {
+      "status": "PASS",
+      "record_count": 40
+    },
+    "DHD": {
+      "status": "PASS",
+      "record_count": 40
+    },
+    "HDT": {
+      "status": "PASS",
+      "record_count": 40
+    },
+    "MWT": {
+      "status": "PASS",
+      "record_count": 40
+    },
+    "BGR": {
+      "status": "PASS",
+      "record_count": 40
+    }
+  }
+}

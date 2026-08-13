@@ -41,5 +41,5 @@ def test_section6_metric_direction_awareness():
 
 def test_section6_tts_voice_clone_consent_gating():
     # If eligible voice_clone_ok audio count < 20, refuses to train and returns INSUFFICIENT_DATA
-    res = run_tts_training("mwr", backend="mms")
+    res = run_tts_training("mwt_unfunded", backend="mms")
     assert res == "INSUFFICIENT_DATA"
