@@ -11,7 +11,7 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "figurative_meaning": "Focusing on the main priority resolves secondary issues; spreading effort thin causes failure.",
         "hindi_equivalent": "एक समय में एक ही कार्य पर ध्यान केंद्रित करना चाहिए।",
         "other_dialect_equivalents": {"MTR": "एक साधे सब सधै।", "DHD": "एक साधे सब सधै।"},
-        "domain": "Wisdom & Discipline",
+        "domain": "Wisdom",
         "source": "Field Collection - Jodhpur",
         "human_verified": True
     },
@@ -23,7 +23,7 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "figurative_meaning": "The purity of one's food and thoughts shapes their character.",
         "hindi_equivalent": "जैसा आहार वैसा विचार।",
         "other_dialect_equivalents": {"MTR": "जैसो अन्न वैसो मन।"},
-        "domain": "Ethics & Health",
+        "domain": "Ethics",
         "source": "Field Collection - Bikaner",
         "human_verified": True
     },
@@ -31,7 +31,7 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "id": "mtr_prv_001",
         "dialect": "MTR",
         "original_proverb": "घर रो जोगी जोगणा, आन गाँव रो सिद्ध।",
-        "literal_meaning": "A yogi of one's home is just a beggar, while a outsider yogi is a saint.",
+        "literal_meaning": "A yogi of one's home is just a beggar, while an outsider yogi is a saint.",
         "figurative_meaning": "Familiarity breeds contempt; local talent is often underestimated until acknowledged externally.",
         "hindi_equivalent": "घर का मोगी जोगना, आन गाँव का सिद्ध।",
         "other_dialect_equivalents": {"MWR": "घर रो जोगी जोगणा, बाहर रो सिद्ध।"},
@@ -47,7 +47,7 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "figurative_meaning": "Self-evident truths require no external proof.",
         "hindi_equivalent": "हाथ कंगन को आरसी क्या, पढ़े लिखे को फारसी क्या।",
         "other_dialect_equivalents": {"MWR": "हाथ कंगन ने आरसी कांई।"},
-        "domain": "Truth & Clarity",
+        "domain": "Truth",
         "source": "Field Collection - Jaipur",
         "human_verified": True
     },
@@ -71,7 +71,7 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "figurative_meaning": "Things appear more attractive from a distance than when examined closely.",
         "hindi_equivalent": "दूर के ढोल सुहावने लगते हैं।",
         "other_dialect_equivalents": {"MWR": "दूरा रा ढोल सुहावणा।"},
-        "domain": "Illusion & Reality",
+        "domain": "Illusion",
         "source": "Field Collection - Alwar",
         "human_verified": True
     },
@@ -83,23 +83,27 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "figurative_meaning": "Actions have direct consequences.",
         "hindi_equivalent": "जैसा करोगे वैसा भरोगे।",
         "other_dialect_equivalents": {"MWR": "जैड़ा करम वैड़ा फल।"},
-        "domain": "Karma & Justice",
+        "domain": "Ethics",
         "source": "Field Collection - Ganganagar",
         "human_verified": True
     }
 ]
 
-def list_proverbs(dialect_filter: Optional[str] = None) -> List[Dict[str, Any]]:
-    """Returns proverbs, optionally filtered by dialect."""
-    if not dialect_filter or dialect_filter.upper() == "ALL":
-        return PROVERB_BANK
-    did = dialect_filter.upper()
-    return [p for p in PROVERB_BANK if p["dialect"] == did]
+def list_proverbs(dialect_filter: Optional[str] = None, domain_filter: Optional[str] = None) -> List[Dict[str, Any]]:
+    """Returns proverbs, optionally filtered by dialect and domain."""
+    pool = PROVERB_BANK
+    if dialect_filter and dialect_filter.upper() != "ALL":
+        did = dialect_filter.upper()
+        pool = [p for p in pool if p["dialect"] == did]
+    if domain_filter and domain_filter.upper() != "ALL":
+        dom = domain_filter.lower()
+        pool = [p for p in pool if dom in p.get("domain", "").lower()]
+    return pool
 
-def search_proverbs(query: str, dialect_filter: Optional[str] = None) -> List[Dict[str, Any]]:
+def search_proverbs(query: str, dialect_filter: Optional[str] = None, domain_filter: Optional[str] = None) -> List[Dict[str, Any]]:
     """Searches proverbs by matching text against original, literal, or figurative meanings."""
     q = (query or "").lower().strip()
-    pool = list_proverbs(dialect_filter)
+    pool = list_proverbs(dialect_filter, domain_filter)
     if not q:
         return pool
     
@@ -108,7 +112,8 @@ def search_proverbs(query: str, dialect_filter: Optional[str] = None) -> List[Di
         if (q in p["original_proverb"].lower() or 
             q in p["literal_meaning"].lower() or 
             q in p["figurative_meaning"].lower() or 
-            q in p["hindi_equivalent"].lower()):
+            q in p["hindi_equivalent"].lower() or
+            q in p.get("domain", "").lower()):
             results.append(p)
     return results
 

@@ -1,0 +1,227 @@
+/* Research-Grade Dark Theme for Rajasthan Multi-Dialect Platform */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-dark: #0B0B0D;
+  --surface-dark: #151519;
+  --elevated-dark: #1D1D22;
+  --border-dark: #303038;
+  --text-primary: #F4F4F5;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --accent-orange: #F97316;
+  --accent-hover: #FB923C;
+  --status-success: #22C55E;
+  --status-warning: #EAB308;
+  --status-error: #EF4444;
+  --status-info: #60A5FA;
+}
+
+body, .gradio-container {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-primary) !important;
+  font-family: 'Inter', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+/* Header & Title Styling */
+.research-header {
+  padding: 12px 16px;
+  background-color: var(--surface-dark);
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.research-header h1 {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.research-header p {
+  font-size: 0.85rem !important;
+  color: var(--text-secondary) !important;
+  margin: 4px 0 0 0 !important;
+}
+
+/* Global Status Bar */
+.global-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  background-color: var(--surface-dark);
+  border: 1px solid var(--border-dark);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  margin-bottom: 16px;
+}
+
+.status-dot-green {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--status-success);
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.status-dot-red {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--status-error);
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.status-dot-yellow {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--status-warning);
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+/* Tab Navigation Custom Styling */
+.tabs > .tab-nav {
+  border-bottom: 1px solid var(--border-dark) !important;
+  background-color: transparent !important;
+}
+
+.tabs > .tab-nav > button {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: var(--text-secondary) !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  padding: 8px 16px !important;
+  background-color: transparent !important;
+}
+
+.tabs > .tab-nav > button.selected {
+  color: var(--accent-orange) !important;
+  border-bottom-color: var(--accent-orange) !important;
+  background-color: rgba(249, 115, 22, 0.08) !important;
+  border-radius: 4px 4px 0 0;
+}
+
+/* Cards & Surface Boxes */
+.card-surface {
+  background-color: var(--surface-dark) !important;
+  border: 1px solid var(--border-dark) !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  margin-bottom: 16px !important;
+}
+
+.card-elevated {
+  background-color: var(--elevated-dark) !important;
+  border: 1px solid var(--border-dark) !important;
+  border-radius: 6px !important;
+  padding: 12px !important;
+}
+
+/* Provenance & Metadata Strip */
+.provenance-strip {
+  background-color: var(--elevated-dark);
+  border: 1px solid var(--border-dark);
+  border-left: 3px solid var(--accent-orange);
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+/* Custom Badges */
+.badge-preserved {
+  display: inline-block;
+  background-color: rgba(34, 197, 94, 0.15);
+  color: var(--status-success);
+  border: 1px solid var(--status-success);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-verified {
+  display: inline-block;
+  background-color: rgba(96, 165, 250, 0.15);
+  color: var(--status-info);
+  border: 1px solid var(--status-info);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Metrics Stat Cards */
+.stat-card {
+  background-color: var(--elevated-dark);
+  border: 1px solid var(--border-dark);
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-orange);
+  margin-top: 4px;
+}
+
+.stat-subtext {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Dataframe & Tables Styling */
+table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  background-color: var(--surface-dark) !important;
+}
+
+th {
+  background-color: var(--elevated-dark) !important;
+  color: var(--text-secondary) !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  border-bottom: 1px solid var(--border-dark) !important;
+  padding: 10px !important;
+}
+
+td {
+  border-bottom: 1px solid var(--border-dark) !important;
+  color: var(--text-primary) !important;
+  font-size: 0.85rem !important;
+  padding: 10px !important;
+}
+
+/* Buttons */
+.gr-button-primary {
+  background-color: var(--accent-orange) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+
+.gr-button-primary:hover {
+  background-color: var(--accent-hover) !important;
+}
