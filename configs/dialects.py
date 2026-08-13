@@ -8,8 +8,8 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "script": "Devanagari",
         "regions": ["Jodhpur", "Bikaner", "Barmer", "Jaisalmer", "Nagaur"],
         "default_models": {
-            "asr": "openai/whisper-large-v3-lora-mwr",
-            "mt": "ai4bharat/indictrans2-mwr",
+            "asr": "openai/whisper-large-v3-turbo-lora-mwr",
+            "mt": "ai4bharat/indictrans2-1b-lora-mwr",
             "tts": "facebook/mms-tts-mwr"
         },
         "dataset_path": "data/validated/mwr/",
@@ -22,8 +22,8 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "script": "Devanagari",
         "regions": ["Udaipur", "Chittorgarh", "Rajsamand", "Bhilwara"],
         "default_models": {
-            "asr": "openai/whisper-large-v3-lora-mtr",
-            "mt": "ai4bharat/indictrans2-mtr",
+            "asr": "openai/whisper-large-v3-turbo-lora-mtr",
+            "mt": "ai4bharat/indictrans2-1b-lora-mtr",
             "tts": "facebook/mms-tts-mtr"
         },
         "dataset_path": "data/validated/mtr/",
@@ -36,8 +36,8 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "script": "Devanagari",
         "regions": ["Jaipur", "Tonk", "Dausa"],
         "default_models": {
-            "asr": "openai/whisper-large-v3-lora-dhd",
-            "mt": "ai4bharat/indictrans2-dhd",
+            "asr": "openai/whisper-large-v3-turbo-lora-dhd",
+            "mt": "ai4bharat/indictrans2-1b-lora-dhd",
             "tts": "facebook/mms-tts-dhd"
         },
         "dataset_path": "data/validated/dhd/",
@@ -50,8 +50,8 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "script": "Devanagari",
         "regions": ["Kota", "Bundi", "Baran", "Jhalawar"],
         "default_models": {
-            "asr": "openai/whisper-large-v3-lora-hdt",
-            "mt": "ai4bharat/indictrans2-hdt",
+            "asr": "openai/whisper-large-v3-turbo-lora-hdt",
+            "mt": "ai4bharat/indictrans2-1b-lora-hdt",
             "tts": "facebook/mms-tts-hdt"
         },
         "dataset_path": "data/validated/hdt/",
@@ -64,8 +64,8 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "script": "Devanagari",
         "regions": ["Alwar", "Bharatpur"],
         "default_models": {
-            "asr": "openai/whisper-large-v3-lora-mwt",
-            "mt": "ai4bharat/indictrans2-mwt",
+            "asr": "openai/whisper-large-v3-turbo-lora-mwt",
+            "mt": "ai4bharat/indictrans2-1b-lora-mwt",
             "tts": "facebook/mms-tts-mwt"
         },
         "dataset_path": "data/validated/mwt/",
@@ -78,8 +78,8 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "script": "Devanagari",
         "regions": ["Ganganagar", "Hanumangarh", "Churu"],
         "default_models": {
-            "asr": "openai/whisper-large-v3-lora-bgr",
-            "mt": "ai4bharat/indictrans2-bgr",
+            "asr": "openai/whisper-large-v3-turbo-lora-bgr",
+            "mt": "ai4bharat/indictrans2-1b-lora-bgr",
             "tts": "facebook/mms-tts-bgr"
         },
         "dataset_path": "data/validated/bgr/",
@@ -89,7 +89,7 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
 
 def get_dialect_info(dialect_id: str) -> Dict[str, Any]:
     """Retrieves metadata for a dialect ID (case-insensitive)."""
-    key = (dialect_id or "").upper()
+    key = (dialect_id or "").upper().split()[0]
     if key not in DIALECT_REGISTRY:
         raise ValueError(f"Unknown dialect ID '{dialect_id}'. Supported IDs: {list(DIALECT_REGISTRY.keys())}")
     return DIALECT_REGISTRY[key]
@@ -100,4 +100,5 @@ def list_dialects() -> List[Dict[str, Any]]:
 
 def validate_dialect_id(dialect_id: str) -> bool:
     """Checks if a dialect ID is registered."""
-    return (dialect_id or "").upper() in DIALECT_REGISTRY
+    key = (dialect_id or "").upper().split()[0]
+    return key in DIALECT_REGISTRY
