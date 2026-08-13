@@ -13,7 +13,7 @@ def test_section6_sequential_checkpoint_promotion_rejection():
     # Clean test checkpoint dir if exists
     test_dir = ROOT_DIR / "checkpoints" / "asr" / "mwr_test6_1"
     if test_dir.exists():
-        shutil.rmtree(test_dir)
+        shutil.rmtree(test_dir, ignore_errors=True)
 
     # 1st checkpoint promotes (first_checkpoint)
     promoted1, meta1 = evaluate_and_promote("asr", "mwr_test6_1", "run_good_01", metric_name="wer")
@@ -28,7 +28,7 @@ def test_section6_sequential_checkpoint_promotion_rejection():
 def test_section6_metric_direction_awareness():
     test_dir = ROOT_DIR / "checkpoints" / "tts" / "mwr_test6_2"
     if test_dir.exists():
-        shutil.rmtree(test_dir)
+        shutil.rmtree(test_dir, ignore_errors=True)
 
     # MCD objective metric configured as lower_is_better (first_checkpoint promotes)
     promoted1, _ = evaluate_and_promote("tts", "mwr_test6_2", "run_mcd_good_01", metric_name="mcd")
