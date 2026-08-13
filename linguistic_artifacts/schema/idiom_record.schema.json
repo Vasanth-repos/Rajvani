@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IdiomRecord",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "dialect": { "type": "string", "enum": ["mwr", "mtr", "dhd", "hdt", "mwt", "bgr"] },
+    "idiom_dialect": { "type": "string" },
+    "idiom_dialect_raw": { "type": "string" },
+    "orthography_review": { "type": "boolean" },
+    "literal_gloss": { "type": "string" },
+    "intended_meaning_hindi": { "type": "string" },
+    "intended_meaning_english": { "type": "string" },
+    "register": { "type": "string", "enum": ["formal", "informal", "elder_speech", "proverb", "blessing", "idiom"] },
+    "usage_context": { "type": "string" },
+    "collected_from": { "type": "string" },
+    "consent_basis": { "type": "string", "enum": ["explicit_written", "explicit_verbal", "public_domain", "synthetic"] },
+    "public_release_ok": { "type": "boolean" }
+  },
+  "required": [
+    "id", "dialect", "idiom_dialect", "idiom_dialect_raw", "orthography_review",
+    "literal_gloss", "intended_meaning_hindi", "intended_meaning_english",
+    "register", "usage_context", "consent_basis", "public_release_ok"
+  ]
+}

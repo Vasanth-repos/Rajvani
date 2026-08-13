@@ -1,0 +1,20 @@
+dialects:
+  - id: mwr
+    name: Marwari
+    regions: [Jodhpur, Bikaner, Barmer, Jaisalmer, Nagaur]
+  - id: mtr
+    name: Mewari
+    regions: [Udaipur, Chittorgarh, Rajsamand, Bhilwara]
+  - id: dhd
+    name: Dhundhari
+    regions: [Jaipur, Tonk, Dausa]
+  - id: hdt
+    name: Hadoti
+    regions: [Kota, Bundi, Baran, Jhalawar]
+  - id: mwt
+    name: Mewati
+    regions: [Alwar, Bharatpur]
+  - id: bgr
+    name: Bagri
+    regions: [Ganganagar, Hanumangarh, Churu]
+pivot_languages: [hin, eng]

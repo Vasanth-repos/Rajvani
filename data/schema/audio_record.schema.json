@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AudioRecord",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "dialect": { "type": "string", "enum": ["mwr", "mtr", "dhd", "hdt", "mwt", "bgr"] },
+    "region": { "type": "string" },
+    "text_dialect": { "type": "string" },
+    "text_dialect_raw": { "type": "string" },
+    "orthography_review": { "type": "boolean" },
+    "text_hindi": { "type": ["string", "null"] },
+    "text_english": { "type": ["string", "null"] },
+    "audio_path": { "type": "string" },
+    "duration_sec": { "type": "number" },
+    "sample_rate": { "type": "integer" },
+    "speaker_id": { "type": "string" },
+    "speaker_age_range": { "type": ["string", "null"] },
+    "speaker_gender": { "type": ["string", "null"], "enum": ["male", "female", "other", "unknown", null] },
+    "transcript_id": { "type": ["string", "null"] },
+    "wer_flag": { "type": ["boolean", "null"] },
+    "mos_score": { "type": ["number", "null"] },
+    "voice_clone_ok": { "type": "boolean" },
+    "is_code_switched": { "type": "boolean" },
+    "cs_spans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "start": { "type": "integer" },
+          "end": { "type": "integer" },
+          "lang": { "type": "string", "enum": ["hin", "eng"] }
+        },
+        "required": ["start", "end", "lang"]
+      }
+    },
+    "source": { "type": "string", "enum": ["field_collection", "crowd", "scraped", "synthetic_tts", "synthetic_perturbed"] },
+    "consent_basis": { "type": "string", "enum": ["explicit_written", "explicit_verbal", "public_domain", "synthetic"] },
+    "validated": { "type": "boolean" },
+    "validator_id": { "type": ["string", "null"] },
+    "confidence_score": { "type": ["number", "null"] },
+    "speaker_age_cohort": { "type": ["string", "null"], "enum": ["under18", "18-30", "31-50", "51-70", "70plus", "unknown", null] },
+    "settlement_type": { "type": ["string", "null"], "enum": ["urban", "rural", "unknown", null] },
+    "public_release_ok": { "type": "boolean" },
+    "split": { "type": ["string", "null"], "enum": ["train", "dev", "test", null] },
+    "dev_subsplit": { "type": ["string", "null"], "enum": ["promotion", "canary", null] }
+  },
+  "required": [
+    "id", "dialect", "region", "text_dialect", "text_dialect_raw", "orthography_review",
+    "audio_path", "duration_sec", "sample_rate", "speaker_id", "voice_clone_ok",
+    "is_code_switched", "cs_spans", "source", "consent_basis", "validated", "public_release_ok"
+  ]
+}

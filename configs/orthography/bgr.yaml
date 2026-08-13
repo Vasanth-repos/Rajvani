@@ -1,0 +1,11 @@
+dialect: bgr
+version: 1
+base_script: Devanagari
+diacritic_rules:
+  canonicalize_nasalization: true
+  strip_zero_width_joiners: true
+variant_mappings:
+  "की": "की"
+  "काई": "की"
+  "आपणो": "आपणो"
+  "आपणो": "आपणो"

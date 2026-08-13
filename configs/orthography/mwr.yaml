@@ -1,0 +1,13 @@
+dialect: mwr
+version: 1
+base_script: Devanagari
+diacritic_rules:
+  canonicalize_nasalization: true
+  strip_zero_width_joiners: true
+variant_mappings:
+  "म्हारो": "म्हारो"
+  "महारो": "म्हारो"
+  "महोरा": "म्हारो"
+  "म्हारा": "म्हारा"
+  "कोनी": "कोनी"
+  "कोनि": "कोनी"

@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.pytest_cache/
+
+# Data and large weights (tracked via DVC)
+checkpoints/*
+!checkpoints/README.md
+!checkpoints/**/production.json
+!checkpoints/**/promotion_log.jsonl
+!checkpoints/**/canary_audit.jsonl
+
+logs/*
+!logs/README.md
+!logs/experiments/experiment_history.jsonl
+
+data/raw/*
+!data/raw/README.md
+data/validated/*
+!data/validated/README.md
+data/synthetic/*
+!data/synthetic/README.md
+
+# Environment variables & local IDE
+.env
+.idea/
+.vscode/
+*.log

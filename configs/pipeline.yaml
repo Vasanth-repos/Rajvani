@@ -1,0 +1,59 @@
+seed: 42
+data_dir: "data"
+checkpoint_dir: "checkpoints"
+logs_dir: "logs"
+
+splits:
+  ratio: [0.8, 0.1, 0.1]
+  test_cap: 500
+  dev_cap: 300
+  dev_subsplit:
+    promotion: 0.7
+    canary: 0.3
+
+active_learning:
+  uncertainty_weight: 0.6
+  novelty_weight: 0.4
+  weekly_k_per_dialect: 200
+
+augmentation:
+  back_translation:
+    chrf_threshold: 0.5
+    max_synthetic_ratio: 3.0
+  tts_bootstrap:
+    max_asr_share: 0.30
+  audio_perturbation:
+    speed_range: [0.9, 1.1]
+    pitch_semitones: [-2, 2]
+    snr_db: [10, 20]
+
+promotion:
+  bootstrap_resamples: 1000
+  confidence_level: 0.90
+  tolerance_points: 0.5
+  metrics:
+    wer: lower_is_better
+    bleu: higher_is_better
+    chrf: higher_is_better
+    mos: higher_is_better
+    mcd: lower_is_better
+
+dialect_id:
+  default_confidence_threshold: 0.60
+  default_margin_threshold: 0.15
+  ambiguous_queue_rate_limit: 20  # per key per hour
+  pairwise_thresholds: {}
+
+content_filter:
+  threshold: 0.70
+
+api:
+  rate_limit: 100  # requests per key per hour
+
+benchmark:
+  publish_filter:
+    k_anonymity: 5
+    quasi_identifiers: ["settlement_type", "speaker_age_cohort"]
+
+ivr:
+  enabled: false

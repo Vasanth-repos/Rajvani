@@ -1,0 +1,11 @@
+dialect: mtr
+version: 1
+base_script: Devanagari
+diacritic_rules:
+  canonicalize_nasalization: true
+  strip_zero_width_joiners: true
+variant_mappings:
+  "म्हाणो": "म्हाणो"
+  "महानो": "म्हाणो"
+  "अठे": "अठे"
+  "अठै": "अठे"

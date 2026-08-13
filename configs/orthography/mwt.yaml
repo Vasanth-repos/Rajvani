@@ -1,0 +1,11 @@
+dialect: mwt
+version: 1
+base_script: Devanagari
+diacritic_rules:
+  canonicalize_nasalization: true
+  strip_zero_width_joiners: true
+variant_mappings:
+  "हवै": "हवै"
+  "हवे": "हवै"
+  "का": "का"
+  "काह": "का"
