@@ -1,6 +1,6 @@
-import os
 import sys
 import json
+import subprocess
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
@@ -8,18 +8,21 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 try:
-    import gradio as gr
-    import gradio
-except ImportError as e:
-    raise ImportError(
-        "Gradio package is required to run the web application. "
-        "Please install it using 'pip install gradio'."
-    ) from e
+    import gradio as gr  # type: ignore
+except ImportError:
+    print("[INFO] Gradio package not found. Auto-installing gradio via pip...", file=sys.stderr)
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "gradio"])
+        import gradio as gr  # type: ignore
+    except Exception as err:
+        raise ImportError(
+            "Gradio package is required to run the web application. "
+            "Please run: pip install gradio"
+        ) from err
 
-from configs.dialects import list_dialects, get_dialect_info
+from configs.dialects import list_dialects
 from serving.audio_processor import preprocess_audio_pipeline, get_demo_audio_sample
 from serving.providers.fallback_provider import FallbackASRProvider, FallbackMTProvider, FallbackTTSProvider
-from serving.providers.status import get_provider_status
 from linguistic_artifacts.proverb_database import list_proverbs, search_proverbs, detect_cultural_proverb
 from eval.asr_eval import get_baseline_vs_finetuned_comparison
 from eval.cross_dialect_transfer import get_cross_dialect_matrix, explain_na_cell
