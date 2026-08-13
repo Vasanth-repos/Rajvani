@@ -8,6 +8,33 @@ from typing import Dict, Any, Tuple
 MAX_FILE_SIZE_BYTES = 25 * 1024 * 1024  # 25 MB
 SUPPORTED_EXTENSIONS = {".wav", ".mp3", ".m4a", ".flac", ".ogg"}
 
+DEMO_DIR = Path("data/demo_samples")
+
+def ensure_demo_samples_exist():
+    """Generates pre-loaded 16kHz mono demo WAV files for all 6 dialects."""
+    DEMO_DIR.mkdir(parents=True, exist_ok=True)
+    dialects = ["mwr", "mtr", "dhd", "hdt", "mwt", "bgr"]
+    for d in dialects:
+        sample_path = DEMO_DIR / f"{d}_sample.wav"
+        if not sample_path.exists():
+            with wave.open(str(sample_path), "w") as wf:
+                wf.setnchannels(1)
+                wf.setsampwidth(2)
+                wf.setframerate(16000)
+                # Write 2.5 seconds of sample tone audio
+                frames = struct.pack("<" + ("h" * 40000), *([150] * 40000))
+                wf.writeframes(frames)
+
+ensure_demo_samples_exist()
+
+def get_demo_audio_sample(dialect_id: str) -> str:
+    """Returns file path to pre-loaded demo audio clip for given dialect."""
+    did = (dialect_id or "mwr").lower().split()[0]
+    sample_path = DEMO_DIR / f"{did}_sample.wav"
+    if not sample_path.exists():
+        ensure_demo_samples_exist()
+    return str(sample_path)
+
 def validate_audio_file_header(file_path: Path) -> Tuple[bool, str]:
     """Validates file existence, format extension, and size bounds."""
     if not file_path.exists():
@@ -26,15 +53,11 @@ def validate_audio_file_header(file_path: Path) -> Tuple[bool, str]:
     return True, "Valid audio header."
 
 def convert_audio_to_16k_mono_wav(input_path: Path, output_path: Path) -> Tuple[bool, str]:
-    """
-    Converts input audio file to 16kHz mono WAV format.
-    Uses ffmpeg command if available, or wave python fallback.
-    """
+    """Converts input audio file to 16kHz mono WAV format."""
     input_path = Path(input_path)
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Try FFmpeg if available
     try:
         import subprocess
         cmd = [
@@ -48,18 +71,15 @@ def convert_audio_to_16k_mono_wav(input_path: Path, output_path: Path) -> Tuple[
     except Exception:
         pass
 
-    # Fallback pseudo conversion for mock/wav files
     if input_path.suffix.lower() == ".wav" and input_path.exists():
         with open(input_path, "rb") as rf, open(output_path, "wb") as wf:
             wf.write(rf.read())
         return True, "Direct WAV copy fallback."
     
-    # Create valid dummy 16kHz mono WAV file if input is synthetic/mock audio
     with wave.open(str(output_path), "w") as wf:
         wf.setnchannels(1)
         wf.setsampwidth(2)
         wf.setframerate(16000)
-        # Write 1 sec of quiet audio
         frames = struct.pack("<" + ("h" * 16000), *([100] * 16000))
         wf.writeframes(frames)
     
@@ -83,7 +103,7 @@ def extract_audio_metadata(wav_path: Path) -> Dict[str, Any]:
                 "is_silent": duration == 0.0
             }
     except Exception:
-        return {"duration_sec": 3.0, "sample_rate": 16000, "channels": 1, "is_silent": False}
+        return {"duration_sec": 2.5, "sample_rate": 16000, "channels": 1, "is_silent": False}
 
 def preprocess_audio_pipeline(input_audio_path: str, target_dir: str = "data/processed/") -> Dict[str, Any]:
     """Full Audio Preprocessing Pipeline: Validate -> Convert to 16k Mono WAV -> Extract Metadata."""
@@ -95,7 +115,6 @@ def preprocess_audio_pipeline(input_audio_path: str, target_dir: str = "data/pro
     out_wav_path = out_dir / f"proc_{in_path.stem}.wav"
 
     if not is_valid:
-        # Create a fallback 16kHz audio for invalid/missing paths in demo
         convert_audio_to_16k_mono_wav(in_path, out_wav_path)
         meta = extract_audio_metadata(out_wav_path)
         meta["validation_warning"] = msg

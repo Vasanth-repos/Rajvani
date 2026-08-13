@@ -6,17 +6,18 @@ from typing import Dict, Any, Optional, List
 from pathlib import Path
 
 from configs.dialects import list_dialects, get_dialect_info, validate_dialect_id
-from serving.audio_processor import preprocess_audio_pipeline
+from serving.audio_processor import preprocess_audio_pipeline, get_demo_audio_sample
 from serving.asr_pipeline import run_asr_pipeline
 from serving.translation_engine import run_translation_pipeline
 from serving.tts_pipeline import run_tts_pipeline
 from serving.providers.status import get_provider_status
 from linguistic_artifacts.proverb_database import list_proverbs, search_proverbs
-from eval.asr_eval import get_dialect_asr_metrics
+from eval.asr_eval import get_dialect_asr_metrics, get_baseline_vs_finetuned_comparison, ASR_PROVENANCE_METADATA
 from eval.mt_eval import get_dialect_mt_metrics
 from eval.tts_eval import get_dialect_tts_metrics
 from eval.human_feedback import record_user_feedback, get_feedback_summary
-from eval.cross_dialect_transfer import get_cross_dialect_matrix
+from eval.cross_dialect_transfer import get_cross_dialect_matrix, TRANSFER_PROVENANCE_HEADER, explain_na_cell
+from active_learning.human_verifier import save_human_verified_transcript, get_verified_dataset_count
 from serving.api.content_filter import check_content_safety
 
 app = FastAPI(
@@ -38,6 +39,7 @@ class PipelineRunRequest(BaseModel):
     text_input: Optional[str] = None
     target_language: str = "hin"
     preferred_provider: str = "local"
+    use_demo_audio: bool = False
 
 class TranslationRequest(BaseModel):
     text: str
@@ -60,6 +62,12 @@ class FeedbackRequest(BaseModel):
     comments: Optional[str] = ""
     dialect_id: Optional[str] = "MWR"
 
+class TranscriptCorrectionRequest(BaseModel):
+    raw_transcript: str
+    corrected_transcript: str
+    dialect_id: str
+    speaker_id: Optional[str] = "community_evaluator_01"
+
 # --- Endpoints ---
 
 @app.get("/health")
@@ -73,6 +81,12 @@ def get_dialects_registry():
 @app.get("/api/providers/status")
 def get_providers_status_panel():
     return get_provider_status()
+
+@app.get("/api/demo-samples")
+def list_demo_samples():
+    dialects = ["mwr", "mtr", "dhd", "hdt", "mwt", "bgr"]
+    samples = {d.upper(): get_demo_audio_sample(d) for d in dialects}
+    return {"demo_samples": samples}
 
 @app.post("/api/speech/transcribe", dependencies=[Depends(verify_api_key)])
 def transcribe_audio_endpoint(
@@ -93,10 +107,17 @@ def transcribe_audio_endpoint(
 def run_full_pipeline_endpoint(req: PipelineRunRequest):
     t0 = time.time()
     
-    # 1. ASR & Normalization
-    text = req.text_input or "म्हारो नाम राम है।"
-    normalized_text = text
-    
+    if req.use_demo_audio or not req.text_input:
+        audio_path = get_demo_audio_sample(req.dialect)
+        asr_out = run_asr_pipeline(audio_path, specified_dialect=req.dialect, preferred_provider=req.preferred_provider)
+        raw_text = asr_out["raw_transcript"]
+        normalized_text = asr_out["normalized_transcript"]
+        asr_lat = asr_out["asr_latency_sec"]
+    else:
+        raw_text = req.text_input
+        normalized_text = raw_text
+        asr_lat = 0.05
+
     # 2. Cultural MT
     mt_res = run_translation_pipeline(normalized_text, source_dialect=req.dialect, target_language=req.target_language, preferred_provider=req.preferred_provider)
     
@@ -108,12 +129,12 @@ def run_full_pipeline_endpoint(req: PipelineRunRequest):
     return {
         "pipeline_status": "success",
         "dialect": req.dialect,
-        "input_text": text,
-        "normalized_text": normalized_text,
+        "raw_transcript": raw_text,
+        "normalized_transcript": normalized_text,
         "translation": mt_res,
         "tts_output": tts_res,
         "latency_breakdown": {
-            "asr_sec": 0.35,
+            "asr_sec": asr_lat,
             "mt_sec": mt_res["latency_sec"],
             "tts_sec": tts_res["latency_sec"],
             "total_sec": total_latency
@@ -140,9 +161,12 @@ def get_proverbs_endpoint(query: Optional[str] = Query(None), dialect: Optional[
 @app.get("/api/evaluation/summary")
 def get_evaluation_summary():
     return {
+        "provenance": ASR_PROVENANCE_METADATA,
         "asr_metrics": get_dialect_asr_metrics(),
+        "baseline_vs_finetuned": get_baseline_vs_finetuned_comparison(),
         "mt_metrics": get_dialect_mt_metrics(),
         "tts_metrics": get_dialect_tts_metrics(),
+        "verified_dataset_count": get_verified_dataset_count(),
         "latency_stats": {
             "average_latency_sec": 1.45,
             "p95_latency_sec": 2.10
@@ -151,8 +175,24 @@ def get_evaluation_summary():
     }
 
 @app.get("/api/evaluation/transfer-matrix")
-def get_transfer_matrix_endpoint(task: Optional[str] = Query("asr")):
-    return {"matrix": get_cross_dialect_matrix(task=task)}
+def get_transfer_matrix_endpoint(task: Optional[str] = Query("asr"), mode: Optional[str] = Query("zero_shot")):
+    return {
+        "provenance": TRANSFER_PROVENANCE_HEADER,
+        "matrix": get_cross_dialect_matrix(task=task, mode=mode)
+    }
+
+@app.get("/api/evaluation/na-explain")
+def explain_na_cell_endpoint(train_dialect: str, eval_dialect: str):
+    return explain_na_cell(train_dialect, eval_dialect)
+
+@app.post("/api/transcript/verify")
+def verify_transcript_endpoint(req: TranscriptCorrectionRequest):
+    return save_human_verified_transcript(
+        raw_transcript=req.raw_transcript,
+        corrected_transcript=req.corrected_transcript,
+        dialect_id=req.dialect_id,
+        speaker_id=req.speaker_id
+    )
 
 @app.post("/api/feedback")
 def submit_feedback_endpoint(req: FeedbackRequest):
