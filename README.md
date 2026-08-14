@@ -36,9 +36,11 @@
 - **RAG Proverb Retrieval Engine** (`linguistic_artifacts/proverb_database.py`): Detects native proverbs during live ASR or MT and overrides direct literal translations with culturally intended meanings.
 - **Orthography Normalization** (`data/normalize_orthography.py`): Normalizes regional spelling variations, diacritics, and vocabulary variants.
 
-### 3. Audible Speech Synthesis & Long Paragraph Support (`serving/audio_processor.py`)
-- Real spoken audio output via `gtts` with audible multi-harmonic acoustic sample fallbacks.
-- Multi-sentence long paragraph synthesis (15s–30s+ extended audio clips).
+### 3. Strict Audio Processing & Zero Data Fabrication Standard (`serving/audio_processor.py`)
+- **Strict Failure Handling**: Preprocessing failures (invalid header, empty file, unsupported codec, missing ffmpeg) return explicit error diagnostics (`{"ok": False, "stage": ..., "error": ...}`) rather than fabricating placeholder audio.
+- **PCM RMS Silence Detection**: Real 16-bit PCM root-mean-square amplitude calculation against `SILENCE_RMS_THRESHOLD = 50`.
+- **Isolated UI Demo Generator**: Demo tones are generated exclusively on-demand for UI evaluation and never called during model ingestion.
+- **Speech Synthesis Engine**: Real spoken speech via `gTTS` with support for extended 15s–30s+ multi-sentence paragraph audio synthesis.
 
 ### 4. Master UI/UX Research Aesthetic (`serving/demo_app/`)
 - **Dark Theme Palette**: Deep Charcoal Canvas (`#0B0B0D`), Raised Card Surfaces (`#151519`), Elevated Containers (`#1D1D22`), Subtle Borders (`#303038`), and Rajasthani Saffron Accent (`#F97316`).
@@ -115,7 +117,7 @@ c:/Rajasthan_language_model/
 │   ├── train_tts.py                   # VITS / Parler-TTS fine-tuning script
 │   └── promote_checkpoint.py          # Automated metric promotion gate
 ├── serving/
-│   ├── audio_processor.py             # Audio synthesis & extended paragraph loader
+│   ├── audio_processor.py             # Audio preprocessing, silence checking & demo tone generation
 │   ├── providers/local_provider.py    # ASR, MT, and audible gTTS TTS pipeline
 │   ├── api/                           # FastAPI BHASHINI ULCA endpoints
 │   └── demo_app/
@@ -123,6 +125,7 @@ c:/Rajasthan_language_model/
 │       └── theme.css                  # Modern dark research theme stylesheet
 ├── tests/                             # Complete pytest test suite (25 tests)
 ├── README.md
+├── LIMITATIONS.md                     # Failure-mode & evaluation limitations report
 └── LICENSES.md
 ```
 
