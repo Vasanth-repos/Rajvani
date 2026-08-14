@@ -456,3 +456,29 @@ code, pre {
     margin-left: 0;
   }
 }
+
+/* Completely Hide Gradio Branding, Footer, Logo & Symbols */
+footer,
+.gradio-container footer,
+.built-with,
+a[href*="gradio.app"],
+a[href*="huggingface.co"],
+div[class*="footer"],
+div[class*="built-with"],
+button[title*="Gradio"],
+.api-docs,
+.api-name,
+button[aria-label*="Use via API"],
+a[aria-label*="Gradio"],
+.gradio-container > footer,
+.gradio-container .footer,
+svg.gradio-logo {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+}
+
