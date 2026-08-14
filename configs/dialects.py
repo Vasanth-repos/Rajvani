@@ -9,11 +9,17 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "regions": ["Jodhpur", "Bikaner", "Barmer", "Jaisalmer", "Nagaur"],
         "default_models": {
             "asr": "openai/whisper-large-v3-turbo-lora-mwr",
-            "mt": "ai4bharat/indictrans2-1b-lora-mwr",
-            "tts": "facebook/mms-tts-mwr"
+            "mms_1b": "facebook/mms-1b-all",
+            "indicwhisper": "ai4bharat/indicwhisper-large-v3",
+            "mt": "ai4bharat/indictrans2-indic-indic-1B",
+            "indictrans2_3b": "ai4bharat/indictrans2-indic-indic-3B",
+            "sarvam_llm": "sarvamai/sarvam-2b-v0.5",
+            "airavata": "ai4bharat/airavata",
+            "tts": "facebook/mms-tts-mwr",
+            "indic_parler_tts": "ai4bharat/indic-parler-tts"
         },
         "dataset_path": "data/validated/mwr/",
-        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION"]
+        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION", "PROVERB_RAG"]
     },
     "MTR": {
         "id": "MTR",
@@ -23,11 +29,17 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "regions": ["Udaipur", "Chittorgarh", "Rajsamand", "Bhilwara"],
         "default_models": {
             "asr": "openai/whisper-large-v3-turbo-lora-mtr",
-            "mt": "ai4bharat/indictrans2-1b-lora-mtr",
-            "tts": "facebook/mms-tts-mtr"
+            "mms_1b": "facebook/mms-1b-all",
+            "indicwhisper": "ai4bharat/indicwhisper-large-v3",
+            "mt": "ai4bharat/indictrans2-indic-indic-1B",
+            "indictrans2_3b": "ai4bharat/indictrans2-indic-indic-3B",
+            "sarvam_llm": "sarvamai/sarvam-2b-v0.5",
+            "airavata": "ai4bharat/airavata",
+            "tts": "facebook/mms-tts-mtr",
+            "indic_parler_tts": "ai4bharat/indic-parler-tts"
         },
         "dataset_path": "data/validated/mtr/",
-        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION"]
+        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION", "PROVERB_RAG"]
     },
     "DHD": {
         "id": "DHD",
@@ -37,11 +49,17 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "regions": ["Jaipur", "Tonk", "Dausa"],
         "default_models": {
             "asr": "openai/whisper-large-v3-turbo-lora-dhd",
-            "mt": "ai4bharat/indictrans2-1b-lora-dhd",
-            "tts": "facebook/mms-tts-dhd"
+            "mms_1b": "facebook/mms-1b-all",
+            "indicwhisper": "ai4bharat/indicwhisper-large-v3",
+            "mt": "ai4bharat/indictrans2-indic-indic-1B",
+            "indictrans2_3b": "ai4bharat/indictrans2-indic-indic-3B",
+            "sarvam_llm": "sarvamai/sarvam-2b-v0.5",
+            "airavata": "ai4bharat/airavata",
+            "tts": "facebook/mms-tts-dhd",
+            "indic_parler_tts": "ai4bharat/indic-parler-tts"
         },
         "dataset_path": "data/validated/dhd/",
-        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION"]
+        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION", "PROVERB_RAG"]
     },
     "HDT": {
         "id": "HDT",
@@ -51,11 +69,17 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "regions": ["Kota", "Bundi", "Baran", "Jhalawar"],
         "default_models": {
             "asr": "openai/whisper-large-v3-turbo-lora-hdt",
-            "mt": "ai4bharat/indictrans2-1b-lora-hdt",
-            "tts": "facebook/mms-tts-hdt"
+            "mms_1b": "facebook/mms-1b-all",
+            "indicwhisper": "ai4bharat/indicwhisper-large-v3",
+            "mt": "ai4bharat/indictrans2-indic-indic-1B",
+            "indictrans2_3b": "ai4bharat/indictrans2-indic-indic-3B",
+            "sarvam_llm": "sarvamai/sarvam-2b-v0.5",
+            "airavata": "ai4bharat/airavata",
+            "tts": "facebook/mms-tts-hdt",
+            "indic_parler_tts": "ai4bharat/indic-parler-tts"
         },
         "dataset_path": "data/validated/hdt/",
-        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION"]
+        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION", "PROVERB_RAG"]
     },
     "MWT": {
         "id": "MWT",
@@ -65,11 +89,17 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "regions": ["Alwar", "Bharatpur"],
         "default_models": {
             "asr": "openai/whisper-large-v3-turbo-lora-mwt",
-            "mt": "ai4bharat/indictrans2-1b-lora-mwt",
-            "tts": "facebook/mms-tts-mwt"
+            "mms_1b": "facebook/mms-1b-all",
+            "indicwhisper": "ai4bharat/indicwhisper-large-v3",
+            "mt": "ai4bharat/indictrans2-indic-indic-1B",
+            "indictrans2_3b": "ai4bharat/indictrans2-indic-indic-3B",
+            "sarvam_llm": "sarvamai/sarvam-2b-v0.5",
+            "airavata": "ai4bharat/airavata",
+            "tts": "facebook/mms-tts-mwt",
+            "indic_parler_tts": "ai4bharat/indic-parler-tts"
         },
         "dataset_path": "data/validated/mwt/",
-        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION"]
+        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION", "PROVERB_RAG"]
     },
     "BGR": {
         "id": "BGR",
@@ -79,11 +109,17 @@ DIALECT_REGISTRY: Dict[str, Dict[str, Any]] = {
         "regions": ["Ganganagar", "Hanumangarh", "Churu"],
         "default_models": {
             "asr": "openai/whisper-large-v3-turbo-lora-bgr",
-            "mt": "ai4bharat/indictrans2-1b-lora-bgr",
-            "tts": "facebook/mms-tts-bgr"
+            "mms_1b": "facebook/mms-1b-all",
+            "indicwhisper": "ai4bharat/indicwhisper-large-v3",
+            "mt": "ai4bharat/indictrans2-indic-indic-1B",
+            "indictrans2_3b": "ai4bharat/indictrans2-indic-indic-3B",
+            "sarvam_llm": "sarvamai/sarvam-2b-v0.5",
+            "airavata": "ai4bharat/airavata",
+            "tts": "facebook/mms-tts-bgr",
+            "indic_parler_tts": "ai4bharat/indic-parler-tts"
         },
         "dataset_path": "data/validated/bgr/",
-        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION"]
+        "supported_operations": ["ASR", "MT", "TTS", "DIALECT_ID", "NORMALIZATION", "PROVERB_RAG"]
     }
 }
 

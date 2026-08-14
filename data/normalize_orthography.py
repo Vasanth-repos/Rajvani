@@ -10,17 +10,74 @@ _RULES_CACHE = {}
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
+# Expanded baseline vocabulary mapping dictionary across Rajasthani dialects
+GLOBAL_VOCABULARY_MAP = {
+    "mwr": {
+        "महारो": "म्हारो",
+        "महोरा": "म्हारो",
+        "कोनि": "कोनी",
+        "कोण": "कुण",
+        "काय": "कांई",
+        "काईं": "कांई",
+        "अेक": "एक",
+        "आणो": "आवणी",
+        "चोखो": "चोखो"
+    },
+    "mtr": {
+        "महाणो": "म्हाणो",
+        "म्हारो": "म्हाणो",
+        "वेई": "वेइ",
+        "गयो": "गियो",
+        "आवो": "आवजो"
+    },
+    "dhd": {
+        "छे": "छै",
+        "छैन": "छै",
+        "अटै": "अठै",
+        "जटै": "जठै",
+        "कठै": "कठै"
+    },
+    "hdt": {
+        "बरसयो": "बरस रह्यो",
+        "रहो": "रह्यो",
+        "मे": "मेह",
+        "अतरी": "अतरी"
+    },
+    "mwt": {
+        "गांवा": "गांवां",
+        "करै": "करैं",
+        "लागे": "लागै",
+        "हवे": "हवै"
+    },
+    "bgr": {
+        "आपणो": "आपणo",
+        "होइ": "हो",
+        "घरा": "घरां",
+        "चालो": "चालो"
+    }
+}
+
 def get_orthography_rules(dialect: str):
-    if dialect in _RULES_CACHE:
-        return _RULES_CACHE[dialect]
-    rule_file = CONFIGS_DIR / f"{dialect}.yaml"
+    d_code = (dialect or "mwr").lower()
+    if d_code in _RULES_CACHE:
+        return _RULES_CACHE[d_code]
+    rule_file = CONFIGS_DIR / f"{d_code}.yaml"
     if not rule_file.exists():
-        # Fallback default rule if file not found
-        rules = {"version": 1, "variant_mappings": {}, "diacritic_rules": {}}
+        rules = {
+            "version": 1,
+            "variant_mappings": GLOBAL_VOCABULARY_MAP.get(d_code, {}),
+            "diacritic_rules": {"canonicalize_nasalization": True, "strip_zero_width_joiners": True}
+        }
     else:
         with open(rule_file, "r", encoding="utf-8") as f:
-            rules = yaml.safe_load(f)
-    _RULES_CACHE[dialect] = rules
+            rules = yaml.safe_load(f) or {}
+            # Merge global vocabulary defaults
+            vmap = GLOBAL_VOCABULARY_MAP.get(d_code, {})
+            existing = rules.get("variant_mappings", {}) or {}
+            vmap.update(existing)
+            rules["variant_mappings"] = vmap
+            
+    _RULES_CACHE[d_code] = rules
     return rules
 
 def normalize_text(text: str, dialect: str):
@@ -31,27 +88,30 @@ def normalize_text(text: str, dialect: str):
     if not text:
         return text, False
 
-    rules = get_orthography_rules(dialect)
+    d_code = (dialect or "mwr").lower().split()[0]
+    rules = get_orthography_rules(d_code)
     variant_mappings = rules.get("variant_mappings", {})
     
-    # Strip zero width joiners if specified
     diacritic_rules = rules.get("diacritic_rules", {})
     normalized = text
-    if diacritic_rules.get("strip_zero_width_joiners", False):
+    if diacritic_rules.get("strip_zero_width_joiners", True):
         normalized = normalized.replace("\u200d", "").replace("\u200c", "")
 
-    # Apply variant replacements
+    # Apply variant vocabulary replacements
     words = normalized.split()
     normalized_words = []
     review_flag = False
 
     for word in words:
-        if word in variant_mappings:
+        clean_word = word.strip(".,!?।\"'")
+        if clean_word in variant_mappings:
+            replaced = variant_mappings[clean_word]
+            normalized_words.append(word.replace(clean_word, replaced))
+        elif word in variant_mappings:
             normalized_words.append(variant_mappings[word])
         else:
             normalized_words.append(word)
-            # Flag for review if contains unresolved non-standard characters or rare patterns
-            if "?" in word or "!" in word and len(word) > 10:
+            if "?" in word or ("!" in word and len(word) > 10):
                 review_flag = True
 
     normalized_text = " ".join(normalized_words)
@@ -82,7 +142,6 @@ def main():
         print(f"Normalized: {normalized}")
         print(f"Orthography Review Flag: {review}")
     else:
-        # Idempotence test demonstration
         sample_variants = ["महारो नाम राम है।", "महारो नाम राम है।"]
         print(f"Running orthography normalization test for dialect '{dialect}' (v{rules.get('version', 1)}):")
         for s in sample_variants:

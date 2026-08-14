@@ -1,194 +1,346 @@
 /* Research-Grade Dark Theme for Rajasthan Multi-Dialect Platform */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 
-:root {
+:root, body, .gradio-container, .dark {
   --bg-dark: #0B0B0D;
   --surface-dark: #151519;
   --elevated-dark: #1D1D22;
   --border-dark: #303038;
+  --border-subtle: #26262E;
   --text-primary: #F4F4F5;
   --text-secondary: #A1A1AA;
   --text-muted: #71717A;
   --accent-orange: #F97316;
   --accent-hover: #FB923C;
+  --accent-muted: rgba(249, 115, 22, 0.12);
   --status-success: #22C55E;
   --status-warning: #EAB308;
   --status-error: #EF4444;
   --status-info: #60A5FA;
+  --font-main: 'Inter', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Gradio CSS Variable Overrides */
+  --body-bg-fill: #0B0B0D !important;
+  --body-text-color: #F4F4F5 !important;
+  --block-background-fill: #151519 !important;
+  --block-border-color: #303038 !important;
+  --block-border-width: 1px !important;
+  --block-label-background-fill: #1D1D22 !important;
+  --block-label-text-color: #A1A1AA !important;
+  --block-title-text-color: #F4F4F5 !important;
+  --input-background-fill: #1D1D22 !important;
+  --input-border-color: #303038 !important;
+  --input-border-color-focus: #F97316 !important;
+  --input-text-color: #F4F4F5 !important;
+  --input-placeholder-color: #71717A !important;
+  --panel-background-fill: #151519 !important;
+  --panel-border-color: #303038 !important;
+  --table-border-color: #303038 !important;
+  --table-even-background-fill: #151519 !important;
+  --table-odd-background-fill: #19191E !important;
+  --table-row-focus: #1D1D22 !important;
+  --button-primary-background-fill: #F97316 !important;
+  --button-primary-background-fill-hover: #FB923C !important;
+  --button-primary-text-color: #FFFFFF !important;
+  --button-secondary-background-fill: #1D1D22 !important;
+  --button-secondary-background-fill-hover: #26262E !important;
+  --button-secondary-text-color: #F4F4F5 !important;
+  --button-secondary-border-color: #303038 !important;
+  --slider-color: #F97316 !important;
+  --radio-circle-background-fill: #F97316 !important;
+  --checkbox-background-fill-selected: #F97316 !important;
+  --border-color-primary: #303038 !important;
+  --background-fill-primary: #151519 !important;
+  --background-fill-secondary: #1D1D22 !important;
 }
 
+/* Global Reset & Container */
 body, .gradio-container {
   background-color: var(--bg-dark) !important;
   color: var(--text-primary) !important;
-  font-family: 'Inter', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: var(--font-main) !important;
+  margin: 0;
+  padding: 0;
 }
 
-/* Header & Title Styling */
+.gradio-container {
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 16px 24px !important;
+}
+
+/* Force dark mode on all Gradio internal blocks & panels */
+.block, .panel, .form, div[class*="block"], div[class*="panel"], div[class*="group"] {
+  background-color: var(--surface-dark) !important;
+  border-color: var(--border-dark) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Header Container */
 .research-header {
-  padding: 12px 16px;
+  padding: 16px 20px;
   background-color: var(--surface-dark);
   border: 1px solid var(--border-dark);
-  border-radius: 8px;
+  border-radius: 10px;
   margin-bottom: 12px;
 }
 
 .research-header h1 {
-  font-size: 1.25rem !important;
+  font-size: 1.35rem !important;
   font-weight: 700 !important;
   color: var(--text-primary) !important;
   margin: 0 !important;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  letter-spacing: -0.01em;
 }
 
 .research-header p {
-  font-size: 0.85rem !important;
+  font-size: 0.875rem !important;
   color: var(--text-secondary) !important;
-  margin: 4px 0 0 0 !important;
+  margin: 6px 0 0 0 !important;
+  line-height: 1.4;
 }
 
 /* Global Status Bar */
 .global-status-bar {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 16px;
-  padding: 8px 16px;
+  padding: 10px 18px;
   background-color: var(--surface-dark);
   border: 1px solid var(--border-dark);
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.8rem;
   margin-bottom: 16px;
 }
 
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
 .status-dot-green {
-  display: inline-block;
   width: 8px;
   height: 8px;
   background-color: var(--status-success);
   border-radius: 50%;
-  margin-right: 6px;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
 }
 
 .status-dot-red {
-  display: inline-block;
   width: 8px;
   height: 8px;
   background-color: var(--status-error);
   border-radius: 50%;
-  margin-right: 6px;
 }
 
 .status-dot-yellow {
-  display: inline-block;
   width: 8px;
   height: 8px;
   background-color: var(--status-warning);
   border-radius: 50%;
-  margin-right: 6px;
+}
+
+.meta-badge-group {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.meta-badge {
+  background-color: var(--elevated-dark);
+  border: 1px solid var(--border-dark);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.725rem;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+.meta-badge b {
+  color: var(--accent-orange);
 }
 
 /* Tab Navigation Custom Styling */
 .tabs > .tab-nav {
   border-bottom: 1px solid var(--border-dark) !important;
   background-color: transparent !important;
+  gap: 4px !important;
 }
 
 .tabs > .tab-nav > button {
-  font-size: 0.875rem !important;
+  font-size: 0.9rem !important;
   font-weight: 500 !important;
   color: var(--text-secondary) !important;
   border: none !important;
   border-bottom: 2px solid transparent !important;
-  padding: 8px 16px !important;
+  padding: 10px 18px !important;
   background-color: transparent !important;
+  transition: all 0.15s ease-in-out !important;
+  border-radius: 6px 6px 0 0 !important;
+}
+
+.tabs > .tab-nav > button:hover {
+  color: var(--text-primary) !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
 }
 
 .tabs > .tab-nav > button.selected {
   color: var(--accent-orange) !important;
   border-bottom-color: var(--accent-orange) !important;
-  background-color: rgba(249, 115, 22, 0.08) !important;
-  border-radius: 4px 4px 0 0;
+  background-color: var(--accent-muted) !important;
+  font-weight: 600 !important;
 }
 
-/* Cards & Surface Boxes */
+/* Section Title & Subtitles */
+.section-header {
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Cards & Surface Containers */
 .card-surface {
   background-color: var(--surface-dark) !important;
   border: 1px solid var(--border-dark) !important;
-  border-radius: 8px !important;
-  padding: 16px !important;
+  border-radius: 10px !important;
+  padding: 18px !important;
   margin-bottom: 16px !important;
 }
 
 .card-elevated {
   background-color: var(--elevated-dark) !important;
   border: 1px solid var(--border-dark) !important;
-  border-radius: 6px !important;
-  padding: 12px !important;
+  border-radius: 8px !important;
+  padding: 14px !important;
 }
 
-/* Provenance & Metadata Strip */
+/* Provenance Strip */
 .provenance-strip {
   background-color: var(--elevated-dark);
   border: 1px solid var(--border-dark);
   border-left: 3px solid var(--accent-orange);
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 10px 14px;
   font-size: 0.825rem;
   color: var(--text-secondary);
   margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
 }
 
-/* Custom Badges */
-.badge-preserved {
-  display: inline-block;
-  background-color: rgba(34, 197, 94, 0.15);
-  color: var(--status-success);
-  border: 1px solid var(--status-success);
-  padding: 2px 8px;
+.provenance-strip code {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  background-color: var(--surface-dark);
+  padding: 2px 6px;
   border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
 }
 
-.badge-verified {
-  display: inline-block;
-  background-color: rgba(96, 165, 250, 0.15);
-  color: var(--status-info);
-  border: 1px solid var(--status-info);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
+/* Metric Stat Cards */
+.stat-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
-/* Metrics Stat Cards */
 .stat-card {
   background-color: var(--elevated-dark);
   border: 1px solid var(--border-dark);
-  border-radius: 6px;
-  padding: 12px;
+  border-radius: 8px;
+  padding: 14px;
   text-align: center;
+  transition: border-color 0.15s ease;
+}
+
+.stat-card:hover {
+  border-color: #40404A;
 }
 
 .stat-label {
-  font-size: 0.75rem;
+  font-size: 0.725rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
+  font-weight: 600;
 }
 
 .stat-value {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--accent-orange);
   margin-top: 4px;
+  letter-spacing: -0.02em;
 }
 
 .stat-subtext {
   font-size: 0.7rem;
   color: var(--text-secondary);
-  margin-top: 2px;
+  margin-top: 4px;
+}
+
+/* Badges */
+.badge-preserved {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(34, 197, 94, 0.12);
+  color: var(--status-success);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.725rem;
+  font-weight: 600;
+}
+
+.badge-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(96, 165, 250, 0.12);
+  color: var(--status-info);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.725rem;
+  font-weight: 600;
+}
+
+.badge-dialect {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--accent-muted);
+  color: var(--accent-orange);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.725rem;
+  font-weight: 600;
 }
 
 /* Dataframe & Tables Styling */
@@ -196,32 +348,111 @@ table {
   border-collapse: collapse !important;
   width: 100% !important;
   background-color: var(--surface-dark) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
 }
 
 th {
   background-color: var(--elevated-dark) !important;
   color: var(--text-secondary) !important;
-  font-size: 0.8rem !important;
+  font-size: 0.775rem !important;
   text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-weight: 600 !important;
   border-bottom: 1px solid var(--border-dark) !important;
-  padding: 10px !important;
+  padding: 10px 12px !important;
+  text-align: left !important;
 }
 
 td {
-  border-bottom: 1px solid var(--border-dark) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
   color: var(--text-primary) !important;
   font-size: 0.85rem !important;
-  padding: 10px !important;
+  padding: 10px 12px !important;
+}
+
+tr:hover td {
+  background-color: rgba(255, 255, 255, 0.02) !important;
 }
 
 /* Buttons */
-.gr-button-primary {
+button.primary, .gr-button-primary, button[variant="primary"] {
   background-color: var(--accent-orange) !important;
   color: #FFFFFF !important;
   border: none !important;
   font-weight: 600 !important;
+  border-radius: 6px !important;
+  transition: background-color 0.15s ease !important;
 }
 
-.gr-button-primary:hover {
+button.primary:hover, .gr-button-primary:hover {
   background-color: var(--accent-hover) !important;
+}
+
+button.secondary, .gr-button-secondary, button[variant="secondary"] {
+  background-color: var(--elevated-dark) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-dark) !important;
+  font-weight: 500 !important;
+  border-radius: 6px !important;
+}
+
+button.secondary:hover, .gr-button-secondary:hover {
+  background-color: #24242A !important;
+  border-color: #40404A !important;
+}
+
+/* Forms, Textboxes & Dropdowns */
+.gr-input, input, textarea, select, .dropdown {
+  background-color: var(--elevated-dark) !important;
+  border: 1px solid var(--border-dark) !important;
+  color: var(--text-primary) !important;
+  border-radius: 6px !important;
+}
+
+.gr-input:focus, input:focus, textarea:focus, select:focus {
+  border-color: var(--accent-orange) !important;
+  box-shadow: 0 0 0 1px var(--accent-orange) !important;
+}
+
+label span {
+  color: var(--text-secondary) !important;
+  font-size: 0.825rem !important;
+  font-weight: 500 !important;
+}
+
+/* Code block & Technical Monospace */
+code, pre {
+  font-family: var(--font-mono) !important;
+}
+
+/* Informative Empty State Styling */
+.empty-state-box {
+  background-color: var(--surface-dark);
+  border: 1px dashed var(--border-dark);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.empty-state-box h4 {
+  color: var(--text-secondary);
+  margin: 0 0 6px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .gradio-container {
+    padding: 12px !important;
+  }
+  .global-status-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .meta-badge-group {
+    margin-left: 0;
+  }
 }
