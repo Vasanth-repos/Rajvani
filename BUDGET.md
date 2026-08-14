@@ -8,7 +8,7 @@
 | ASR LoRA fine-tune (per dialect) | 1× A100, ~4 GPU-hrs | ~24 GPU-hrs total | Whisper-large-v3 / MMS-1b |
 | MT LoRA fine-tune (per dialect, both pivots) | 1× A100, ~3 GPU-hrs | ~18 GPU-hrs total | IndicTrans2 |
 | TTS fine-tune (per dialect) | 1× A100, ~6 GPU-hrs | ~36 GPU-hrs total | MMS-TTS default / XTTS-v2 |
-| **All 6 dialects, all 3 tasks** | **~78 GPU-hrs total** | **<2 days on 1× A100** | Reproducible pipeline |
+| **All 6 dialects, all 3 tasks** | **~78 GPU-hrs total** | **~3.3 days on 1× A100 (or <10 hrs on 8× A100)** | Reproducible pipeline |
 | Active-learning scoring pass (per cycle, all dialects) | 1× A100, ~1 GPU-hr | Recurring | Run after each checkpoint |
 | Back-translation refresh (per checkpoint promotion event) | 1× A100, ~1–2 GPU-hrs | Recurring | Re-runs when MT production pointer moves |
 | TTS-bootstrap + audio-perturbation generation (seed pass) | 1× A100, ~5 GPU-hrs | One-time | Synthetic augmentation |
