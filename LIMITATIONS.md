@@ -24,8 +24,8 @@
 - **Figurative Language MT Accuracy**: 82.0% vs. Blended MT Accuracy 94.0% (-12.0 pts accuracy gap on figurative proverbs).
 
 ## 5. Cross-Dialect Zero-Shot Transfer Floor
-- **ASR Task Transfer Floor**: MWR -> BGR (Worst zero-shot ASR WER: 38.1%)
-- **MT Task Transfer Floor**: MWR -> BGR (Worst zero-shot MT BLEU: 7.6)
+- **ASR Task Transfer Floor**: BGR -> MWR (Worst zero-shot ASR WER: 36.6%%)
+- **MT Task Transfer Floor**: BGR -> MWR (Worst zero-shot MT BLEU: 36.6%)
 
 ## 6. Pipeline Coverage & Insufficient Data Flags
 - **Consent Protocol**: Full coverage across explicit_written, explicit_verbal, public_domain, and synthetic types.

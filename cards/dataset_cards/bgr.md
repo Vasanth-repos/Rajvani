@@ -1,11 +1,11 @@
-# Dataset Card: Rajasthan-ASR-MWR
+# Dataset Card: Rajasthan-ASR-BGR
 
 ## Dataset Description
-- **Language / Dialect:** Marwari (मारवाड़ी - `MWR`)
-- **Primary Regions:** Jodhpur, Bikaner, Barmer, Jaisalmer, Nagaur
+- **Language / Dialect:** Bagri (बागड़ी - `BGR`)
+- **Primary Regions:** Ganganagar, Hanumangarh, Churu
 - **Script:** Devanagari
-- **Audio Hours:** ~3.7 hrs
-- **Total Utterances:** 500 samples across 40 native speakers
+- **Audio Hours:** ~3.0 hrs
+- **Total Utterances:** 400 samples across 30 native speakers
 - **Audio Format:** 16kHz mono WAV (16-bit PCM)
 
 ## Data Collection & Consent

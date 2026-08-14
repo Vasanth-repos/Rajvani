@@ -1,11 +1,11 @@
-# Dataset Card: Rajasthan-ASR-MWR
+# Dataset Card: Rajasthan-ASR-MTR
 
 ## Dataset Description
-- **Language / Dialect:** Marwari (मारवाड़ी - `MWR`)
-- **Primary Regions:** Jodhpur, Bikaner, Barmer, Jaisalmer, Nagaur
+- **Language / Dialect:** Mewari (मेवाड़ी - `MTR`)
+- **Primary Regions:** Udaipur, Chittorgarh, Rajsamand, Bhilwara
 - **Script:** Devanagari
-- **Audio Hours:** ~3.7 hrs
-- **Total Utterances:** 500 samples across 40 native speakers
+- **Audio Hours:** ~3.1 hrs
+- **Total Utterances:** 420 samples across 32 native speakers
 - **Audio Format:** 16kHz mono WAV (16-bit PCM)
 
 ## Data Collection & Consent
