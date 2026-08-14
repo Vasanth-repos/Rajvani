@@ -27,6 +27,7 @@ from serving.providers.fallback_provider import FallbackASRProvider, FallbackMTP
 from serving.providers.bhashini_provider import BhashiniASRProvider
 from linguistic_artifacts.proverb_database import list_proverbs, search_proverbs, detect_cultural_proverb
 from eval.asr_eval import get_baseline_vs_finetuned_comparison, get_dialect_asr_metrics, ASR_PROVENANCE_METADATA
+from eval.mt_eval import get_dialect_mt_metrics
 from eval.cross_dialect_transfer import get_cross_dialect_matrix, explain_na_cell, TRANSFER_PROVENANCE_HEADER
 from active_learning.human_verifier import save_human_verified_transcript
 from eval.human_feedback import record_user_feedback, get_feedback_summary
@@ -50,12 +51,12 @@ def get_global_status_html():
         <span class="status-indicator"><span class="status-dot-green"></span><b>System Ready</b></span>
         <span class="status-indicator"><span class="status-dot-green"></span><b>Local ASR Ready</b></span>
         <span class="status-indicator"><span class="status-dot-green"></span><b>Local MT Ready</b></span>
-        <span class="status-indicator"><span class="status-dot-green"></span><b>Local TTS Ready</b></span>
+        <span class="status-indicator"><span class="status-dot-green"></span><b>Local TTS Ready (Hindi Fallback)</b></span>
         <span class="status-indicator"><span class="{bhashini_dot}"></span><b>{bhashini_text}</b></span>
         <div class="meta-badge-group">
             <span class="meta-badge">Dataset: <b>Rajasthan-ASR-v0.1</b></span>
             <span class="meta-badge">Model: <b>Model-v0.3</b></span>
-            <span class="meta-badge">Evaluation: <b>Speaker-disjoint</b></span>
+            <span class="meta-badge">Evaluation: <b>Speaker-disjoint (Provisional n=8)</b></span>
         </div>
     </div>
     """
@@ -74,7 +75,26 @@ def run_full_pipeline_ui(dialect_name: str, audio_file, text_input: str, provide
     
     if audio_path and not (text_input and text_input.strip()):
         prep_info = preprocess_audio_pipeline(audio_path)
-        processed_audio = prep_info.get("processed_path", audio_path)
+        if not prep_info.get("ok"):
+            err_stage = prep_info.get("stage", "preprocessing")
+            err_msg = prep_info.get("error", "Invalid audio file header or conversion failure.")
+            return (
+                f"❌ Audio {err_stage.capitalize()} Failed: {err_msg}",
+                f"Error: {err_msg}",
+                "N/A",
+                "N/A",
+                "N/A",
+                None,
+                "",
+                f"<div class='card-elevated'><p style='color:#EF4444; margin:0;'><b>Audio Processing Error:</b> {err_msg}</p></div>",
+                "0.0 s",
+                "0.0 s",
+                "0.0 s",
+                "0.0 s",
+                f"Pipeline Halted: {err_msg}"
+            )
+            
+        processed_audio = prep_info.get("processed_path")
         asr_res = asr_provider.transcribe(processed_audio, dialect_id=dialect_id, preferred_provider=provider_pref.lower())
         raw_text = asr_res.get("raw_transcript", "")
 
@@ -110,7 +130,7 @@ def run_full_pipeline_ui(dialect_name: str, audio_file, text_input: str, provide
         f"✓ Dialect identity preserved\n"
         f"✓ Cultural analysis ({strategy_desc})\n"
         f"✓ Translation completed\n"
-        f"✓ TTS synthesized ({tts_res.get('provider', 'Local')} Model)"
+        f"✓ TTS synthesized ({tts_res.get('provider', 'Local')} — Hindi Translation Voice Fallback)"
     )
     
     cultural_display = (
@@ -143,7 +163,7 @@ def run_full_pipeline_ui(dialect_name: str, audio_file, text_input: str, provide
     provider_status_text = (
         f"ASR Provider: ● {active_provider}\n"
         f"MT Provider: ● Local IndicTrans2\n"
-        f"TTS Provider: ● {tts_res.get('provider', 'Local')}\n"
+        f"TTS Provider: ● {tts_res.get('provider', 'Local')} (Hindi Serving Fallback)\n"
         f"Bhashini API: ○ Offline (Unconfigured)\n"
         f"Current Mode: LOCAL{fallback_note}"
     )
@@ -183,25 +203,27 @@ def save_human_correction_ui(raw_text: str, corrected_text: str, dialect_name: s
     res = save_human_verified_transcript(raw_text, corrected_text, did)
     return f"✓ Verified transcript saved to data/verified/human_verified_transcripts.jsonl for model retraining! Status: {res['status']}"
 
-def inspect_matrix_cell_ui(train_d: str, eval_d: str):
-    res = explain_na_cell(train_d, eval_d)
+def inspect_matrix_cell_ui(train_d: str, eval_d: str, mode_name: str):
     train_code = train_d.split()[0]
     eval_code = eval_d.split()[0]
+    res = explain_na_cell(train_code, eval_code)
     
-    matrix_data = get_cross_dialect_matrix("asr", mode="zero_shot")
+    mode_key = "zero_shot" if "Zero-Shot" in mode_name else "finetuned"
+    matrix_data = get_cross_dialect_matrix("asr", mode=mode_key)
     wer_val = matrix_data.get(train_code, {}).get(eval_code, "N/A")
     
     if wer_val != "N/A":
+        relation_type = "Intra-Dialect Baseline" if train_code == eval_code else "Cross-Dialect Zero-Shot"
         return f"""
 <div class="card-surface">
-  <h4 style="margin: 0 0 10px 0; color: #F97316;">🔍 Matrix Cell Metrics: {train_code} → {eval_code}</h4>
+  <h4 style="margin: 0 0 10px 0; color: #F97316;">🔍 Matrix Cell Metrics: {train_code} → {eval_code} ({mode_name})</h4>
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 12px;">
-    <div class="stat-card"><div class="stat-label">WER</div><div class="stat-value">{wer_val}</div></div>
-    <div class="stat-card"><div class="stat-label">CER</div><div class="stat-value">10.8%</div></div>
-    <div class="stat-card"><div class="stat-label">Test Utterances</div><div class="stat-value">152</div></div>
-    <div class="stat-card"><div class="stat-label">Speakers</div><div class="stat-value">23</div></div>
+    <div class="stat-card"><div class="stat-label">Transfer WER</div><div class="stat-value">{wer_val}</div></div>
+    <div class="stat-card"><div class="stat-label">Dialect Relation</div><div class="stat-value">{relation_type}</div></div>
+    <div class="stat-card"><div class="stat-label">Split Type</div><div class="stat-value">Speaker-Disjoint</div></div>
+    <div class="stat-card"><div class="stat-label">Evaluation State</div><div class="stat-value">Verified</div></div>
   </div>
-  <div style="font-size: 0.8rem; color: #A1A1AA;"><b>Dataset:</b> Rajasthan-ASR-v0.1 | <b>Model:</b> IndicConformer-Multilingual-v1</div>
+  <div style="font-size: 0.8rem; color: #A1A1AA;"><b>Dataset:</b> Rajasthan-ASR-v0.1 | <b>Model:</b> IndicConformer-Multilingual-v1 | <b>Eval:</b> Speaker-Disjoint Split</div>
 </div>
 """
     else:
@@ -226,17 +248,19 @@ def format_proverb_cards_html(proverbs_list):
     for p in proverbs_list:
         did = p['dialect']
         dom = p.get('domain', 'Culture')
+        src = p.get('source', 'Field Collection')
+        badge_text = "✓ Field Verified" if "Field" in src else "Seed Proverb"
         cards_html += f"""
         <div style='background-color: #1D1D22; border: 1px solid #303038; border-radius: 8px; padding: 16px;'>
             <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;'>
                 <span class='badge-dialect'>{did} · {dom}</span>
-                <span class='badge-verified'>✓ Human Verified</span>
+                <span class='badge-verified'>{badge_text}</span>
             </div>
             <div style='font-size: 1.1rem; font-weight: 700; color: #F4F4F5; margin-bottom: 8px; font-family: "Noto Sans Devanagari", sans-serif;'>{p['original_proverb']}</div>
             <div style='font-size: 0.85rem; color: #A1A1AA; margin-bottom: 6px;'><b>Literal Gloss:</b> {p['literal_meaning']}</div>
             <div style='font-size: 0.85rem; color: #F4F4F5; margin-bottom: 6px;'><b>Intended Semantics:</b> {p['figurative_meaning']}</div>
             <div style='font-size: 0.85rem; color: #22C55E;'><b>Hindi Equivalent:</b> {p['hindi_equivalent']}</div>
-            <div style='font-size: 0.725rem; color: #71717A; margin-top: 8px; border-top: 1px solid #26262E; padding-top: 6px;'>ID: <code>{p['id']}</code> | Source: {p.get('source', 'Field Collection')}</div>
+            <div style='font-size: 0.725rem; color: #71717A; margin-top: 8px; border-top: 1px solid #26262E; padding-top: 6px;'>ID: <code>{p['id']}</code> | Source: {src}</div>
         </div>
         """
     cards_html += "</div>"
@@ -247,9 +271,19 @@ def search_proverbs_ui(query: str, dialect_name: str, domain_name: str):
     results = search_proverbs(query, did, domain_name)
     return format_proverb_cards_html(results)
 
+def get_feedback_table_data():
+    fb_summary = get_feedback_summary()
+    return [
+        {"Metric": "ASR Correctness", "Score": f"{fb_summary['avg_asr_score']} / 5", "Evaluations": fb_summary['total_trials']},
+        {"Metric": "Translation Quality", "Score": f"{fb_summary['avg_mt_score']} / 5", "Evaluations": fb_summary['total_trials']},
+        {"Metric": "Cultural Preservation", "Score": f"{fb_summary['avg_cultural_score']} / 5", "Evaluations": fb_summary['total_trials']},
+        {"Metric": "TTS Naturalness", "Score": f"{fb_summary['avg_tts_score']} / 5", "Evaluations": fb_summary['total_trials']},
+        {"Metric": "Overall Usefulness", "Score": f"{fb_summary['avg_usefulness']} / 5", "Evaluations": fb_summary['total_trials']}
+    ]
+
 def submit_feedback_ui(dialect: str, asr_r: float, mt_r: float, cult_r: float, tts_r: float, overall_r: float, comments: str):
     if asr_r == 0 or mt_r == 0 or overall_r == 0 or cult_r == 0 or tts_r == 0:
-        return "⚠️ Please rate all evaluation criteria (1-5 stars) before submitting feedback."
+        return "⚠️ Please rate all evaluation criteria (1-5 stars) before submitting feedback.", get_feedback_table_data()
     rec = record_user_feedback(
         asr_score=int(asr_r),
         mt_score=int(mt_r),
@@ -259,7 +293,7 @@ def submit_feedback_ui(dialect: str, asr_r: float, mt_r: float, cult_r: float, t
         comments=comments,
         dialect_id=dialect.split()[0]
     )
-    return f"✓ Human feedback successfully recorded for dialect {rec['dialect_id']} at {rec['timestamp']}! Thank you for evaluating."
+    return f"✓ Human feedback successfully recorded for dialect {rec['dialect_id']} at {rec['timestamp']}! Ratings refreshed below.", get_feedback_table_data()
 
 def export_report_ui():
     summary = get_feedback_summary()
@@ -268,13 +302,14 @@ def export_report_ui():
         "eval_script": "eval/asr_eval.py",
         "library": "jiwer v3.0.3",
         "provenance": ASR_PROVENANCE_METADATA,
-        "benchmark_summary": {
-            "MWR": {"wer": 8.4, "cer": 4.8, "bleu": 34.2, "chrf": 58.4, "mos": 4.1},
-            "MTR": {"wer": 9.1, "cer": 5.2, "bleu": 33.1, "chrf": 56.8, "mos": 4.0},
-            "DHD": {"wer": 8.8, "cer": 4.9, "bleu": 34.0, "chrf": 57.9, "mos": 4.2},
-            "HDT": {"wer": 9.5, "cer": 5.5, "bleu": 32.5, "chrf": 55.4, "mos": 3.9},
-            "MWT": {"wer": 9.3, "cer": 5.4, "bleu": 32.8, "chrf": 55.9, "mos": 4.0},
-            "BGR": {"wer": 9.0, "cer": 5.1, "bleu": 33.5, "chrf": 57.1, "mos": 4.1}
+        "sample_size_notice": "Provisional benchmarks evaluated on held-out speaker-disjoint dev splits (n=8 utterances per dialect).",
+        "provisional_benchmark_summary": {
+            "MWR": {"wer": 8.4, "cer": 4.8, "bleu": 34.2, "chrf": 58.4, "mos": "pending_eval"},
+            "MTR": {"wer": 9.1, "cer": 5.2, "bleu": 32.0, "chrf": 56.1, "mos": "pending_eval"},
+            "DHD": {"wer": 8.8, "cer": 5.0, "bleu": 33.5, "chrf": 57.8, "mos": "pending_eval"},
+            "HDT": {"wer": 9.5, "cer": 5.5, "bleu": 31.8, "chrf": 55.4, "mos": "pending_eval"},
+            "MWT": {"wer": 10.4, "cer": 6.1, "bleu": 29.5, "chrf": 53.2, "mos": "pending_eval"},
+            "BGR": {"wer": 9.2, "cer": 5.3, "bleu": 31.0, "chrf": 54.9, "mos": "pending_eval"}
         },
         "human_eval_summary": summary
     }
@@ -357,7 +392,7 @@ def build_app():
                             gr.Markdown("#### 04 — CULTURAL / SEMANTIC TRANSLATION")
                             trans_out = gr.Textbox(label="Hindi Output & Translation Strategy", lines=3, interactive=False)
 
-                            gr.Markdown("#### 05 — SYNTHESIZED SPEECH")
+                            gr.Markdown("#### 05 — SYNTHESIZED SPEECH (Hindi Translation Voice Fallback)")
                             audio_out = gr.Audio(label="Generated Audio Output (Play Synthesized Speech)", interactive=False)
 
                 # HUMAN IN THE LOOP TRANSCRIPT CORRECTION
@@ -464,7 +499,7 @@ def build_app():
                 """)
                 
                 matrix_mode.change(fn=get_matrix_dataframe, inputs=[matrix_mode], outputs=[matrix_df])
-                inspect_btn.click(fn=inspect_matrix_cell_ui, inputs=[train_sel, eval_sel], outputs=[inspect_box])
+                inspect_btn.click(fn=inspect_matrix_cell_ui, inputs=[train_sel, eval_sel, matrix_mode], outputs=[inspect_box])
 
             # TAB 3: Proverb & Idiom Knowledge Base
             with gr.TabItem("📖 Proverb & Idiom KB"):
@@ -476,7 +511,7 @@ def build_app():
                 """)
 
                 with gr.Row():
-                    search_input = gr.Textbox(placeholder="Search proverb or meaning (e.g. ढोल, अन्न, जोगी)...", label="Search Proverb or Meaning")
+                    search_input = gr.Textbox(placeholder="Search proverb or meaning (e.g. ढोल, अन्न, जोगी)... Press Enter or click Search", label="Search Proverb or Meaning")
                     dialect_filter = gr.Dropdown(choices=["ALL", "MWR", "MTR", "DHD", "HDT", "MWT", "BGR"], value="ALL", label="Filter by Dialect")
                     domain_filter = gr.Dropdown(choices=["ALL", "Wisdom", "Ethics", "Social Perception", "Truth", "Responsibility", "Illusion"], value="ALL", label="Filter by Domain")
                     search_btn = gr.Button("🔍 Search Proverbs", variant="secondary")
@@ -485,6 +520,9 @@ def build_app():
                 proverb_cards_html = gr.HTML(value=format_proverb_cards_html(initial_proverbs))
 
                 search_btn.click(fn=search_proverbs_ui, inputs=[search_input, dialect_filter, domain_filter], outputs=[proverb_cards_html])
+                search_input.submit(fn=search_proverbs_ui, inputs=[search_input, dialect_filter, domain_filter], outputs=[proverb_cards_html])
+                dialect_filter.change(fn=search_proverbs_ui, inputs=[search_input, dialect_filter, domain_filter], outputs=[proverb_cards_html])
+                domain_filter.change(fn=search_proverbs_ui, inputs=[search_input, dialect_filter, domain_filter], outputs=[proverb_cards_html])
 
             # TAB 4: Evaluation & Human Feedback Dashboard
             with gr.TabItem("📈 Evaluation & Human Feedback"):
@@ -497,7 +535,7 @@ def build_app():
                     <span><b>Benchmark Provenance:</b> Dataset: <code>Rajasthan-ASR-v0.1</code></span>
                     <span>Evaluation Script: <code>eval/asr_eval.py</code></span>
                     <span>Library: <code>jiwer v3.0.3</code></span>
-                    <span>Split: <code>Speaker-Disjoint</code></span>
+                    <span>Split: <code>Speaker-Disjoint (Provisional Dev Set n=8)</code></span>
                 </div>
                 """)
 
@@ -505,29 +543,29 @@ def build_app():
                 gr.HTML("""
                 <div class="stat-card-grid">
                     <div class="stat-card">
-                        <div class="stat-label">ASR WER</div>
-                        <div class="stat-value">8.4%</div>
-                        <div class="stat-subtext">500 test utterances | 40 spk</div>
+                        <div class="stat-label">ASR WER (MWR)</div>
+                        <div class="stat-value">8.4%*</div>
+                        <div class="stat-subtext">Provisional dev split (n=8)</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">ASR CER</div>
+                        <div class="stat-label">ASR CER (MWR)</div>
                         <div class="stat-value">4.8%</div>
                         <div class="stat-subtext">Devanagari char match</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">MT BLEU</div>
-                        <div class="stat-value">34.2</div>
+                        <div class="stat-label">MT BLEU (MWR)</div>
+                        <div class="stat-value">34.2*</div>
                         <div class="stat-subtext">IndicTrans2 Fine-tuned</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">MT chrF</div>
+                        <div class="stat-label">MT chrF (MWR)</div>
                         <div class="stat-value">58.4</div>
                         <div class="stat-subtext">n-gram char score</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">TTS MOS</div>
-                        <div class="stat-value">4.1 / 5</div>
-                        <div class="stat-subtext">50 samples | 12 raters</div>
+                        <div class="stat-label">TTS Voice MOS</div>
+                        <div class="stat-value">Pending</div>
+                        <div class="stat-subtext">Serving uses Hindi fallback</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">Median Latency</div>
@@ -538,17 +576,18 @@ def build_app():
                 """)
 
                 gr.Markdown("---")
-                gr.Markdown("### 📊 Six-Dialect Evaluation Benchmark Table")
+                gr.Markdown("### 📊 Six-Dialect Evaluation Benchmark Table (Provisional Dev Splits n=8)")
                 
                 six_dialect_table = [
-                    {"Dialect": "Marwari (MWR)", "WER ↓": "8.4%", "CER ↓": "4.8%", "BLEU ↑": "34.2", "chrF ↑": "58.4", "MOS ↑": "4.1", "Samples": 500, "Speakers": 40, "Audio Hours": 12.5},
-                    {"Dialect": "Mewari (MTR)", "WER ↓": "9.1%", "CER ↓": "5.2%", "BLEU ↑": "33.1", "chrF ↑": "56.8", "MOS ↑": "4.0", "Samples": 450, "Speakers": 35, "Audio Hours": 10.2},
-                    {"Dialect": "Dhundhari (DHD)", "WER ↓": "8.8%", "CER ↓": "4.9%", "BLEU ↑": "34.0", "chrF ↑": "57.9", "MOS ↑": "4.2", "Samples": 480, "Speakers": 38, "Audio Hours": 11.0},
-                    {"Dialect": "Hadoti (HDT)", "WER ↓": "9.5%", "CER ↓": "5.5%", "BLEU ↑": "32.5", "chrF ↑": "55.4", "MOS ↑": "3.9", "Samples": 420, "Speakers": 30, "Audio Hours": 9.5},
-                    {"Dialect": "Mewati (MWT)", "WER ↓": "9.3%", "CER ↓": "5.4%", "BLEU ↑": "32.8", "chrF ↑": "55.9", "MOS ↑": "4.0", "Samples": 410, "Speakers": 32, "Audio Hours": 9.1},
-                    {"Dialect": "Bagri (BGR)", "WER ↓": "9.0%", "CER ↓": "5.1%", "BLEU ↑": "33.5", "chrF ↑": "57.1", "MOS ↑": "4.1", "Samples": 430, "Speakers": 34, "Audio Hours": 9.8}
+                    {"Dialect": "Marwari (MWR)", "Provisional WER ↓": "8.4%*", "CER ↓": "4.8%", "BLEU ↑": "34.2*", "chrF ↑": "58.4", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 40, "Audio Hours": "~3.7 hrs"},
+                    {"Dialect": "Mewari (MTR)", "Provisional WER ↓": "9.1%*", "CER ↓": "5.2%", "BLEU ↑": "32.0*", "chrF ↑": "56.1", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 36, "Audio Hours": "~3.1 hrs"},
+                    {"Dialect": "Dhundhari (DHD)", "Provisional WER ↓": "8.8%*", "CER ↓": "5.0%", "BLEU ↑": "33.5*", "chrF ↑": "57.8", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 36, "Audio Hours": "~3.3 hrs"},
+                    {"Dialect": "Hadoti (HDT)", "Provisional WER ↓": "9.5%*", "CER ↓": "5.5%", "BLEU ↑": "31.8*", "chrF ↑": "55.4", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 36, "Audio Hours": "~2.8 hrs"},
+                    {"Dialect": "Mewati (MWT)", "Provisional WER ↓": "10.4%*", "CER ↓": "6.1%", "BLEU ↑": "29.5*", "chrF ↑": "53.2", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 36, "Audio Hours": "~2.5 hrs"},
+                    {"Dialect": "Bagri (BGR)", "Provisional WER ↓": "9.2%*", "CER ↓": "5.3%", "BLEU ↑": "31.0*", "chrF ↑": "54.9", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 32, "Audio Hours": "~3.0 hrs"}
                 ]
-                gr.Dataframe(value=six_dialect_table, label="Empirical Performance across all 6 Rajasthani Dialects")
+                gr.Dataframe(value=six_dialect_table, label="Empirical Performance across all 6 Rajasthani Dialects (*Provisional n=8 sample)")
+                gr.Markdown("<div style='font-size:0.8rem; color:#A1A1AA;'>*Notice: Single-decimal metrics are provisional indicators on n=8 held-out dev utterances. Formal statistical convergence targets n ≥ 50 on the roadmap.</div>")
 
                 gr.Markdown("---")
                 gr.Markdown("### 📈 Model Improvement: Baseline vs Fine-Tuned WER")
@@ -558,12 +597,12 @@ def build_app():
                 gr.Markdown("---")
                 gr.Markdown("### 📁 Dataset Metadata Overview")
                 dataset_table = [
-                    {"Dialect": "Marwari (MWR)", "Speakers": 40, "Utterances": 500, "Audio Hours": 12.5, "Verified Samples": "✓ 100%"},
-                    {"Dialect": "Mewari (MTR)", "Speakers": 35, "Utterances": 450, "Audio Hours": 10.2, "Verified Samples": "✓ 100%"},
-                    {"Dialect": "Dhundhari (DHD)", "Speakers": 38, "Utterances": 480, "Audio Hours": 11.0, "Verified Samples": "✓ 100%"},
-                    {"Dialect": "Hadoti (HDT)", "Speakers": 30, "Utterances": 420, "Audio Hours": 9.5, "Verified Samples": "✓ 100%"},
-                    {"Dialect": "Mewati (MWT)", "Speakers": 32, "Utterances": 410, "Audio Hours": 9.1, "Verified Samples": "✓ 100%"},
-                    {"Dialect": "Bagri (BGR)", "Speakers": 34, "Utterances": 430, "Audio Hours": 9.8, "Verified Samples": "✓ 100%"}
+                    {"Dialect": "Marwari (MWR)", "Speakers": 40, "Train Utterances": 40, "Dev Utterances": 8, "Audio Hours": "~3.7 hrs", "Consent Basis": "100% Written Opt-in"},
+                    {"Dialect": "Mewari (MTR)", "Speakers": 32, "Train Utterances": 36, "Dev Utterances": 8, "Audio Hours": "~3.1 hrs", "Consent Basis": "100% Written Opt-in"},
+                    {"Dialect": "Dhundhari (DHD)", "Speakers": 35, "Train Utterances": 36, "Dev Utterances": 8, "Audio Hours": "~3.3 hrs", "Consent Basis": "100% Written Opt-in"},
+                    {"Dialect": "Hadoti (HDT)", "Speakers": 28, "Train Utterances": 36, "Dev Utterances": 8, "Audio Hours": "~2.8 hrs", "Consent Basis": "100% Written Opt-in"},
+                    {"Dialect": "Mewati (MWT)", "Speakers": 25, "Train Utterances": 36, "Dev Utterances": 8, "Audio Hours": "~2.5 hrs", "Consent Basis": "100% Written Opt-in"},
+                    {"Dialect": "Bagri (BGR)", "Speakers": 30, "Train Utterances": 32, "Dev Utterances": 8, "Audio Hours": "~3.0 hrs", "Consent Basis": "100% Written Opt-in"}
                 ]
                 gr.Dataframe(value=dataset_table, label="Data Collection & Linguistic Verification Summary")
 
@@ -593,10 +632,11 @@ def build_app():
             Hindi Output       Target Dialect
                                      │
                                      ▼
-                               MMS-TTS Voice
+                          Hindi gTTS (Serving Fallback)
+                          MMS-TTS (Fine-Tuning Roadmap)
                                      │
                                      ▼
-                               Audio Output
+                                Audio Output
 
   Provider Abstraction Layer:
   ┌─────────────────────────────────────────────────────────┐
@@ -631,15 +671,8 @@ def build_app():
                 gr.Markdown("---")
                 gr.Markdown("### 📊 Live Human Evaluator Summary")
                 
-                fb_summary = get_feedback_summary()
-                summary_table = [
-                    {"Metric": "ASR Correctness", "Score": f"{fb_summary['avg_asr_score']} / 5", "Evaluations": fb_summary['total_trials']},
-                    {"Metric": "Translation Quality", "Score": f"{fb_summary['avg_mt_score']} / 5", "Evaluations": fb_summary['total_trials']},
-                    {"Metric": "Cultural Preservation", "Score": f"{fb_summary['avg_cultural_score']} / 5", "Evaluations": fb_summary['total_trials']},
-                    {"Metric": "TTS Naturalness", "Score": f"{fb_summary['avg_tts_score']} / 5", "Evaluations": fb_summary['total_trials']},
-                    {"Metric": "Overall Usefulness", "Score": f"{fb_summary['avg_usefulness']} / 5", "Evaluations": fb_summary['total_trials']}
-                ]
-                gr.Dataframe(value=summary_table, label="Accumulated Evaluator Ratings")
+                initial_fb_table = get_feedback_table_data()
+                summary_df = gr.Dataframe(value=initial_fb_table, label="Accumulated Evaluator Ratings (Live Refreshing)")
 
                 gr.Markdown("---")
                 export_btn = gr.Button("📥 Export Evaluation Report (.json)", variant="secondary")
@@ -648,7 +681,7 @@ def build_app():
                 submit_fb_btn.click(
                     fn=submit_feedback_ui,
                     inputs=[fb_dialect, fb_asr, fb_mt, fb_cult, fb_tts, fb_overall, fb_comments],
-                    outputs=[fb_status]
+                    outputs=[fb_status, summary_df]
                 )
                 export_btn.click(fn=export_report_ui, inputs=[], outputs=[export_status])
 
