@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Dict, Any, List, Optional
 
 PROVERB_BANK: List[Dict[str, Any]] = [
+    # Marwari (MWR)
     {
         "id": "mwr_prv_001",
         "dialect": "MWR",
@@ -28,6 +29,32 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "human_verified": True
     },
     {
+        "id": "mwr_prv_003",
+        "dialect": "MWR",
+        "original_proverb": "दूध रो जल्यो छाछ ने फूंक फूंक पीवे।",
+        "literal_meaning": "One scalded by hot milk blows even on buttermilk before drinking.",
+        "figurative_meaning": "Once bitten, twice shy; extreme caution after a bad experience.",
+        "hindi_equivalent": "दूध का जला छाछ भी फूंक-फूंक कर पीता है।",
+        "other_dialect_equivalents": {"MTR": "दूध रो जल्यो छाछ फूंक पीवे।"},
+        "domain": "Caution",
+        "source": "Field Collection - Barmer",
+        "human_verified": True
+    },
+    {
+        "id": "mwr_prv_004",
+        "dialect": "MWR",
+        "original_proverb": "सांच को आंच कोनी।",
+        "literal_meaning": "Truth has no fear of heat.",
+        "figurative_meaning": "The truthful fear no test or false accusation.",
+        "hindi_equivalent": "साँच को आँच नहीं।",
+        "other_dialect_equivalents": {"BGR": "साँच रो बेड़ो पार।"},
+        "domain": "Truth",
+        "source": "Field Collection - Nagaur",
+        "human_verified": True
+    },
+
+    # Mewari (MTR)
+    {
         "id": "mtr_prv_001",
         "dialect": "MTR",
         "original_proverb": "घर रो जोगी जोगणा, आन गाँव रो सिद्ध।",
@@ -39,6 +66,20 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "source": "Field Collection - Udaipur",
         "human_verified": True
     },
+    {
+        "id": "mtr_prv_002",
+        "dialect": "MTR",
+        "original_proverb": "आपणा हाथ जगन्नाथ।",
+        "literal_meaning": "One's own hands are Lord Jagannath.",
+        "figurative_meaning": "Self-reliance and personal effort yield the best outcome.",
+        "hindi_equivalent": "अपना हाथ जगन्नाथ (आत्मनिर्भरता)।",
+        "other_dialect_equivalents": {"BGR": "आपणo काम आपणे हाथ।"},
+        "domain": "Self-Reliance",
+        "source": "Field Collection - Chittorgarh",
+        "human_verified": True
+    },
+
+    # Dhundhari (DHD)
     {
         "id": "dhd_prv_001",
         "dialect": "DHD",
@@ -52,6 +93,20 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "human_verified": True
     },
     {
+        "id": "dhd_prv_002",
+        "dialect": "DHD",
+        "original_proverb": "बोवै पेड़ बबूल को तो आम कहाँ से होय।",
+        "literal_meaning": "If you plant a babool thorn tree, how will you get mangoes?",
+        "figurative_meaning": "Harmful or bad deeds never produce sweet or good results.",
+        "hindi_equivalent": "बोया पेड़ बबूल का तो आम कहाँ से होय।",
+        "other_dialect_equivalents": {"MWT": "बोया पेड़ बबूल का तो आम कहाँ से होय।"},
+        "domain": "Ethics",
+        "source": "Field Collection - Tonk",
+        "human_verified": True
+    },
+
+    # Hadoti (HDT)
+    {
         "id": "hdt_prv_001",
         "dialect": "HDT",
         "original_proverb": "नाच न जाणै आँगण टेढ़ो।",
@@ -64,6 +119,20 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "human_verified": True
     },
     {
+        "id": "hdt_prv_002",
+        "dialect": "HDT",
+        "original_proverb": "पानी पहल्यां पाल बाँधणी।",
+        "literal_meaning": "Building the embankment before the water floods.",
+        "figurative_meaning": "Preparation and foresight before difficulty arrives.",
+        "hindi_equivalent": "विपत्ति आने से पहले ही पूर्व तैयारी करना।",
+        "other_dialect_equivalents": {"MWR": "पानी सूं पहल्यां पाल।"},
+        "domain": "Foresight",
+        "source": "Field Collection - Bundi",
+        "human_verified": True
+    },
+
+    # Mewati (MWT)
+    {
         "id": "mwt_prv_001",
         "dialect": "MWT",
         "original_proverb": "दूर का ढोल सुहावना लागै।",
@@ -75,6 +144,8 @@ PROVERB_BANK: List[Dict[str, Any]] = [
         "source": "Field Collection - Alwar",
         "human_verified": True
     },
+
+    # Bagri (BGR)
     {
         "id": "bgr_prv_001",
         "dialect": "BGR",
