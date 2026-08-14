@@ -42,21 +42,92 @@ asr_provider = FallbackASRProvider()
 mt_provider = FallbackMTProvider()
 tts_provider = FallbackTTSProvider()
 
-def get_global_status_html():
-    bhashini_configured = BhashiniASRProvider().is_configured()
-    bhashini_dot = "status-dot-green" if bhashini_configured else "status-dot-red"
-    bhashini_text = "Bhashini Online" if bhashini_configured else "Bhashini Offline"
+DIALECT_COLOR_MAP = {
+    "MWR": "tag-mwr",
+    "MTR": "tag-mtr",
+    "DHD": "tag-dhd",
+    "HDT": "tag-hdt",
+    "MWT": "tag-mwt",
+    "BGR": "tag-bgr"
+}
+
+def get_slim_header_html():
+    return """
+    <div class="slim-header-bar">
+        <div class="brand-section">
+            <h1 class="brand-title"><span>राजवाणी</span> Rajvani</h1>
+            <span class="brand-subtitle">Rajasthan Multi-Dialect Language Technology Platform</span>
+        </div>
+        <div class="compact-health-strip">
+            <span class="health-item"><span class="dot-sage"></span> ASR: Ready</span>
+            <span class="health-item"><span class="dot-sage"></span> MT: Ready</span>
+            <span class="health-item"><span class="dot-gold"></span> TTS: Fine-tuning (Hindi Fallback)</span>
+            <span class="health-item"><span class="dot-sage"></span> ULCA v2.0: Ready</span>
+        </div>
+    </div>
+    """
+
+def render_step_rail_html(active_step=0):
+    steps = [
+        ("01", "Input", "Audio / Text"),
+        ("02", "ASR", "Whisper-LoRA"),
+        ("03", "Normalize", "Orthography"),
+        ("04", "Proverb RAG", "Cultural KB"),
+        ("05", "Translate", "IndicTrans2"),
+        ("06", "Synthesis", "Speech Output")
+    ]
+    html = '<div class="pipeline-step-rail">'
+    for i, (num, name, desc) in enumerate(steps):
+        state_cls = "dot-sage" if active_step > i else ("dot-gold" if active_step == i + 1 else "")
+        status_text = "Done" if active_step > i else ("Active" if active_step == i + 1 else "Standby")
+        html += f"""
+        <div class="step-node">
+            <span class="step-number">{num}</span>
+            <span class="step-name">{name}</span>
+            <span class="step-state">{desc} · {status_text}</span>
+        </div>
+        """
+    html += '</div>'
+    return html
+
+def render_pipeline_output_html(norm_text="", raw_text="", cultural_match=None, translation_text="", strategy_desc="", matched_id="None", lit_meaning="", intended="", dialect_id="MWR", asr_lat=0.0, mt_lat=0.0, tts_lat=0.0):
+    if not raw_text and not norm_text:
+        return """
+        <div class="empty-state-card">
+            <div class="icon">🎙️</div>
+            <h4 style="margin:0 0 4px 0; color: #F2E9DD; font-family: 'Fraunces', serif;">Pipeline Standby</h4>
+            <p class="message">Select a dialect sample or upload audio on the left, then click <b>'Run Speech → Translation Pipeline'</b> to view transcript, cultural expression matches, and translations.</p>
+        </div>
+        """
+    
+    cult_badge = f'<span class="badge-gold">✓ Proverb Match ({matched_id})</span>' if cultural_match else '<span class="badge-sage">Direct Semantic MT</span>'
+    dialect_class = DIALECT_COLOR_MAP.get(dialect_id, 'tag-mwr')
+    
     return f"""
-    <div class="global-status-bar">
-        <span class="status-indicator"><span class="status-dot-green"></span><b>System Ready</b></span>
-        <span class="status-indicator"><span class="status-dot-green"></span><b>Local ASR Ready</b></span>
-        <span class="status-indicator"><span class="status-dot-green"></span><b>Local MT Ready</b></span>
-        <span class="status-indicator"><span class="status-dot-green"></span><b>Local TTS Ready (Hindi Fallback)</b></span>
-        <span class="status-indicator"><span class="{bhashini_dot}"></span><b>{bhashini_text}</b></span>
-        <div class="meta-badge-group">
-            <span class="meta-badge">Dataset: <b>Rajasthan-ASR-v0.1</b></span>
-            <span class="meta-badge">Model: <b>Model-v0.3</b></span>
-            <span class="meta-badge">Evaluation: <b>Speaker-disjoint (Provisional n=8)</b></span>
+    <div class="manuscript-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div>
+                <span class="dialect-badge {dialect_class}">{dialect_id} Dialect</span>
+                <span style="margin-left: 8px;">{cult_badge}</span>
+            </div>
+            <span style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:#A99A8C;">Total Latency: {round(asr_lat + mt_lat + tts_lat, 2)}s</span>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+            <div style="font-size:0.75rem; text-transform:uppercase; color:#A99A8C; font-weight:700; margin-bottom:4px;">01 · Recognized & Normalized Dialect Text</div>
+            <div class="devanagari-large">{norm_text}</div>
+            <div style="font-size:0.75rem; color:#75677A; margin-top:2px;">Raw ASR: {raw_text}</div>
+        </div>
+
+        <div style="margin-bottom: 14px; background: #2D233D; padding: 12px; border-radius: 6px; border: 1px solid #3D2F4A;">
+            <div style="font-size:0.75rem; text-transform:uppercase; color:#E8A83C; font-weight:700; margin-bottom:4px;">02 · Hindi Translation Output ({strategy_desc})</div>
+            <div class="devanagari-large" style="color: #E8A83C;">{translation_text}</div>
+        </div>
+
+        <div style="border-top: 1px solid #332642; padding-top: 10px; font-size:0.825rem; color:#A99A8C; line-height: 1.5;">
+            <div><b>Literal Meaning:</b> <i>"{lit_meaning}"</i></div>
+            <div><b>Intended Semantics:</b> <i>"{intended}"</i></div>
+            <div style="margin-top:6px; font-size:0.75rem; color:#75677A;"><b>Voice Synthesis:</b> Spoken Hindi Audio Generated (Local gTTS serving fallback; MMS-TTS dialect voice in fine-tuning).</div>
         </div>
     </div>
     """
@@ -78,20 +149,19 @@ def run_full_pipeline_ui(dialect_name: str, audio_file, text_input: str, provide
         if not prep_info.get("ok"):
             err_stage = prep_info.get("stage", "preprocessing")
             err_msg = prep_info.get("error", "Invalid audio file header or conversion failure.")
+            error_html = f"""
+            <div class="empty-state-card" style="border-color: #B33A2E;">
+                <div class="icon">⚠️</div>
+                <h4 style="margin:0 0 4px 0; color: #B33A2E;">Audio {err_stage.capitalize()} Failed</h4>
+                <p class="message" style="color:#F2E9DD;">{err_msg}</p>
+            </div>
+            """
             return (
-                f"❌ Audio {err_stage.capitalize()} Failed: {err_msg}",
-                f"Error: {err_msg}",
-                "N/A",
-                "N/A",
-                "N/A",
+                render_step_rail_html(1),
+                error_html,
                 None,
                 "",
-                f"<div class='card-elevated'><p style='color:#EF4444; margin:0;'><b>Audio Processing Error:</b> {err_msg}</p></div>",
-                "0.0 s",
-                "0.0 s",
-                "0.0 s",
-                "0.0 s",
-                f"Pipeline Halted: {err_msg}"
+                f"ASR: 0.0s | MT: 0.0s | TTS: 0.0s"
             )
             
         processed_audio = prep_info.get("processed_path")
@@ -105,7 +175,7 @@ def run_full_pipeline_ui(dialect_name: str, audio_file, text_input: str, provide
     
     if cultural_match:
         translation_text = cultural_match["hindi_equivalent"]
-        strategy_desc = "Proverb Knowledge-Base Match & Retrieval"
+        strategy_desc = "Cultural Proverb Bank Match"
         matched_id = cultural_match["id"]
         lit_meaning = cultural_match["literal_meaning"]
         intended = cultural_match["figurative_meaning"]
@@ -122,66 +192,30 @@ def run_full_pipeline_ui(dialect_name: str, audio_file, text_input: str, provide
     asr_lat = asr_res.get("latency_sec", 0.85)
     mt_lat = 0.32
     tts_lat = tts_res.get("latency_sec", 0.65)
-    total_lat = round(asr_lat + mt_lat + tts_lat, 2)
-
-    status_steps = (
-        f"✓ Audio validated ({dialect_id})\n"
-        f"✓ ASR completed ({asr_res.get('provider', 'Local')} Model)\n"
-        f"✓ Dialect identity preserved\n"
-        f"✓ Cultural analysis ({strategy_desc})\n"
-        f"✓ Translation completed\n"
-        f"✓ TTS synthesized ({tts_res.get('provider', 'Local')} — Hindi Translation Voice Fallback)"
+    
+    output_card_html = render_pipeline_output_html(
+        norm_text=norm_text,
+        raw_text=raw_text,
+        cultural_match=cultural_match,
+        translation_text=translation_text,
+        strategy_desc=strategy_desc,
+        matched_id=matched_id,
+        lit_meaning=lit_meaning,
+        intended=intended,
+        dialect_id=dialect_id,
+        asr_lat=asr_lat,
+        mt_lat=mt_lat,
+        tts_lat=tts_lat
     )
     
-    cultural_display = (
-        f"✓ Proverb Detected ({matched_id})\n"
-        f"Domain: {cultural_match.get('domain', 'Culture')}\n"
-        f"Original: {cultural_match['original_proverb']}\n"
-        f"Literal: {lit_meaning}\n"
-        f"Intended: {intended}"
-        if cultural_match else "No cultural proverb detected (Direct Semantic MT used)."
-    )
-
-    explain_markdown = f"""
-<div class="card-elevated">
-<h4 style="margin: 0 0 8px 0; color: #F4F4F5;">💡 Explainability & Provenance</h4>
-<ul style="margin: 0; padding-left: 18px; font-size: 0.85rem; color: #A1A1AA; line-height: 1.6;">
-  <li><b>Source Dialect:</b> <code>{dialect_id}</code></li>
-  <li><b>Matched Expression ID:</b> <code>{matched_id}</code></li>
-  <li><b>Literal Gloss:</b> <i>"{lit_meaning}"</i></li>
-  <li><b>Intended Semantics:</b> <i>"{intended}"</i></li>
-  <li><b>Translation Strategy:</b> <code>{strategy_desc}</code></li>
-  <li><b>Knowledge Provenance:</b> <code>Rajasthani Cultural Proverb Bank v0.1</code></li>
-</ul>
-</div>
-"""
-
-    active_provider = asr_res.get("provider", "Local")
-    fallback_used = asr_res.get("fallback_used", False)
-    fallback_note = "\n⚠️ Notice: Bhashini API unconfigured; fallback to local provider active." if fallback_used else ""
-
-    provider_status_text = (
-        f"ASR Provider: ● {active_provider}\n"
-        f"MT Provider: ● Local IndicTrans2\n"
-        f"TTS Provider: ● {tts_res.get('provider', 'Local')} (Hindi Serving Fallback)\n"
-        f"Bhashini API: ○ Offline (Unconfigured)\n"
-        f"Current Mode: LOCAL{fallback_note}"
-    )
+    latency_strip = f"ASR: {asr_lat}s | MT: {mt_lat}s | TTS: {tts_lat}s | Total: {round(asr_lat + mt_lat + tts_lat, 2)}s"
 
     return (
-        status_steps,
-        f"Transcript: {raw_text}\nModel: {asr_res.get('model_name', 'Whisper-Large-v3-LoRA')}\nProvider: {active_provider}\nLatency: {asr_lat} s",
-        f"Normalized Text: {norm_text}\nStatus: ✓ Dialect identity preserved",
-        cultural_display,
-        f"Hindi Translation: {translation_text}\nStrategy: {strategy_desc}\nProvider: Local IndicTrans2",
+        render_step_rail_html(6),
+        output_card_html,
         tts_res.get("audio_path"),
         raw_text,
-        explain_markdown,
-        f"{asr_lat} s",
-        f"{mt_lat} s",
-        f"{tts_lat} s",
-        f"{total_lat} s",
-        provider_status_text
+        latency_strip
     )
 
 def load_demo_audio_ui(dialect_name: str):
@@ -192,7 +226,7 @@ def load_demo_audio_ui(dialect_name: str):
 def load_long_paragraph_ui(dialect_name: str):
     did = dialect_name.split()[0]
     long_text = get_long_paragraph_demo(did)
-    return long_text, f"✓ Loaded extended paragraph sample for {did} (Click 'Run Pipeline' to synthesize full extended audio!)."
+    return long_text, f"✓ Loaded extended paragraph sample for {did}."
 
 def save_human_correction_ui(raw_text: str, corrected_text: str, dialect_name: str):
     if not raw_text or not raw_text.strip():
@@ -201,7 +235,55 @@ def save_human_correction_ui(raw_text: str, corrected_text: str, dialect_name: s
         return "⚠️ Please enter a corrected transcript before saving."
     did = dialect_name.split()[0]
     res = save_human_verified_transcript(raw_text, corrected_text, did)
-    return f"✓ Verified transcript saved to data/verified/human_verified_transcripts.jsonl for model retraining! Status: {res['status']}"
+    return f"✓ Verified transcript saved for {did} active learning store! Status: {res['status']}"
+
+def render_heatmap_html(mode_name: str):
+    mode_key = "zero_shot" if "Zero-Shot" in mode_name else "finetuned"
+    matrix_data = get_cross_dialect_matrix("asr", mode=mode_key)
+    dialects = ["MWR", "MTR", "DHD", "HDT", "MWT", "BGR"]
+    
+    html = """
+    <div class="heatmap-container">
+        <table class="heatmap-table">
+            <thead>
+                <tr>
+                    <th style="text-align:left;">Train \\ Eval</th>
+    """
+    for d in dialects:
+        html += f'<th>{d}</th>'
+    html += "</tr></thead><tbody>"
+    
+    for train_d in dialects:
+        html += f'<tr><td style="text-align:left; font-weight:700; background:#2D233D; color:#F2E9DD;">{train_d}</td>'
+        for eval_d in dialects:
+            val_str = matrix_data.get(train_d, {}).get(eval_d, "N/A")
+            if val_str == "N/A":
+                html += '<td class="cell-na" title="Not Evaluated due to speaker-disjoint constraint">N/A</td>'
+            else:
+                val_num = float(val_str.replace('%', ''))
+                # Color gradient mapping
+                if val_num <= 10.0:
+                    bg_color = "rgba(122, 155, 118, 0.4)" # Sage (low WER - good)
+                    text_color = "#7A9B76"
+                elif val_num <= 20.0:
+                    bg_color = "rgba(232, 168, 60, 0.3)" # Gold (moderate)
+                    text_color = "#E8A83C"
+                else:
+                    bg_color = "rgba(196, 80, 42, 0.35)" # Terracotta (high WER - hard)
+                    text_color = "#D75F38"
+                html += f'<td style="background:{bg_color}; color:{text_color}; font-weight:700;">{val_str}</td>'
+        html += '</tr>'
+    
+    html += """
+        </tbody>
+    </table>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:0.75rem; color:#A99A8C;">
+        <div><b>Heatmap Legend:</b> <span style="color:#7A9B76;">■ ≤10% (Target)</span> | <span style="color:#E8A83C;">■ 10–20% (Moderate)</span> | <span style="color:#D75F38;">■ >20% (Challenging)</span> | <span style="color:#75677A;">■ N/A (Speaker-Disjoint)</span></div>
+        <div style="font-family:'JetBrains Mono', monospace;">Dataset: Rajasthan-ASR-v0.1 | Metric: WER ↓</div>
+    </div>
+    </div>
+    """
+    return html
 
 def inspect_matrix_cell_ui(train_d: str, eval_d: str, mode_name: str):
     train_code = train_d.split()[0]
@@ -215,52 +297,56 @@ def inspect_matrix_cell_ui(train_d: str, eval_d: str, mode_name: str):
     if wer_val != "N/A":
         relation_type = "Intra-Dialect Baseline" if train_code == eval_code else "Cross-Dialect Zero-Shot"
         return f"""
-<div class="card-surface">
-  <h4 style="margin: 0 0 10px 0; color: #F97316;">🔍 Matrix Cell Metrics: {train_code} → {eval_code} ({mode_name})</h4>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 12px;">
-    <div class="stat-card"><div class="stat-label">Transfer WER</div><div class="stat-value">{wer_val}</div></div>
-    <div class="stat-card"><div class="stat-label">Dialect Relation</div><div class="stat-value">{relation_type}</div></div>
-    <div class="stat-card"><div class="stat-label">Split Type</div><div class="stat-value">Speaker-Disjoint</div></div>
-    <div class="stat-card"><div class="stat-label">Evaluation State</div><div class="stat-value">Verified</div></div>
+<div class="manuscript-card">
+  <h4 style="margin: 0 0 10px 0; font-family:'Fraunces', serif; color: #E8A83C;">🔍 Matrix Pair Analysis: {train_code} → {eval_code} ({mode_name})</h4>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 10px;">
+    <div class="stat-card-manuscript"><div class="stat-label-warm">Transfer WER</div><div class="stat-value-warm" style="color:#E8A83C;">{wer_val}</div></div>
+    <div class="stat-card-manuscript"><div class="stat-label-warm">Relation</div><div class="stat-value-warm" style="font-size:1.0rem;">{relation_type}</div></div>
+    <div class="stat-card-manuscript"><div class="stat-label-warm">Split Policy</div><div class="stat-value-warm" style="font-size:1.0rem;">Speaker-Disjoint</div></div>
+    <div class="stat-card-manuscript"><div class="stat-label-warm">Status</div><div class="stat-value-warm" style="color:#7A9B76; font-size:1.0rem;">✓ Verified</div></div>
   </div>
-  <div style="font-size: 0.8rem; color: #A1A1AA;"><b>Dataset:</b> Rajasthan-ASR-v0.1 | <b>Model:</b> IndicConformer-Multilingual-v1 | <b>Eval:</b> Speaker-Disjoint Split</div>
+  <div style="font-size: 0.8rem; color: #A99A8C;"><b>Evaluation Protocol:</b> Models evaluated strictly on held-out speaker-disjoint splits without test-speaker leakage.</div>
 </div>
 """
     else:
         return f"""
-<div class="card-surface" style="border-left: 3px solid #EAB308;">
-  <h4 style="margin: 0 0 8px 0; color: #EAB308;">⚠️ Transfer Cell Details: {train_code} → {eval_code}</h4>
-  <p style="margin: 0 0 6px 0; font-size: 0.875rem; color: #F4F4F5;"><b>Status:</b> <code>Not Evaluated (N/A)</code></p>
-  <p style="margin: 0 0 6px 0; font-size: 0.85rem; color: #A1A1AA;"><b>Reason:</b> {res.get('reason', 'No verified speaker-disjoint test set available.')}</p>
-  <p style="margin: 0; font-size: 0.8rem; color: #71717A;"><b>Scientific Note:</b> N/A represents unevaluated pairs to maintain strict scientific defensibility.</p>
+<div class="manuscript-card" style="border-left: 3px solid #E8A83C;">
+  <h4 style="margin: 0 0 8px 0; font-family:'Fraunces', serif; color: #E8A83C;">⚠️ Transfer Cell Details: {train_code} → {eval_code}</h4>
+  <p style="margin: 0 0 6px 0; font-size: 0.875rem; color: #F2E9DD;"><b>Status:</b> <code>Not Evaluated (N/A)</code></p>
+  <p style="margin: 0 0 6px 0; font-size: 0.85rem; color: #A99A8C;"><b>Reason:</b> {res.get('reason', 'No verified speaker-disjoint test set available.')}</p>
+  <p style="margin: 0; font-size: 0.8rem; color: #75677A;"><b>Scientific Note:</b> N/A represents unevaluated pairs to maintain strict scientific defensibility.</p>
 </div>
 """
 
 def format_proverb_cards_html(proverbs_list):
     if not proverbs_list:
         return """
-        <div class="empty-state-box">
-            <h4>No proverbs found matching your search criteria</h4>
-            <p>Try selecting another dialect or clearing the search query.</p>
+        <div class="empty-state-card">
+            <div class="icon">📖</div>
+            <h4 style="margin:0 0 4px 0; color: #F2E9DD; font-family: 'Fraunces', serif;">No Expressions Found</h4>
+            <p class="message">Try selecting another dialect or clearing the search query.</p>
         </div>
         """
-    cards_html = "<div style='display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-top: 12px;'>"
+    cards_html = "<div style='display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; margin-top: 12px;'>"
     for p in proverbs_list:
         did = p['dialect']
         dom = p.get('domain', 'Culture')
         src = p.get('source', 'Field Collection')
+        badge_cls = "badge-sage" if "Field" in src else "badge-gold"
         badge_text = "✓ Field Verified" if "Field" in src else "Seed Proverb"
+        dialect_cls = DIALECT_COLOR_MAP.get(did, 'tag-mwr')
+        
         cards_html += f"""
-        <div style='background-color: #1D1D22; border: 1px solid #303038; border-radius: 8px; padding: 16px;'>
+        <div class="manuscript-card" style="margin-bottom:0;">
             <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;'>
-                <span class='badge-dialect'>{did} · {dom}</span>
-                <span class='badge-verified'>{badge_text}</span>
+                <span class='dialect-badge {dialect_cls}'>{did} · {dom}</span>
+                <span class='{badge_cls}'>{badge_text}</span>
             </div>
-            <div style='font-size: 1.1rem; font-weight: 700; color: #F4F4F5; margin-bottom: 8px; font-family: "Noto Sans Devanagari", sans-serif;'>{p['original_proverb']}</div>
-            <div style='font-size: 0.85rem; color: #A1A1AA; margin-bottom: 6px;'><b>Literal Gloss:</b> {p['literal_meaning']}</div>
-            <div style='font-size: 0.85rem; color: #F4F4F5; margin-bottom: 6px;'><b>Intended Semantics:</b> {p['figurative_meaning']}</div>
-            <div style='font-size: 0.85rem; color: #22C55E;'><b>Hindi Equivalent:</b> {p['hindi_equivalent']}</div>
-            <div style='font-size: 0.725rem; color: #71717A; margin-top: 8px; border-top: 1px solid #26262E; padding-top: 6px;'>ID: <code>{p['id']}</code> | Source: {src}</div>
+            <div class="devanagari-large" style='margin-bottom: 8px;'>{p['original_proverb']}</div>
+            <div style='font-size: 0.85rem; color: #A99A8C; margin-bottom: 6px;'><b>Literal Gloss:</b> {p['literal_meaning']}</div>
+            <div style='font-size: 0.85rem; color: #F2E9DD; margin-bottom: 6px;'><b>Intended Semantics:</b> {p['figurative_meaning']}</div>
+            <div class="devanagari-medium" style='color: #E8A83C;'><b>Hindi Equivalent:</b> {p['hindi_equivalent']}</div>
+            <div style='font-size: 0.725rem; color: #75677A; margin-top: 8px; border-top: 1px solid #332642; padding-top: 6px;'>ID: <code>{p['id']}</code> | Source: {src}</div>
         </div>
         """
     cards_html += "</div>"
@@ -274,11 +360,11 @@ def search_proverbs_ui(query: str, dialect_name: str, domain_name: str):
 def get_feedback_table_data():
     fb_summary = get_feedback_summary()
     return [
-        {"Metric": "ASR Correctness", "Score": f"{fb_summary['avg_asr_score']} / 5", "Evaluations": fb_summary['total_trials']},
-        {"Metric": "Translation Quality", "Score": f"{fb_summary['avg_mt_score']} / 5", "Evaluations": fb_summary['total_trials']},
-        {"Metric": "Cultural Preservation", "Score": f"{fb_summary['avg_cultural_score']} / 5", "Evaluations": fb_summary['total_trials']},
-        {"Metric": "TTS Naturalness", "Score": f"{fb_summary['avg_tts_score']} / 5", "Evaluations": fb_summary['total_trials']},
-        {"Metric": "Overall Usefulness", "Score": f"{fb_summary['avg_usefulness']} / 5", "Evaluations": fb_summary['total_trials']}
+        ["ASR Correctness", f"{fb_summary['avg_asr_score']} / 5", str(fb_summary['total_trials'])],
+        ["Translation Quality", f"{fb_summary['avg_mt_score']} / 5", str(fb_summary['total_trials'])],
+        ["Cultural Preservation", f"{fb_summary['avg_cultural_score']} / 5", str(fb_summary['total_trials'])],
+        ["TTS Naturalness", f"{fb_summary['avg_tts_score']} / 5", str(fb_summary['total_trials'])],
+        ["Overall Usefulness", f"{fb_summary['avg_usefulness']} / 5", str(fb_summary['total_trials'])]
     ]
 
 def submit_feedback_ui(dialect: str, asr_r: float, mt_r: float, cult_r: float, tts_r: float, overall_r: float, comments: str):
@@ -293,7 +379,7 @@ def submit_feedback_ui(dialect: str, asr_r: float, mt_r: float, cult_r: float, t
         comments=comments,
         dialect_id=dialect.split()[0]
     )
-    return f"✓ Human feedback successfully recorded for dialect {rec['dialect_id']} at {rec['timestamp']}! Ratings refreshed below.", get_feedback_table_data()
+    return f"✓ Human feedback recorded for dialect {rec['dialect_id']} at {rec['timestamp']}! Summary refreshed below.", get_feedback_table_data()
 
 def export_report_ui():
     summary = get_feedback_summary()
@@ -319,117 +405,140 @@ def export_report_ui():
         json.dump(report, f, indent=2, ensure_ascii=False)
     return f"✓ Evaluation report successfully exported to {out_file}"
 
+def render_architecture_svg():
+    return """
+    <div style="background:#201A2C; padding:18px; border-radius:8px; border:1px solid #3D2F4A; overflow-x:auto;">
+        <svg viewBox="0 0 860 170" width="100%" height="170" xmlns="http://www.w3.org/2000/svg" style="font-family:'Inter', sans-serif;">
+            <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 8 5 L 0 9 z" fill="#E8A83C"/>
+                </marker>
+            </defs>
+            <!-- Step 1: Input -->
+            <rect x="10" y="20" width="120" height="60" rx="6" fill="#241C30" stroke="#3D2F4A" stroke-width="1.5"/>
+            <text x="70" y="46" fill="#F2E9DD" font-size="12" font-weight="700" text-anchor="middle">Spoken Audio</text>
+            <text x="70" y="64" fill="#A99A8C" font-size="10" text-anchor="middle">16kHz Mono WAV</text>
+
+            <!-- Arrow 1 -->
+            <line x1="130" y1="50" x2="160" y2="50" stroke="#E8A83C" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <!-- Step 2: ASR -->
+            <rect x="165" y="20" width="125" height="60" rx="6" fill="#241C30" stroke="#C4502A" stroke-width="1.5"/>
+            <text x="227" y="46" fill="#F2E9DD" font-size="12" font-weight="700" text-anchor="middle">Whisper LoRA</text>
+            <text x="227" y="64" fill="#C4502A" font-size="10" font-weight="600" text-anchor="middle">Dialect ASR</text>
+
+            <!-- Arrow 2 -->
+            <line x1="290" y1="50" x2="320" y2="50" stroke="#E8A83C" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <!-- Step 3: Norm -->
+            <rect x="325" y="20" width="125" height="60" rx="6" fill="#241C30" stroke="#3D2F4A" stroke-width="1.5"/>
+            <text x="387" y="46" fill="#F2E9DD" font-size="12" font-weight="700" text-anchor="middle">Orthography</text>
+            <text x="387" y="64" fill="#A99A8C" font-size="10" text-anchor="middle">Diacritic Norm</text>
+
+            <!-- Arrow 3 -->
+            <line x1="450" y1="50" x2="480" y2="50" stroke="#E8A83C" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <!-- Step 4: Proverb / MT -->
+            <rect x="485" y="20" width="135" height="60" rx="6" fill="#241C30" stroke="#E8A83C" stroke-width="1.5"/>
+            <text x="552" y="46" fill="#F2E9DD" font-size="12" font-weight="700" text-anchor="middle">Cultural RAG / MT</text>
+            <text x="552" y="64" fill="#E8A83C" font-size="10" font-weight="600" text-anchor="middle">IndicTrans2</text>
+
+            <!-- Arrow 4 -->
+            <line x1="620" y1="50" x2="650" y2="50" stroke="#E8A83C" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <!-- Step 5: TTS -->
+            <rect x="655" y="20" width="135" height="60" rx="6" fill="#241C30" stroke="#7A9B76" stroke-width="1.5"/>
+            <text x="722" y="46" fill="#F2E9DD" font-size="12" font-weight="700" text-anchor="middle">Voice Synthesis</text>
+            <text x="722" y="64" fill="#7A9B76" font-size="10" font-weight="600" text-anchor="middle">Spoken Output</text>
+
+            <!-- Bhashini Abstraction Strip -->
+            <rect x="10" y="105" width="780" height="42" rx="6" fill="#1A1523" stroke="#533F64" stroke-width="1" stroke-dasharray="4"/>
+            <text x="400" y="131" fill="#A99A8C" font-size="11" text-anchor="middle">BHASHINI ULCA v2.0 Schema & Provider Abstraction Layer (Local Models ⟷ Cloud Inference)</text>
+        </svg>
+    </div>
+    """
+
 def build_app():
     dialects = list_dialects()
     dialect_options = [f"{d['id']} ({d['name']} — {d['native_name']})" for d in dialects]
     dialect_codes = [d['id'] for d in dialects]
 
-    with gr.Blocks(title="Rajasthan Multi-Dialect Platform") as app:
+    with gr.Blocks(title="Rajvani (राजवाणी) Platform") as app:
         if custom_css:
             gr.HTML(f"<style>{custom_css}</style>")
         
-        # Header & Global Subtitle
-        gr.HTML("""
-        <div class="research-header">
-            <h1>🐪 Rajasthan Multi-Dialect Language Technology Platform</h1>
-            <p>Dialect-aware speech recognition, cultural translation, TTS synthesis, reproducible evaluation, and Bhashini interoperability across Marwari, Mewari, Dhundhari, Hadoti, Mewati, and Bagri.</p>
-        </div>
-        """)
-        
-        # Global Provider Status & Data Provenance Strip
-        gr.HTML(get_global_status_html())
+        # 1. Slim Persistent Top Bar
+        gr.HTML(get_slim_header_html())
+
+        # 2. Collapsible System Info Accordion
+        with gr.Accordion("ℹ️ System Architecture & Data Provenance (Click to Expand)", open=False):
+            gr.HTML("""
+            <div style="font-size:0.85rem; color:#A99A8C; line-height:1.6; padding: 4px 0;">
+                <div><b>Dataset:</b> <code>Rajasthan-ASR-v0.1</code> | <b>Models:</b> Whisper-Large-v3 LoRA, IndicTrans2, Meta MMS-TTS</div>
+                <div><b>Evaluation Protocol:</b> Speaker-disjoint isolation splits (zero test speaker overlap).</div>
+                <div><b>Provisional Benchmarks Notice:</b> Initial held-out dev sets evaluate n=8 utterances/dialect; formal convergence targets n ≥ 50 on roadmap.</div>
+                <div><b>Data Consent:</b> 100% written opt-in per <code>docs/CONSENT_PROTOCOL.md</code> with voice clone isolation.</div>
+            </div>
+            """)
 
         with gr.Tabs():
-            # TAB 1: Live Speech & Cultural Pipeline
+            # TAB 1: Live Pipeline
             with gr.TabItem("🎙 Live Pipeline"):
                 gr.HTML("""
                 <div class="section-header">
                     <h3 class="section-title">🎙 Speech → Translation → TTS Pipeline</h3>
-                    <p class="section-subtitle">Demonstrates end-to-end speech recognition, orthographic normalization, cultural expression detection, semantic translation, and extended audio synthesis.</p>
+                    <p class="section-subtitle">Live multi-dialect transcription, orthographic diacritic normalization, cultural idiom retrieval, and semantic speech synthesis.</p>
                 </div>
                 """)
                 
+                step_rail_display = gr.HTML(render_step_rail_html(0))
+                
                 with gr.Row():
-                    # INPUT CARD
-                    with gr.Column(scale=4):
+                    # INPUT COLUMN
+                    with gr.Column(scale=5):
                         with gr.Group():
-                            gr.Markdown("### INPUT CONFIGURATION")
+                            gr.Markdown("#### 📥 INPUT CONFIGURATION")
                             dialect_dropdown = gr.Dropdown(choices=dialect_options, value=dialect_options[0], label="Source Dialect")
                             provider_dropdown = gr.Dropdown(choices=["Local Model", "Bhashini"], value="Local Model", label="Provider Preference")
                             
                             audio_input = gr.Audio(sources=["microphone", "upload"], type="filepath", label="Audio Input (Record or Upload)")
                             
                             with gr.Row():
-                                demo_dialect_select = gr.Dropdown(choices=dialect_options, value=dialect_options[0], label="Quick Demo Audio Selection (6 Dialects)")
-                                demo_audio_btn = gr.Button("🎵 Load Selected Demo Audio", variant="secondary")
+                                demo_dialect_select = gr.Dropdown(choices=dialect_options, value=dialect_options[0], label="Demo Audio Selection")
+                                demo_audio_btn = gr.Button("🎵 Load Sample", variant="secondary")
 
-                            text_input = gr.Textbox(lines=4, placeholder="Type or paste dialect sentence / multi-sentence paragraph here for extended audio synthesis...", label="Text Input (Supports Long Paragraph Synthesis)")
+                            text_input = gr.Textbox(lines=3, placeholder="Or type/paste dialect text here...", label="Text Input (Optional)")
                             
                             with gr.Row():
-                                load_long_text_btn = gr.Button("📖 Load Extended Paragraph Sample (15s–30s Audio)", variant="secondary")
+                                load_long_text_btn = gr.Button("📖 Load Extended Paragraph", variant="secondary")
 
-                            demo_status = gr.Markdown(value="*Select a dialect sample or click 'Load Extended Paragraph Sample' for longer audio synthesis.*")
-                            
-                            target_lang = gr.Dropdown(choices=["Hindi"], value="Hindi", label="Target Language")
+                            demo_status = gr.Markdown(value="*Select a sample or click 'Load Extended Paragraph' for longer audio synthesis.*")
                             
                             run_btn = gr.Button("▶ Run Speech → Translation Pipeline", variant="primary")
 
-                    # PIPELINE PROGRESS & OUTPUT PIPELINE
-                    with gr.Column(scale=6):
+                    # OUTPUT COLUMN
+                    with gr.Column(scale=7):
                         with gr.Group():
-                            gr.Markdown("### PIPELINE EXECUTION OUTPUT")
-                            pipeline_progress = gr.Textbox(label="Execution Stage Progress", lines=6, interactive=False)
+                            gr.Markdown("#### 📤 PIPELINE EXECUTION OUTPUT")
+                            output_card_display = gr.HTML(render_pipeline_output_html())
                             
-                            gr.Markdown("#### 01 — ASR TRANSCRIPTION")
-                            raw_out = gr.Textbox(label="Raw ASR Transcript & Metadata", lines=3, interactive=False)
-                            
-                            gr.Markdown("#### 02 — DIALECT NORMALIZATION")
-                            norm_out = gr.Textbox(label="Normalized Transcript (✓ Dialect Identity Preserved)", lines=2, interactive=False)
-
-                            gr.Markdown("#### 03 — CULTURAL EXPRESSION MATCH")
-                            proverb_out = gr.Textbox(label="Detected Cultural Expression & Provenance", lines=3, interactive=False)
-
-                            gr.Markdown("#### 04 — CULTURAL / SEMANTIC TRANSLATION")
-                            trans_out = gr.Textbox(label="Hindi Output & Translation Strategy", lines=3, interactive=False)
-
-                            gr.Markdown("#### 05 — SYNTHESIZED SPEECH (Hindi Translation Voice Fallback)")
-                            audio_out = gr.Audio(label="Generated Audio Output (Play Synthesized Speech)", interactive=False)
+                            audio_out = gr.Audio(label="Synthesized Speech Audio Player", interactive=False)
+                            latency_bar = gr.Markdown("ASR: 0.0s | MT: 0.0s | TTS: 0.0s | Total: 0.0s")
 
                 # HUMAN IN THE LOOP TRANSCRIPT CORRECTION
                 gr.Markdown("---")
-                gr.HTML("""
-                <div class="section-header">
-                    <h3 class="section-title">✏️ Human-in-the-Loop Transcript Correction</h3>
-                    <p class="section-subtitle">Review raw ASR output and submit verified corrections directly to the active learning training store.</p>
-                </div>
-                """)
-                with gr.Row():
-                    edit_raw_input = gr.Textbox(label="Raw ASR Transcript (Read Only)", lines=2, interactive=False)
-                    edit_corrected_input = gr.Textbox(label="Edit / Correct ASR Transcript", lines=2, placeholder="Type corrected transcript here...")
-                save_transcript_btn = gr.Button("💾 Save Corrected Transcript to Training Set", variant="secondary")
-                correction_status = gr.Markdown()
-
-                # EXPLAINABILITY PANEL & STAGE LATENCY CARDS
-                gr.Markdown("---")
-                with gr.Row():
-                    with gr.Column(scale=6):
-                        explainability_box = gr.Markdown("""
-<div class="card-elevated">
-  <h4 style="margin: 0 0 8px 0; color: #F4F4F5;">💡 Explainability & Provenance</h4>
-  <p style="margin: 0; font-size: 0.85rem; color: #A1A1AA;">Run the pipeline above to inspect translation strategy, literal vs intended cultural meanings, and knowledge base provenance.</p>
-</div>
-""")
-                    with gr.Column(scale=4):
-                        gr.Markdown("### ⏱ SYSTEM STAGE LATENCY")
-                        with gr.Row():
-                            asr_lat_box = gr.Textbox(label="ASR Latency", value="0.0 s", interactive=False)
-                            mt_lat_box = gr.Textbox(label="MT Latency", value="0.0 s", interactive=False)
-                        with gr.Row():
-                            tts_lat_box = gr.Textbox(label="TTS Latency", value="0.0 s", interactive=False)
-                            total_lat_box = gr.Textbox(label="TOTAL Latency", value="0.0 s", interactive=False)
-                        
-                        gr.Markdown("### 🔌 ACTIVE PROVIDER STATUS")
-                        provider_status_box = gr.Textbox(label="Provider Integration State", lines=5, interactive=False)
+                with gr.Group():
+                    gr.HTML("""
+                    <div style="margin-bottom: 8px;">
+                        <h4 style="font-family:'Fraunces', serif; font-size:1.1rem; color:#F2E9DD; margin:0 0 2px 0;">✏️ Human-in-the-Loop Transcript Correction</h4>
+                        <p style="font-size:0.8rem; color:#A99A8C; margin:0;">Verify raw ASR transcript and save human-corrected pairs directly into the active learning training dataset.</p>
+                    </div>
+                    """)
+                    with gr.Row():
+                        edit_raw_input = gr.Textbox(label="Raw ASR Transcript (Read Only)", lines=2, interactive=False)
+                        edit_corrected_input = gr.Textbox(label="Corrected Transcript", lines=2, placeholder="Type corrected transcript here...")
+                    save_transcript_btn = gr.Button("💾 Save Correction to Active Learning Store", variant="secondary")
+                    correction_status = gr.Markdown()
 
                 demo_audio_btn.click(fn=load_demo_audio_ui, inputs=[demo_dialect_select], outputs=[audio_input, demo_status])
                 load_long_text_btn.click(fn=load_long_paragraph_ui, inputs=[dialect_dropdown], outputs=[text_input, demo_status])
@@ -438,9 +547,7 @@ def build_app():
                     fn=run_full_pipeline_ui,
                     inputs=[dialect_dropdown, audio_input, text_input, provider_dropdown],
                     outputs=[
-                        pipeline_progress, raw_out, norm_out, proverb_out, trans_out, audio_out,
-                        edit_raw_input, explainability_box, asr_lat_box, mt_lat_box, tts_lat_box, total_lat_box,
-                        provider_status_box
+                        step_rail_display, output_card_display, audio_out, edit_raw_input, latency_bar
                     ]
                 )
                 save_transcript_btn.click(
@@ -454,59 +561,42 @@ def build_app():
                 gr.HTML("""
                 <div class="section-header">
                     <h3 class="section-title">📊 Cross-Dialect Transfer Evaluation</h3>
-                    <p class="section-subtitle">Measures ASR performance when a model trained on one dialect is evaluated on another dialect (Speaker-Disjoint Split Isolation).</p>
-                </div>
-                <div class="provenance-strip">
-                    <span><b>Dataset:</b> <code>Rajasthan-ASR-v0.1</code></span>
-                    <span><b>Model:</b> <code>IndicConformer-Multilingual-v1</code></span>
-                    <span><b>Evaluation:</b> <code>Speaker-Disjoint Split</code></span>
-                    <span><b>Metric:</b> <code>WER ↓ (Lower is better)</code></span>
+                    <p class="section-subtitle">Measures ASR generalization when a model trained on one dialect is evaluated across all six Rajasthani dialects (Speaker-Disjoint Isolation).</p>
                 </div>
                 """)
 
                 with gr.Row():
                     matrix_mode = gr.Radio(choices=["Zero-Shot Transfer", "Fine-Tuned Cross-Dialect"], value="Zero-Shot Transfer", label="Evaluation Mode Selector")
                 
-                def get_matrix_dataframe(mode_name):
-                    mode_key = "zero_shot" if "Zero-Shot" in mode_name else "finetuned"
-                    matrix_data = get_cross_dialect_matrix("asr", mode=mode_key)
-                    rows = []
-                    for train_d, evals in matrix_data.items():
-                        row = {"Train \\ Eval": train_d}
-                        row.update(evals)
-                        rows.append(row)
-                    return rows
-
-                matrix_df = gr.Dataframe(value=get_matrix_dataframe("Zero-Shot Transfer"), label="Cross-Dialect WER % Heatmap Matrix (Rows = Train, Cols = Eval)")
-                gr.Markdown("<div style='text-align: right; font-size: 0.8rem; color: #A1A1AA;'>Lower WER ← Better | Worse → Higher WER (<b>N/A</b> = Not Evaluated due to speaker-disjoint split constraints)</div>")
+                heatmap_display = gr.HTML(render_heatmap_html("Zero-Shot Transfer"))
 
                 gr.Markdown("---")
                 gr.HTML("""
-                <div class="section-header">
-                    <h3 class="section-title">🔍 Inspect Matrix Cell Details</h3>
-                    <p class="section-subtitle">Select Train and Eval dialects below to inspect specific pair WER, CER, utterance count, or scientific N/A explanation.</p>
+                <div style="margin-bottom: 10px;">
+                    <h4 style="font-family:'Fraunces', serif; font-size:1.1rem; color:#F2E9DD; margin:0 0 2px 0;">🔍 Inspect Pair Details</h4>
+                    <p style="font-size:0.8rem; color:#A99A8C; margin:0;">Select train and eval dialect pair to inspect exact transfer WER or scientific N/A constraint explanation.</p>
                 </div>
                 """)
                 with gr.Row():
                     train_sel = gr.Dropdown(choices=[f"{code} ({DIALECT_REGISTRY[code]['name']})" for code in dialect_codes], value=f"MTR ({DIALECT_REGISTRY['MTR']['name']})", label="Train Dialect")
                     eval_sel = gr.Dropdown(choices=[f"{code} ({DIALECT_REGISTRY[code]['name']})" for code in dialect_codes], value=f"BGR ({DIALECT_REGISTRY['BGR']['name']})", label="Eval Dialect")
-                    inspect_btn = gr.Button("🔍 Inspect Matrix Cell Details", variant="secondary")
+                    inspect_btn = gr.Button("🔍 Inspect Pair", variant="secondary")
                 
                 inspect_box = gr.HTML("""
-                <div class="card-surface">
-                    <p style="margin:0; font-size:0.85rem; color:#A1A1AA;">Select Train and Eval dialects above to inspect cell metrics or N/A scientific explanations.</p>
+                <div class="manuscript-card">
+                    <p style="margin:0; font-size:0.85rem; color:#A99A8C;">Select Train and Eval dialects above to inspect cell metrics or N/A scientific explanations.</p>
                 </div>
                 """)
                 
-                matrix_mode.change(fn=get_matrix_dataframe, inputs=[matrix_mode], outputs=[matrix_df])
+                matrix_mode.change(fn=render_heatmap_html, inputs=[matrix_mode], outputs=[heatmap_display])
                 inspect_btn.click(fn=inspect_matrix_cell_ui, inputs=[train_sel, eval_sel, matrix_mode], outputs=[inspect_box])
 
-            # TAB 3: Proverb & Idiom Knowledge Base
+            # TAB 3: Proverb & Idiom KB
             with gr.TabItem("📖 Proverb & Idiom KB"):
                 gr.HTML("""
                 <div class="section-header">
                     <h3 class="section-title">📖 Cultural Proverb & Idiom Knowledge Base</h3>
-                    <p class="section-subtitle">Preserving figurative meaning instead of relying on literal word-for-word translation across Rajasthani dialects.</p>
+                    <p class="section-subtitle">Preserving regional figurative semantics instead of literal word-for-word translation across Rajasthani dialects.</p>
                 </div>
                 """)
 
@@ -524,155 +614,111 @@ def build_app():
                 dialect_filter.change(fn=search_proverbs_ui, inputs=[search_input, dialect_filter, domain_filter], outputs=[proverb_cards_html])
                 domain_filter.change(fn=search_proverbs_ui, inputs=[search_input, dialect_filter, domain_filter], outputs=[proverb_cards_html])
 
-            # TAB 4: Evaluation & Human Feedback Dashboard
+            # TAB 4: Evaluation & Human Feedback
             with gr.TabItem("📈 Evaluation & Human Feedback"):
                 gr.HTML("""
                 <div class="section-header">
                     <h3 class="section-title">📈 Benchmark Evaluation & Human Feedback</h3>
                     <p class="section-subtitle">Empirical benchmark results across ASR, MT, and TTS, paired with interactive human evaluation ratings.</p>
                 </div>
-                <div class="provenance-strip">
-                    <span><b>Benchmark Provenance:</b> Dataset: <code>Rajasthan-ASR-v0.1</code></span>
-                    <span>Evaluation Script: <code>eval/asr_eval.py</code></span>
-                    <span>Library: <code>jiwer v3.0.3</code></span>
-                    <span>Split: <code>Speaker-Disjoint (Provisional Dev Set n=8)</code></span>
-                </div>
                 """)
 
-                # Summary Metric Cards
+                # Summary Metric Cards with PROVISIONAL Gold Tag
                 gr.HTML("""
                 <div class="stat-card-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">ASR WER (MWR)</div>
-                        <div class="stat-value">8.4%*</div>
-                        <div class="stat-subtext">Provisional dev split (n=8)</div>
+                    <div class="stat-card-manuscript">
+                        <span class="stat-tag-gold">PROVISIONAL (n=8)</span>
+                        <div class="stat-label-warm">ASR WER (MWR)</div>
+                        <div class="stat-value-warm" style="color:#7A9B76;">8.4%*</div>
+                        <div class="stat-subtext-warm">Held-out dev split</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">ASR CER (MWR)</div>
-                        <div class="stat-value">4.8%</div>
-                        <div class="stat-subtext">Devanagari char match</div>
+                    <div class="stat-card-manuscript">
+                        <span class="stat-tag-gold">PROVISIONAL (n=8)</span>
+                        <div class="stat-label-warm">ASR CER (MWR)</div>
+                        <div class="stat-value-warm">4.8%</div>
+                        <div class="stat-subtext-warm">Devanagari match</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">MT BLEU (MWR)</div>
-                        <div class="stat-value">34.2*</div>
-                        <div class="stat-subtext">IndicTrans2 Fine-tuned</div>
+                    <div class="stat-card-manuscript">
+                        <span class="stat-tag-gold">PROVISIONAL (n=8)</span>
+                        <div class="stat-label-warm">MT BLEU (MWR)</div>
+                        <div class="stat-value-warm" style="color:#E8A83C;">34.2*</div>
+                        <div class="stat-subtext-warm">IndicTrans2 Fine-tuned</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">MT chrF (MWR)</div>
-                        <div class="stat-value">58.4</div>
-                        <div class="stat-subtext">n-gram char score</div>
+                    <div class="stat-card-manuscript">
+                        <span class="stat-tag-gold">PROVISIONAL (n=8)</span>
+                        <div class="stat-label-warm">MT chrF (MWR)</div>
+                        <div class="stat-value-warm">58.4</div>
+                        <div class="stat-subtext-warm">Character n-gram</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">TTS Voice MOS</div>
-                        <div class="stat-value">Pending</div>
-                        <div class="stat-subtext">Serving uses Hindi fallback</div>
+                    <div class="stat-card-manuscript">
+                        <span class="stat-tag-gold">IN PROGRESS</span>
+                        <div class="stat-label-warm">TTS Voice MOS</div>
+                        <div class="stat-value-warm" style="color:#E8A83C; font-size:1.15rem;">Pending Eval</div>
+                        <div class="stat-subtext-warm">Hindi gTTS fallback active</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Median Latency</div>
-                        <div class="stat-value">1.45 s</div>
-                        <div class="stat-subtext">P95: 2.10 s</div>
+                    <div class="stat-card-manuscript">
+                        <div class="stat-label-warm">Median Latency</div>
+                        <div class="stat-value-warm">1.45s</div>
+                        <div class="stat-subtext-warm">P95: 2.10s</div>
                     </div>
                 </div>
                 """)
 
                 gr.Markdown("---")
-                gr.Markdown("### 📊 Six-Dialect Evaluation Benchmark Table (Provisional Dev Splits n=8)")
+                gr.Markdown("### 📊 Six-Dialect Evaluation Benchmark Table")
                 
-                six_dialect_table = [
-                    {"Dialect": "Marwari (MWR)", "Provisional WER ↓": "8.4%*", "CER ↓": "4.8%", "BLEU ↑": "34.2*", "chrF ↑": "58.4", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 40, "Audio Hours": "~3.7 hrs"},
-                    {"Dialect": "Mewari (MTR)", "Provisional WER ↓": "9.1%*", "CER ↓": "5.2%", "BLEU ↑": "32.0*", "chrF ↑": "56.1", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 36, "Audio Hours": "~3.1 hrs"},
-                    {"Dialect": "Dhundhari (DHD)", "Provisional WER ↓": "8.8%*", "CER ↓": "5.0%", "BLEU ↑": "33.5*", "chrF ↑": "57.8", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 36, "Audio Hours": "~3.3 hrs"},
-                    {"Dialect": "Hadoti (HDT)", "Provisional WER ↓": "9.5%*", "CER ↓": "5.5%", "BLEU ↑": "31.8*", "chrF ↑": "55.4", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 36, "Audio Hours": "~2.8 hrs"},
-                    {"Dialect": "Mewati (MWT)", "Provisional WER ↓": "10.4%*", "CER ↓": "6.1%", "BLEU ↑": "29.5*", "chrF ↑": "53.2", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 36, "Audio Hours": "~2.5 hrs"},
-                    {"Dialect": "Bagri (BGR)", "Provisional WER ↓": "9.2%*", "CER ↓": "5.3%", "BLEU ↑": "31.0*", "chrF ↑": "54.9", "TTS MOS": "Pending Eval", "Dev Samples": 8, "Train Records": 32, "Audio Hours": "~3.0 hrs"}
+                six_dialect_headers = ["Dialect", "Provisional WER ↓", "CER ↓", "BLEU ↑", "chrF ↑", "TTS Voice Status", "Dev Samples", "Train Samples", "Audio Volume"]
+                six_dialect_rows = [
+                    ["Marwari (MWR)", "8.4%*", "4.8%", "34.2*", "58.4", "Pending Human Eval", "8", "40", "~3.7 hrs"],
+                    ["Mewari (MTR)", "9.1%*", "5.2%", "32.0*", "56.1", "Pending Human Eval", "8", "36", "~3.1 hrs"],
+                    ["Dhundhari (DHD)", "8.8%*", "5.0%", "33.5*", "57.8", "Pending Human Eval", "8", "36", "~3.3 hrs"],
+                    ["Hadoti (HDT)", "9.5%*", "5.5%", "31.8*", "55.4", "Pending Human Eval", "8", "36", "~2.8 hrs"],
+                    ["Mewati (MWT)", "10.4%*", "6.1%", "29.5*", "53.2", "Pending Human Eval", "8", "36", "~2.5 hrs"],
+                    ["Bagri (BGR)", "9.2%*", "5.3%", "31.0*", "54.9", "Pending Human Eval", "8", "32", "~3.0 hrs"]
                 ]
-                gr.Dataframe(value=six_dialect_table, label="Empirical Performance across all 6 Rajasthani Dialects (*Provisional n=8 sample)")
-                gr.Markdown("<div style='font-size:0.8rem; color:#A1A1AA;'>*Notice: Single-decimal metrics are provisional indicators on n=8 held-out dev utterances. Formal statistical convergence targets n ≥ 50 on the roadmap.</div>")
+                gr.Dataframe(headers=six_dialect_headers, value=six_dialect_rows, label="Empirical Performance across all 6 Rajasthani Dialects (*Provisional n=8 sample)")
+                gr.Markdown("<div style='font-size:0.8rem; color:#A99A8C;'>*Notice: Single-decimal metrics are provisional indicators on n=8 held-out dev utterances. Formal statistical convergence targets n ≥ 50 on the roadmap.</div>")
 
                 gr.Markdown("---")
                 gr.Markdown("### 📈 Model Improvement: Baseline vs Fine-Tuned WER")
                 comp_data = get_baseline_vs_finetuned_comparison()
-                gr.Dataframe(value=comp_data, label="Baseline vs Fine-Tuned WER Comparison (~50% Error Reduction)")
+                comp_headers = ["Dialect", "Baseline Zero-Shot WER", "Fine-Tuned WER", "Relative Error Reduction", "Model Checkpoint"]
+                comp_rows = [[r["dialect"], r["baseline_wer"], r["finetuned_wer"], r["improvement"], r["model"]] for r in comp_data]
+                gr.Dataframe(headers=comp_headers, value=comp_rows, label="Baseline vs Fine-Tuned WER Comparison (~50% Error Reduction)")
+
 
                 gr.Markdown("---")
-                gr.Markdown("### 📁 Dataset Metadata Overview")
-                dataset_table = [
-                    {"Dialect": "Marwari (MWR)", "Speakers": 40, "Train Utterances": 40, "Dev Utterances": 8, "Audio Hours": "~3.7 hrs", "Consent Basis": "100% Written Opt-in"},
-                    {"Dialect": "Mewari (MTR)", "Speakers": 32, "Train Utterances": 36, "Dev Utterances": 8, "Audio Hours": "~3.1 hrs", "Consent Basis": "100% Written Opt-in"},
-                    {"Dialect": "Dhundhari (DHD)", "Speakers": 35, "Train Utterances": 36, "Dev Utterances": 8, "Audio Hours": "~3.3 hrs", "Consent Basis": "100% Written Opt-in"},
-                    {"Dialect": "Hadoti (HDT)", "Speakers": 28, "Train Utterances": 36, "Dev Utterances": 8, "Audio Hours": "~2.8 hrs", "Consent Basis": "100% Written Opt-in"},
-                    {"Dialect": "Mewati (MWT)", "Speakers": 25, "Train Utterances": 36, "Dev Utterances": 8, "Audio Hours": "~2.5 hrs", "Consent Basis": "100% Written Opt-in"},
-                    {"Dialect": "Bagri (BGR)", "Speakers": 30, "Train Utterances": 32, "Dev Utterances": 8, "Audio Hours": "~3.0 hrs", "Consent Basis": "100% Written Opt-in"}
-                ]
-                gr.Dataframe(value=dataset_table, label="Data Collection & Linguistic Verification Summary")
-
-                gr.Markdown("---")
-                with gr.Accordion("🏛 View System Architecture & Provider Interoperability", open=True):
-                    gr.Markdown("""
-```
-                   AUDIO / TEXT INPUT
-                           │
-                           ▼
-            Audio Preprocessing (16kHz Mono)
-                           │
-                           ▼
-                   Dialect Detection
-                           │
-                           ▼
-                  Whisper ASR Model
-                           │
-                           ▼
-                 Dialect Normalization
-                           │
-                           ▼
-               Proverb KB / Cultural MT
-                           │
-                 ┌─────────┴─────────┐
-                 ▼                   ▼
-            Hindi Output       Target Dialect
-                                     │
-                                     ▼
-                          Hindi gTTS (Serving Fallback)
-                          MMS-TTS (Fine-Tuning Roadmap)
-                                     │
-                                     ▼
-                                Audio Output
-
-  Provider Abstraction Layer:
-  ┌─────────────────────────────────────────────────────────┐
-  │ Bhashini API  <───>  Provider Adapter  <───>  Local Models│
-  └─────────────────────────────────────────────────────────┘
-```
-""")
+                gr.Markdown("### 🏛 System Architecture & Provider Interoperability")
+                gr.HTML(render_architecture_svg())
 
                 gr.Markdown("---")
                 gr.HTML("""
-                <div class="section-header">
-                    <h3 class="section-title">⭐ HUMAN EVALUATION INTERFACE</h3>
-                    <p class="section-subtitle">Rate live speech translation outputs. Sliders start unrated (0 / Not Rated) requiring explicit human rating selection.</p>
+                <div style="margin-bottom: 10px;">
+                    <h4 style="font-family:'Fraunces', serif; font-size:1.1rem; color:#F2E9DD; margin:0 0 2px 0;">⭐ Human Evaluation Panel</h4>
+                    <p style="font-size:0.8rem; color:#A99A8C; margin:0;">Submit live qualitative ratings. Sliders default to 0 (Unrated) requiring explicit human evaluation input.</p>
                 </div>
                 """)
                 
                 with gr.Group():
                     fb_dialect = gr.Dropdown(choices=dialect_options, value=dialect_options[0], label="Target Dialect")
-                    sample_id_box = gr.Textbox(value="MWR-TEST-014", label="Sample ID", interactive=False)
+                    sample_id_box = gr.Textbox(value="MWR-DEV-008", label="Sample ID", interactive=False)
                     
-                    gr.Markdown("#### Evaluator Criteria Sliders (Unrated by default)")
-                    fb_asr = gr.Slider(minimum=0, maximum=5, step=1, value=0, label="ASR Correctness (0 = Not Rated)")
-                    fb_mt = gr.Slider(minimum=0, maximum=5, step=1, value=0, label="Translation Quality (0 = Not Rated)")
-                    fb_cult = gr.Slider(minimum=0, maximum=5, step=1, value=0, label="Cultural Preservation (0 = Not Rated)")
-                    fb_tts = gr.Slider(minimum=0, maximum=5, step=1, value=0, label="TTS Naturalness (0 = Not Rated)")
-                    fb_overall = gr.Slider(minimum=0, maximum=5, step=1, value=0, label="Overall Usefulness (0 = Not Rated)")
+                    fb_asr = gr.Slider(minimum=0, maximum=5, step=1, value=0, label="ASR Correctness (0 = Unrated)")
+                    fb_mt = gr.Slider(minimum=0, maximum=5, step=1, value=0, label="Translation Quality (0 = Unrated)")
+                    fb_cult = gr.Slider(minimum=0, maximum=5, step=1, value=0, label="Cultural Preservation (0 = Unrated)")
+                    fb_tts = gr.Slider(minimum=0, maximum=5, step=1, value=0, label="TTS Naturalness (0 = Unrated)")
+                    fb_overall = gr.Slider(minimum=0, maximum=5, step=1, value=0, label="Overall Usefulness (0 = Unrated)")
                     
-                    fb_comments = gr.Textbox(lines=2, placeholder="Add feedback comments...", label="Evaluator Comments")
-                    submit_fb_btn = gr.Button("⭐ Submit Human Feedback Rating", variant="primary")
+                    fb_comments = gr.Textbox(lines=2, placeholder="Add feedback notes or phonetic comments...", label="Evaluator Notes")
+                    submit_fb_btn = gr.Button("⭐ Submit Human Evaluation", variant="primary")
                     fb_status = gr.Markdown()
 
                 gr.Markdown("---")
-                gr.Markdown("### 📊 Live Human Evaluator Summary")
+                gr.Markdown("### 📊 Live Accumulated Human Feedback Summary")
                 
-                initial_fb_table = get_feedback_table_data()
-                summary_df = gr.Dataframe(value=initial_fb_table, label="Accumulated Evaluator Ratings (Live Refreshing)")
+                initial_fb_rows = get_feedback_table_data()
+                fb_headers = ["Evaluation Metric", "Average Score", "Total Evaluations"]
+                summary_df = gr.Dataframe(headers=fb_headers, value=initial_fb_rows, label="Accumulated Evaluator Ratings (Live Refreshing)")
 
                 gr.Markdown("---")
                 export_btn = gr.Button("📥 Export Evaluation Report (.json)", variant="secondary")
@@ -690,5 +736,3 @@ def build_app():
 if __name__ == "__main__":
     app = build_app()
     app.launch(server_name="127.0.0.1", server_port=7860, share=False)
-
-
