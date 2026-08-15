@@ -14,7 +14,7 @@ Only list something here if you can run the exact command shown and get the exac
 
 Evaluated across the complete held-out test suite (200 utterances: 34 MWR, 33 MTR, 33 DHD, 33 HDT, 33 MWT, 34 BGR) with non-parametric bootstrap 95% confidence intervals (B=2000 resamples) and certified bilingual human evaluators against frozen checkpoints (`v1.0.0-frozen`).
 
-| Dialect | Test Count (N) | Baseline WER | Fine-Tuned WER | 95% Bootstrap CI | ASR CER | MT BLEU (95% CI) | MT chrF++ (95% CI) | TTS MOS (95% CI) | Target Status (WER ≤ 10%) | Reliability Status |
+| Dialect | Test Count (N) | Baseline WER | Fine-Tuned WER | 95% Bootstrap CI | ASR CER | MT BLEU (NLLB Zero-Shot) | MT chrF++ (NLLB Zero-Shot) | TTS MOS (95% CI) | Target Status (WER ≤ 10%) | Reliability Status |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Marwari (MWR)** | 34 | 15.09% | **7.14%** | [4.54% – 9.92%] | 4.74% | **38.6** [30.8 – 43.0] | **58.8** [51.3 – 63.7] | **4.36 / 5.0** [4.09 – 4.64] | ✅ PASS | Provisional (N=34 < 50) |
 | **Mewari (MTR)** | 33 | 12.24% | **5.02%** | [3.03% – 7.38%] | 4.05% | **40.1** [31.2 – 49.1] | **68.5** [64.1 – 75.6] | **4.27 / 5.0** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
@@ -24,7 +24,20 @@ Evaluated across the complete held-out test suite (200 utterances: 34 MWR, 33 MT
 | **Bagri (BGR)** | 34 | 14.85% | **7.28%** | [4.80% – 9.67%] | 4.51% | **63.9** [53.9 – 73.1] | **79.5** [74.2 – 85.3] | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=34 < 50) |
 | **Pooled Macro Avg** | **200** | **12.69%** | **5.33%** | **[4.38% – 6.35%]** | **3.46%** | **45.7** [40.2 – 47.1] | **69.2** [66.2 – 70.9] | **4.24 / 5.0** | **✅ ALL PASS** | **Complete Suite (N=200)** |
 
-\* *Machine Translation Note:* Evaluated via zero-shot neural forward inference using open-access Meta NLLB-200 (`facebook/nllb-200-distilled-600M` $\to$ `hin_Deva`) evaluated completely blind against held-out test references (`data/realworld_test_200.jsonl`). Substituted as open-access neural baseline because `ai4bharat/indictrans2` requires gated Hugging Face token authentication unavailable in this execution environment.
+### Machine Translation Baseline Comparison: Source-Copy vs. NLLB-200 Zero-Shot
+To establish empirical linguistic distance without model bias, the table below compares the **Source-Copy Baseline** (raw untranslated dialect scored directly against gold Hindi reference) against **NLLB-200 Zero-Shot**:
+
+| Dialect | Source-Copy BLEU | NLLB-200 Zero-Shot BLEU | BLEU Δ | Source-Copy chrF++ | NLLB-200 Zero-Shot chrF++ | chrF++ Δ |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Marwari (MWR)** | 32.26 | **38.60** | +6.34 | 55.13 | **58.77** | +3.64 |
+| **Mewari (MTR)** | **49.40** | 40.05 | -9.35 | **71.08** | 68.47 | -2.61 |
+| **Dhundhari (DHD)** | 26.93 | **41.08** | +14.15 | 64.11 | **66.74** | +2.63 |
+| **Hadoti (HDT)** | **51.56** | 39.41 | -12.15 | **77.27** | 68.12 | -9.15 |
+| **Mewati (MWT)** | 40.86 | **47.88** | +7.02 | 71.52 | **72.56** | +1.04 |
+| **Bagri (BGR)** | 47.49 | **63.94** | +16.45 | 76.21 | **79.54** | +3.33 |
+| **Pooled Macro Avg** | 41.69 | **45.67** | **+3.98** | 69.18 | **69.19** | **+0.01** |
+
+\* *Machine Translation Note:* Evaluated via zero-shot neural forward inference using open-access Meta NLLB-200 (`facebook/nllb-200-distilled-600M` $\to$ `hin_Deva`) where no test-set inspection occurred before the evaluation code was written. Substituted as open-access neural baseline because `ai4bharat/indictrans2` requires gated Hugging Face token authentication unavailable in this execution environment.
 
 > **Audit & Rigor Guarantees (`VERIFY_BENCHMARK.md` Passed):**
 > 1. **Zero MT/ASR Dataset Leakage**: Exact string/ID audit (`eval/verify_leakage.py`) verified 0 test-set overlap across all 5 training-side pools:
