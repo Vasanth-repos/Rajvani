@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-15T16:26:36Z",
+  "timestamp": "2026-08-15T17:29:40Z",
   "mode": "baseline",
   "test_dataset": "realworld_test_200.jsonl",
   "total_test_samples": 200,
@@ -46,7 +46,8 @@
         2.45,
         3.0
       ],
-      "mos_std": 0.4,
+      "mos_sample_std": 0.5,
+      "mos_population_std": 0.48,
       "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
@@ -116,7 +117,8 @@
         2.45,
         3.0
       ],
-      "mos_std": 0.4,
+      "mos_sample_std": 0.5,
+      "mos_population_std": 0.48,
       "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
@@ -186,7 +188,8 @@
         2.45,
         3.0
       ],
-      "mos_std": 0.4,
+      "mos_sample_std": 0.5,
+      "mos_population_std": 0.48,
       "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
@@ -256,7 +259,8 @@
         2.45,
         3.0
       ],
-      "mos_std": 0.4,
+      "mos_sample_std": 0.5,
+      "mos_population_std": 0.48,
       "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
@@ -326,7 +330,8 @@
         2.45,
         3.0
       ],
-      "mos_std": 0.4,
+      "mos_sample_std": 0.5,
+      "mos_population_std": 0.48,
       "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
@@ -396,7 +401,8 @@
         2.45,
         3.0
       ],
-      "mos_std": 0.4,
+      "mos_sample_std": 0.5,
+      "mos_population_std": 0.48,
       "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",

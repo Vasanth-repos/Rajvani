@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-15T16:26:30Z",
+  "timestamp": "2026-08-15T17:29:34Z",
   "mode": "finetuned",
   "test_dataset": "realworld_test_200.jsonl",
   "total_test_samples": 200,
@@ -46,7 +46,8 @@
         4.09,
         4.64
       ],
-      "mos_std": 0.48,
+      "mos_sample_std": 0.5,
+      "mos_population_std": 0.48,
       "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (mwr)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
@@ -116,7 +117,8 @@
         4.0,
         4.55
       ],
-      "mos_std": 0.45,
+      "mos_sample_std": 0.47,
+      "mos_population_std": 0.45,
       "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (mtr)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
@@ -186,7 +188,8 @@
         4.0,
         4.45
       ],
-      "mos_std": 0.39,
+      "mos_sample_std": 0.4,
+      "mos_population_std": 0.39,
       "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (dhd)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
@@ -256,7 +259,8 @@
         4.0,
         4.45
       ],
-      "mos_std": 0.39,
+      "mos_sample_std": 0.4,
+      "mos_population_std": 0.39,
       "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (hdt)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
@@ -326,7 +330,8 @@
         4.0,
         4.55
       ],
-      "mos_std": 0.45,
+      "mos_sample_std": 0.47,
+      "mos_population_std": 0.45,
       "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (mwt)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
@@ -396,7 +401,8 @@
         4.0,
         4.45
       ],
-      "mos_std": 0.39,
+      "mos_sample_std": 0.4,
+      "mos_population_std": 0.39,
       "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (bgr)",
       "tts_rater_count": 11,
       "tts_rater_fluency": "certified_bilingual_native",
