@@ -1,5 +1,9 @@
 import json
-import pytest
+try:
+    import pytest
+except ImportError:
+    pytest = None
+
 from pathlib import Path
 import sys
 
@@ -63,16 +67,32 @@ def test_section2_all_augmentation_scripts_split_read_guard():
         (bootstrap_tts_audio, ("mwr", str(test_path))),
         (perturb_audio_records, ("mwr", str(test_path)))
     ]:
-        with pytest.raises(PermissionError):
+        caught = False
+        try:
             script_fn(*fn_args)
+        except PermissionError:
+            caught = True
+        assert caught is True
 
     for script_fn, fn_args in [
         (back_translate_batch, ("mwr", str(canary_path))),
         (bootstrap_tts_audio, ("mwr", str(canary_path))),
         (perturb_audio_records, ("mwr", str(canary_path)))
     ]:
-        with pytest.raises(PermissionError):
+        caught = False
+        try:
             script_fn(*fn_args)
+        except PermissionError:
+            caught = True
+        assert caught is True
 
 def test_section2_consent_audit():
     check_validated_consent_bases()
+
+if __name__ == "__main__":
+    test_section2_schemas()
+    test_section2_orthography_three_variant_collapse()
+    test_section2_split_assignment_idempotence_and_cap()
+    test_section2_all_augmentation_scripts_split_read_guard()
+    test_section2_consent_audit()
+    print("test_section2: PASS")

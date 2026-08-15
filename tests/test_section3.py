@@ -1,4 +1,8 @@
-import pytest
+try:
+    import pytest
+except ImportError:
+    pytest = None
+
 from pathlib import Path
 import sys
 
@@ -28,3 +32,7 @@ def test_section3_active_learning_scoring():
     var_rec = [{"id": "p3", "text_dialect_raw": "महारो नाम राम है।"}]
     scored_var = score_unlabeled_pool("mwr", var_rec, val_recs, checkpoint="checkpoints/asr/mwr/prod")
     assert scored_var[0]["novelty_score"] < 0.2
+
+if __name__ == "__main__":
+    test_section3_active_learning_scoring()
+    print("test_section3: PASS")

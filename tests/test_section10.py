@@ -1,4 +1,8 @@
-import pytest
+try:
+    import pytest
+except ImportError:
+    pytest = None
+
 from pathlib import Path
 import sys
 
@@ -11,3 +15,7 @@ def test_section10_ivr_telephony_channel():
     # IVR disabled by default
     resp_disabled = handle_incoming_call("+919829000000", "sample.wav")
     assert resp_disabled["status"] == "disabled"
+
+if __name__ == "__main__":
+    test_section10_ivr_telephony_channel()
+    print("test_section10: PASS")

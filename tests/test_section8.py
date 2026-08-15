@@ -1,4 +1,8 @@
-import pytest
+try:
+    import pytest
+except ImportError:
+    pytest = None
+
 from pathlib import Path
 import sys
 from fastapi.testclient import TestClient
@@ -47,3 +51,9 @@ def test_section8_content_filter_on_tts():
     resp_tts = client.post("/api/tts", json={"text": unsafe_text, "dialect": "MWR"}, headers={"X-API-Key": "test_key"})
     assert resp_tts.status_code == 200
     assert resp_tts.json().get("content_blocked") is True
+
+if __name__ == "__main__":
+    test_section8_api_key_auth_and_health()
+    test_section8_provider_status_and_dialects()
+    test_section8_content_filter_on_tts()
+    print("test_section8: PASS")

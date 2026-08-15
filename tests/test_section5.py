@@ -1,4 +1,8 @@
-import pytest
+try:
+    import pytest
+except ImportError:
+    pytest = None
+
 from pathlib import Path
 import sys
 
@@ -40,3 +44,8 @@ def test_section5_idiom_bank_intake_and_eval():
     eval_stats = evaluate_idiom_mt("mwr")
     assert eval_stats["total"] >= 100
     assert eval_stats["accuracy_pct"] > 50.0
+
+if __name__ == "__main__":
+    test_section5_dialect_id_and_codeswitching()
+    test_section5_idiom_bank_intake_and_eval()
+    print("test_section5: PASS")

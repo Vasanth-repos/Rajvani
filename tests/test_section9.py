@@ -1,5 +1,9 @@
 import subprocess
-import pytest
+try:
+    import pytest
+except ImportError:
+    pytest = None
+
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).parent.parent
@@ -22,3 +26,7 @@ def test_section9_backup_script_dry_run():
 
     assert res.returncode == 0
     assert "[DRY-RUN PASS]" in res.stdout
+
+if __name__ == "__main__":
+    test_section9_backup_script_dry_run()
+    print("test_section9: PASS")

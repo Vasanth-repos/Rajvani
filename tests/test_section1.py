@@ -1,4 +1,8 @@
-import pytest
+try:
+    import pytest
+except ImportError:
+    pytest = None
+
 from pathlib import Path
 import sys
 
@@ -64,3 +68,13 @@ def test_proverb_database_and_featured_cards():
     match = detect_cultural_proverb("अेक साधे सब सधै", "MWR")
     assert match is not None
     assert match["id"] == "mwr_prv_001"
+
+if __name__ == "__main__":
+    test_centralized_dialect_registry()
+    test_demo_audio_samples()
+    test_human_transcript_correction()
+    test_baseline_vs_finetuned_comparison()
+    test_transfer_matrix_modes_and_na_explanation()
+    test_provider_fallback_architecture()
+    test_proverb_database_and_featured_cards()
+    print("test_section1: PASS")

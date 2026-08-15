@@ -1,4 +1,8 @@
-import pytest
+try:
+    import pytest
+except ImportError:
+    pytest = None
+
 from pathlib import Path
 import sys
 
@@ -14,3 +18,7 @@ def test_section8_5_benchmark_publish_filter_and_k_anonymity():
     for r in records:
         assert not r.get("speaker_id", "").startswith("raw_spk_")
         assert r.get("region") == "MWR"
+
+if __name__ == "__main__":
+    test_section8_5_benchmark_publish_filter_and_k_anonymity()
+    print("test_section8_5: PASS")
