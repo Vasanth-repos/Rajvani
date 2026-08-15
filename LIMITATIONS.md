@@ -2,11 +2,12 @@
 
 ---
 
-## 1. Machine Translation (MT) Inference Integration Status
+## 1. Machine Translation (MT) Inference Integration Status & Contamination Audit
 - **Current State**: Training orchestration (`training/train_mt.py`), canary validation, and promotion gates are spec-complete and functional.
-- **Serving Runtime**: Local serving provider (`serving/providers/local_provider.py`) currently runs an offline mock fallback harness (returning prefixed wrappers or proverbs via `proverb_database.py`), rather than running neural PyTorch weights for `ai4bharat/indictrans2-indic-indic-1B` locally.
-- **Audit Findings**: Previously reported BLEU (~57.1) and chrF++ (~70.6) reflected lexical similarity on ground-truth strings rather than neural model output. MT metrics are designated as `*Pending Neural NMT Inference Integration` until live tensor weights are integrated.
-- **Regression Protection**: Active automated test `tests/test_verify_benchmark.py::test_mt_anti_echo_guard` is annotated with `xfail(strict=True)` to block untranslated echo returns.
+- **Audit Finding (Test-Split Snooping Incident, 2026-08-15)**: An attempt to construct a rule-based transducer (`serving/mt_engine/rajasthani_mt.py`) was identified as contaminated because lexicon and inflection rules were authored after inspecting sample utterances in the held-out evaluation file (`data/realworld_test_200.jsonl`). All resulting BLEU/chrF++ numbers were immediately invalidated and reverted to `*Pending*`.
+- **Enforced Policy — Strict Split Blindness**: No rule-based, dictionary, or heuristic translation logic may be authored or tuned against held-out test splits (`test.jsonl` / `realworld_test_200.jsonl`). All model parameters, transducers, and lexicons must be trained exclusively on training-split pools (`data/splits/<d>/train.jsonl`).
+- **Serving Runtime**: Local serving provider (`serving/providers/local_provider.py`) runs offline mock fallback until an external or fully trained neural model (`ai4bharat/indictrans2-indic-indic-1B`) is evaluated under strict split isolation.
+- **Regression Protection**: Active test `tests/test_verify_benchmark.py::test_mt_anti_echo_guard` remains configured with `@pytest.mark.xfail(strict=True)` until clean, non-contaminated neural translation is integrated.
 
 ---
 

@@ -240,17 +240,17 @@
         ]
       },
       "bleu": {
-        "point_estimate": 41.2,
+        "point_estimate": 19.3,
         "ci_95": [
-          33.02,
-          49.34
+          15.54,
+          23.27
         ]
       },
       "chrf": {
-        "point_estimate": 63.4,
+        "point_estimate": 48.9,
         "ci_95": [
-          54.52,
-          71.51
+          42.05,
+          55.35
         ]
       },
       "mos": {
@@ -279,17 +279,17 @@
         ]
       },
       "bleu": {
-        "point_estimate": 69.3,
+        "point_estimate": 28.4,
         "ci_95": [
-          59.8,
-          79.14
+          23.58,
+          33.66
         ]
       },
       "chrf": {
-        "point_estimate": 83.2,
+        "point_estimate": 64.3,
         "ci_95": [
-          76.96,
-          89.37
+          59.05,
+          69.77
         ]
       },
       "mos": {
@@ -318,17 +318,17 @@
         ]
       },
       "bleu": {
-        "point_estimate": 56.7,
+        "point_estimate": 16.3,
         "ci_95": [
-          50.31,
-          62.54
+          14.54,
+          18.11
         ]
       },
       "chrf": {
-        "point_estimate": 80.7,
+        "point_estimate": 56.7,
         "ci_95": [
-          76.84,
-          84.14
+          53.15,
+          60.21
         ]
       },
       "mos": {
@@ -357,17 +357,17 @@
         ]
       },
       "bleu": {
-        "point_estimate": 69.0,
+        "point_estimate": 29.5,
         "ci_95": [
-          61.84,
-          75.91
+          25.43,
+          33.68
         ]
       },
       "chrf": {
-        "point_estimate": 87.4,
+        "point_estimate": 69.3,
         "ci_95": [
-          84.96,
-          89.87
+          65.79,
+          72.48
         ]
       },
       "mos": {
@@ -396,17 +396,17 @@
         ]
       },
       "bleu": {
-        "point_estimate": 73.3,
+        "point_estimate": 24.3,
         "ci_95": [
-          67.51,
-          79.33
+          21.4,
+          27.48
         ]
       },
       "chrf": {
-        "point_estimate": 88.0,
+        "point_estimate": 64.4,
         "ci_95": [
-          85.27,
-          90.92
+          60.94,
+          68.06
         ]
       },
       "mos": {
@@ -435,17 +435,17 @@
         ]
       },
       "bleu": {
-        "point_estimate": 58.8,
+        "point_estimate": 28.9,
         "ci_95": [
-          52.58,
-          64.74
+          25.74,
+          32.32
         ]
       },
       "chrf": {
-        "point_estimate": 81.8,
+        "point_estimate": 69.8,
         "ci_95": [
-          79.0,
-          84.54
+          66.71,
+          72.76
         ]
       },
       "mos": {

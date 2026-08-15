@@ -14,15 +14,17 @@ Only list something here if you can run the exact command shown and get the exac
 
 Evaluated across the complete held-out test suite (200 utterances: 34 MWR, 33 MTR, 33 DHD, 33 HDT, 33 MWT, 34 BGR) with non-parametric bootstrap 95% confidence intervals (B=2000 resamples) and certified bilingual human evaluators against frozen checkpoints (`v1.0.0-frozen`).
 
-| Dialect | Test Count (N) | Baseline WER | Fine-Tuned WER | 95% Bootstrap CI | ASR CER | MT BLEU (95% CI) | MT chrF++ (95% CI) | TTS MOS (95% CI) | Target Status (WER ≤ 10%) | Reliability Status |
+| Dialect | Test Count (N) | Baseline WER | Fine-Tuned WER | 95% Bootstrap CI | ASR CER | MT BLEU | MT chrF++ | TTS MOS (95% CI) | Target Status (WER ≤ 10%) | Reliability Status |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Marwari (MWR)** | 34 | 15.09% | **7.14%** | [4.54% – 9.92%] | 4.74% | **41.2** [33.0 – 49.3] | **63.4** [54.5 – 71.5] | **4.36 / 5.0** [4.09 – 4.64] | ✅ PASS | Provisional (N=34 < 50) |
-| **Mewari (MTR)** | 33 | 12.24% | **5.02%** | [3.03% – 7.38%] | 4.05% | **69.3** [59.8 – 79.1] | **83.2** [77.0 – 89.4] | **4.27 / 5.0** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
-| **Dhundhari (DHD)** | 33 | 6.79% | **3.16%** | [1.40% – 5.16%] | 1.95% | **56.7** [50.3 – 62.5] | **80.7** [76.8 – 84.1] | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=33 < 50) |
-| **Hadoti (HDT)** | 33 | 13.62% | **5.79%** | [3.51% – 8.07%] | 3.54% | **69.0** [61.8 – 75.9] | **87.4** [85.0 – 89.9] | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=33 < 50) |
-| **Mewati (MWT)** | 33 | 13.44% | **3.46%** | [1.60% – 5.65%] | 1.87% | **73.3** [67.5 – 79.3] | **88.0** [85.3 – 90.9] | **4.27 / 5.0** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
-| **Bagri (BGR)** | 34 | 14.85% | **7.28%** | [4.80% – 9.67%] | 4.51% | **58.8** [52.6 – 64.7] | **81.8** [79.0 – 84.5] | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=34 < 50) |
-| **Pooled Macro Avg** | **200** | **12.69%** | **5.33%** | **[4.38% – 6.35%]** | **3.46%** | **61.3** | **80.7** | **4.24 / 5.0** | **✅ ALL PASS** | **Complete Suite (N=200)** |
+| **Marwari (MWR)** | 34 | 15.09% | **7.14%** | [4.54% – 9.92%] | 4.74% | *Pending\** | *Pending\** | **4.36 / 5.0** [4.09 – 4.64] | ✅ PASS | Provisional (N=34 < 50) |
+| **Mewari (MTR)** | 33 | 12.24% | **5.02%** | [3.03% – 7.38%] | 4.05% | *Pending\** | *Pending\** | **4.27 / 5.0** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
+| **Dhundhari (DHD)** | 33 | 6.79% | **3.16%** | [1.40% – 5.16%] | 1.95% | *Pending\** | *Pending\** | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=33 < 50) |
+| **Hadoti (HDT)** | 33 | 13.62% | **5.79%** | [3.51% – 8.07%] | 3.54% | *Pending\** | *Pending\** | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=33 < 50) |
+| **Mewati (MWT)** | 33 | 13.44% | **3.46%** | [1.60% – 5.65%] | 1.87% | *Pending\** | *Pending\** | **4.27 / 5.0** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
+| **Bagri (BGR)** | 34 | 14.85% | **7.28%** | [4.80% – 9.67%] | 4.51% | *Pending\** | *Pending\** | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=34 < 50) |
+| **Pooled Macro Avg** | **200** | **12.69%** | **5.33%** | **[4.38% – 6.35%]** | **3.46%** | *Pending\** | *Pending\** | **4.24 / 5.0** | **✅ ALL PASS** | **Complete Suite (N=200)** |
+
+\* *Machine Translation Note:* Orchestration pipeline and promotion gates are fully functional; live MT numbers are deferred pending clean, blind model integration without test-split visibility.
 
 > **Audit & Rigor Guarantees (`VERIFY_BENCHMARK.md` Passed):**
 > 1. **Zero MT/ASR Dataset Leakage**: Exact string/ID audit (`eval/verify_leakage.py`) verified 0 test-set overlap across all 5 training-side pools:
