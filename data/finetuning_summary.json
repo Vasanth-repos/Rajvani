@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-15T07:14:13Z",
+  "timestamp": "2026-08-15T07:23:34Z",
   "dialects": [
     "MWR",
     "MTR",
@@ -8,33 +8,40 @@
     "MWT",
     "BGR"
   ],
-  "mt_runs": {
-    "MWR": "mt_mwr_hin_e71684",
-    "MTR": "mt_mtr_hin_5ea089",
-    "DHD": "mt_dhd_hin_f8fa34",
-    "HDT": "mt_hdt_hin_7df7de",
-    "MWT": "mt_mwt_hin_8ad381",
-    "BGR": "mt_bgr_hin_40777d"
-  },
-  "asr_runs": {
-    "MWR": "asr_mwr_afe6b8",
-    "MTR": "asr_mtr_68d32c",
-    "DHD": "asr_dhd_b0a35e",
-    "HDT": "asr_hdt_ae8f7b",
-    "MWT": "asr_mwt_b6989c",
-    "BGR": "asr_bgr_368916"
-  },
-  "tts_runs": {
-    "MWR": "tts_mwr_mms_31f182",
-    "MTR": "tts_mtr_mms_1af51d",
-    "DHD": "tts_dhd_mms_529bfd",
-    "HDT": "tts_hdt_mms_24cd38",
-    "MWT": "tts_mwt_mms_d64db6",
-    "BGR": "tts_bgr_mms_f9d458"
+  "hyperparameters": {
+    "epochs": 5,
+    "lora_rank": 16,
+    "lora_alpha": 32,
+    "target_lang": "hin",
+    "tts_backend": "mms"
   },
   "dialect_id": "checkpoints\\dialect_id",
+  "mt_runs": {
+    "MWR": "mt_mwr_hin_b15098",
+    "MTR": "mt_mtr_hin_06cf64",
+    "DHD": "mt_dhd_hin_6642a5",
+    "HDT": "mt_hdt_hin_072618",
+    "MWT": "mt_mwt_hin_ac6602",
+    "BGR": "mt_bgr_hin_dc4deb"
+  },
+  "asr_runs": {
+    "MWR": "asr_mwr_9b4fa6",
+    "MTR": "asr_mtr_aa9d4e",
+    "DHD": "asr_dhd_c411bf",
+    "HDT": "asr_hdt_09bfda",
+    "MWT": "asr_mwt_8deb97",
+    "BGR": "asr_bgr_7f01df"
+  },
+  "tts_runs": {
+    "MWR": "tts_mwr_mms_8aca63",
+    "MTR": "tts_mtr_mms_340476",
+    "DHD": "tts_dhd_mms_ee81c9",
+    "HDT": "tts_hdt_mms_e11a4e",
+    "MWT": "tts_mwt_mms_9c1a56",
+    "BGR": "tts_bgr_mms_99019e"
+  },
   "eval_benchmark": {
-    "timestamp": "2026-08-15T07:14:16Z",
+    "timestamp": "2026-08-15T07:23:35Z",
     "mode": "finetuned",
     "test_dataset": "realworld_test_200.jsonl",
     "total_test_samples": 200,
