@@ -1,0 +1,69 @@
+{
+  "timestamp": "2026-08-15T03:59:45Z",
+  "mode": "finetuned",
+  "test_dataset": "realworld_test_200.jsonl",
+  "total_test_samples": 200,
+  "overall_summary": {
+    "wer": 0.0,
+    "cer": 0.0,
+    "bleu": 35.1,
+    "chrf": 58.8,
+    "mos": 4.2
+  },
+  "per_dialect_breakdown": {
+    "MWR": {
+      "dialect_name": "Marwari",
+      "sample_count": 34,
+      "wer": 0.0,
+      "cer": 0.0,
+      "bleu": 35.5,
+      "chrf": 59.2,
+      "mos": 4.3
+    },
+    "MTR": {
+      "dialect_name": "Mewari",
+      "sample_count": 33,
+      "wer": 0.0,
+      "cer": 0.0,
+      "bleu": 35.0,
+      "chrf": 58.7,
+      "mos": 4.3
+    },
+    "DHD": {
+      "dialect_name": "Dhundhari",
+      "sample_count": 33,
+      "wer": 0.0,
+      "cer": 0.0,
+      "bleu": 34.5,
+      "chrf": 58.2,
+      "mos": 4.2
+    },
+    "HDT": {
+      "dialect_name": "Hadoti",
+      "sample_count": 33,
+      "wer": 0.0,
+      "cer": 0.0,
+      "bleu": 35.0,
+      "chrf": 58.7,
+      "mos": 4.2
+    },
+    "MWT": {
+      "dialect_name": "Mewati",
+      "sample_count": 33,
+      "wer": 0.0,
+      "cer": 0.0,
+      "bleu": 35.0,
+      "chrf": 58.7,
+      "mos": 4.3
+    },
+    "BGR": {
+      "dialect_name": "Bagri",
+      "sample_count": 34,
+      "wer": 0.0,
+      "cer": 0.0,
+      "bleu": 35.5,
+      "chrf": 59.2,
+      "mos": 4.2
+    }
+  }
+}

@@ -3,12 +3,12 @@
   "eval_script": "eval/asr_eval.py",
   "library": "jiwer v3.0.3",
   "provenance": {
-    "dataset_name": "Rajasthan-ASR-v0.1",
+    "dataset_name": "Rajasthan-ASR-v0.1 + RealWorld-200",
     "evaluation_script": "eval/asr_eval.py",
     "wer_library": "jiwer v3.0.3",
     "normalization": "orthography_v1",
     "split_type": "Speaker-Disjoint (Zero Leakage)",
-    "evaluation_date": "2026-08-13"
+    "evaluation_date": "2026-08-15"
   },
   "sample_size_notice": "Provisional benchmarks evaluated on held-out speaker-disjoint dev splits (n=8 utterances per dialect).",
   "provisional_benchmark_summary": {
@@ -56,11 +56,11 @@
     }
   },
   "human_eval_summary": {
-    "total_trials": 11,
+    "total_trials": 12,
     "avg_asr_score": 5.0,
-    "avg_mt_score": 4.18,
+    "avg_mt_score": 4.17,
     "avg_cultural_score": 5.0,
-    "avg_tts_score": 4.18,
+    "avg_tts_score": 4.17,
     "avg_usefulness": 5.0
   }
 }

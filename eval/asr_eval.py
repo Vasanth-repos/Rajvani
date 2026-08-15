@@ -1,15 +1,18 @@
 import math
+import json
+from pathlib import Path
 from typing import Dict, Any, List
-from configs.dialects import DIALECT_REGISTRY
+
+ROOT_DIR = Path(__file__).parent.parent
 
 # Dataset Provenance Header Metadata
 ASR_PROVENANCE_METADATA = {
-    "dataset_name": "Rajasthan-ASR-v0.1",
+    "dataset_name": "Rajasthan-ASR-v0.1 + RealWorld-200",
     "evaluation_script": "eval/asr_eval.py",
     "wer_library": "jiwer v3.0.3",
     "normalization": "orthography_v1",
     "split_type": "Speaker-Disjoint (Zero Leakage)",
-    "evaluation_date": "2026-08-13"
+    "evaluation_date": "2026-08-15"
 }
 
 def calculate_levenshtein_distance(ref: List[str], hyp: List[str]) -> int:
@@ -70,6 +73,14 @@ def get_baseline_vs_finetuned_comparison() -> List[Dict[str, Any]]:
         {"dialect": "MWT (Mewati)", "baseline_wer": "22.4%", "finetuned_wer": "10.4%", "improvement": "53.5% WER Reduction", "model": "Whisper-Large-v3-LoRA-MWT"},
         {"dialect": "BGR (Bagri)", "baseline_wer": "19.8%", "finetuned_wer": "9.2%", "improvement": "53.5% WER Reduction", "model": "Whisper-Large-v3-LoRA-BGR"}
     ]
+
+def get_realworld_200_benchmark() -> Dict[str, Any]:
+    """Loads 200 real-world benchmark metrics report if available."""
+    report_file = ROOT_DIR / "data" / "realworld_finetuned_eval.json"
+    if report_file.exists():
+        with open(report_file, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
 
 def get_dialect_asr_metrics() -> Dict[str, Dict[str, Any]]:
     """Returns actual calculated ASR evaluation summary per dialect."""
