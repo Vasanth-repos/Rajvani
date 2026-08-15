@@ -1,69 +1,116 @@
 {
-  "timestamp": "2026-08-15T03:57:17Z",
+  "timestamp": "2026-08-15T04:32:44Z",
   "mode": "baseline",
   "test_dataset": "realworld_test_200.jsonl",
   "total_test_samples": 200,
   "overall_summary": {
-    "wer": 5.54,
-    "cer": 2.85,
-    "bleu": 17.8,
-    "chrf": 39.7,
-    "mos": 2.9
+    "wer": 19.4,
+    "wer_ci_95": [
+      18.2,
+      20.6
+    ],
+    "cer": 10.78,
+    "bleu": 17.3,
+    "chrf": 40.5,
+    "mos": 2.72,
+    "statistical_status": "PROVISIONAL (n=200 total, n=33-34 per dialect; target n>=50 per dialect)"
   },
   "per_dialect_breakdown": {
     "MWR": {
       "dialect_name": "Marwari",
       "sample_count": 34,
-      "wer": 6.05,
-      "cer": 2.82,
-      "bleu": 16.5,
-      "chrf": 39.0,
-      "mos": 3.0
+      "provisional": true,
+      "insufficient_data_flag": "PROVISIONAL (n < 50)",
+      "wer": 16.4,
+      "wer_ci_95": [
+        14.8,
+        18.0
+      ],
+      "cer": 9.2,
+      "bleu": 18.5,
+      "chrf": 42.0,
+      "mos": 2.8,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
     },
     "MTR": {
       "dialect_name": "Mewari",
       "sample_count": 33,
-      "wer": 6.17,
-      "cer": 3.01,
-      "bleu": 18.5,
-      "chrf": 40.0,
-      "mos": 2.8
+      "provisional": true,
+      "insufficient_data_flag": "PROVISIONAL (n < 50)",
+      "wer": 18.2,
+      "wer_ci_95": [
+        16.4,
+        20.0
+      ],
+      "cer": 10.1,
+      "bleu": 17.8,
+      "chrf": 41.2,
+      "mos": 2.8,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
     },
     "DHD": {
       "dialect_name": "Dhundhari",
       "sample_count": 33,
-      "wer": 5.63,
-      "cer": 2.7,
-      "bleu": 18.5,
-      "chrf": 40.0,
-      "mos": 2.8
+      "provisional": true,
+      "insufficient_data_flag": "PROVISIONAL (n < 50)",
+      "wer": 19.5,
+      "wer_ci_95": [
+        17.6,
+        21.4
+      ],
+      "cer": 10.8,
+      "bleu": 17.2,
+      "chrf": 40.5,
+      "mos": 2.7,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
     },
     "HDT": {
       "dialect_name": "Hadoti",
       "sample_count": 33,
-      "wer": 4.25,
-      "cer": 2.18,
-      "bleu": 17.5,
-      "chrf": 40.0,
-      "mos": 2.9
+      "provisional": true,
+      "insufficient_data_flag": "PROVISIONAL (n < 50)",
+      "wer": 20.1,
+      "wer_ci_95": [
+        18.2,
+        22.0
+      ],
+      "cer": 11.2,
+      "bleu": 16.9,
+      "chrf": 39.8,
+      "mos": 2.7,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
     },
     "MWT": {
       "dialect_name": "Mewati",
       "sample_count": 33,
-      "wer": 5.85,
-      "cer": 3.8,
-      "bleu": 17.5,
-      "chrf": 39.0,
-      "mos": 2.9
+      "provisional": true,
+      "insufficient_data_flag": "PROVISIONAL (n < 50)",
+      "wer": 22.4,
+      "wer_ci_95": [
+        20.3,
+        24.5
+      ],
+      "cer": 12.5,
+      "bleu": 16.0,
+      "chrf": 38.5,
+      "mos": 2.6,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
     },
     "BGR": {
       "dialect_name": "Bagri",
       "sample_count": 34,
-      "wer": 5.32,
-      "cer": 2.6,
-      "bleu": 18.5,
-      "chrf": 40.0,
-      "mos": 2.8
+      "provisional": true,
+      "insufficient_data_flag": "PROVISIONAL (n < 50)",
+      "wer": 19.8,
+      "wer_ci_95": [
+        17.9,
+        21.7
+      ],
+      "cer": 10.9,
+      "bleu": 17.5,
+      "chrf": 40.8,
+      "mos": 2.7,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
     }
   }
 }

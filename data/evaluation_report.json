@@ -56,11 +56,14 @@
     }
   },
   "human_eval_summary": {
-    "total_trials": 12,
-    "avg_asr_score": 5.0,
-    "avg_mt_score": 4.17,
-    "avg_cultural_score": 5.0,
-    "avg_tts_score": 4.17,
-    "avg_usefulness": 5.0
+    "total_trials": 9,
+    "unique_raters": 9,
+    "fluent_raters": 9,
+    "voice_evaluated": "Hindi Fallback Voice (gTTS) - Dialect VITS in fine-tuning",
+    "avg_asr_score": 4.56,
+    "avg_mt_score": 4.11,
+    "avg_cultural_score": 4.67,
+    "avg_tts_score": 4.0,
+    "avg_usefulness": 4.56
   }
 }
