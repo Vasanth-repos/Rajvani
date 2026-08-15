@@ -24,7 +24,7 @@ Evaluated across the complete held-out test suite (200 utterances: 34 MWR, 33 MT
 | **Bagri (BGR)** | 34 | 14.85% | **7.28%** | [4.80% – 9.67%] | 4.51% | **63.9** [53.9 – 73.1] | **79.5** [74.2 – 85.3] | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=34 < 50) |
 | **Pooled Macro Avg** | **200** | **12.69%** | **5.33%** | **[4.38% – 6.35%]** | **3.46%** | **45.7** [40.2 – 47.1] | **69.2** [66.2 – 70.9] | **4.24 / 5.0** | **✅ ALL PASS** | **Complete Suite (N=200)** |
 
-\* *Machine Translation Note:* MT baseline evaluated via zero-shot forward inference using open-access Meta NLLB-200 (`facebook/nllb-200-distilled-600M` $\to$ `hin_Deva`) evaluated completely blind against held-out test references (`data/realworld_test_200.jsonl`).
+\* *Machine Translation Note:* Evaluated via zero-shot neural forward inference using open-access Meta NLLB-200 (`facebook/nllb-200-distilled-600M` $\to$ `hin_Deva`) evaluated completely blind against held-out test references (`data/realworld_test_200.jsonl`). Substituted as open-access neural baseline because `ai4bharat/indictrans2` requires gated Hugging Face token authentication unavailable in this execution environment.
 
 > **Audit & Rigor Guarantees (`VERIFY_BENCHMARK.md` Passed):**
 > 1. **Zero MT/ASR Dataset Leakage**: Exact string/ID audit (`eval/verify_leakage.py`) verified 0 test-set overlap across all 5 training-side pools:
