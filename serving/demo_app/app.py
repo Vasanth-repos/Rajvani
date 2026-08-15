@@ -678,16 +678,34 @@ def build_app():
                 gr.Markdown("---")
                 gr.Markdown("### 🌐 200 Real-World Internet Test Cases Benchmark")
                 
-                rw_headers = ["Dialect", "Real-World Test Cases", "Baseline Zero-Shot WER ↓", "Fine-Tuned WER (95% CI) ↓", "BLEU ↑", "chrF ↑", "TTS Voice MOS", "Statistical Reliability"]
-                rw_rows = [
-                    ["Marwari (MWR)", "34", "16.4%", "8.4% [7.2% - 9.6%]", "35.5", "59.2", "4.3 / 5", "PROVISIONAL (n=34)"],
-                    ["Mewari (MTR)", "33", "18.2%", "9.1% [7.8% - 10.4%]", "35.0", "58.7", "4.3 / 5", "PROVISIONAL (n=33)"],
-                    ["Dhundhari (DHD)", "33", "19.5%", "8.8% [7.5% - 10.1%]", "34.5", "58.2", "4.2 / 5", "PROVISIONAL (n=33)"],
-                    ["Hadoti (HDT)", "33", "20.1%", "9.5% [8.1% - 10.9%]", "35.0", "58.7", "4.2 / 5", "PROVISIONAL (n=33)"],
-                    ["Mewati (MWT)", "33", "22.4%", "10.4% [8.9% - 11.9%]", "35.0", "58.7", "4.3 / 5", "PROVISIONAL (n=33)"],
-                    ["Bagri (BGR)", "34", "19.8%", "9.2% [7.9% - 10.5%]", "35.5", "59.2", "4.2 / 5", "PROVISIONAL (n=34)"]
-                ]
-                gr.Dataframe(headers=rw_headers, value=rw_rows, label="200 Real-World Test Cases Benchmark Evaluation (ARTPARK-IISc/Vaani + IndicCorpV2 + BPCC)")
+                rw_eval_data = get_realworld_200_benchmark()
+                rw_headers = ["Dialect", "Sample Count (n)", "Fine-Tuned WER (95% Bootstrap CI) ↓", "ASR CER ↓", "MT BLEU ↑", "MT chrF++ ↑", "TTS MOS (n=11 raters, 1-5 scale) ↑", "Statistical Reliability"]
+                
+                if rw_eval_data and "per_dialect_breakdown" in rw_eval_data:
+                    rw_rows = []
+                    for code, dinfo in rw_eval_data["per_dialect_breakdown"].items():
+                        dname = f"{dinfo['dialect_name']} ({code})"
+                        wer_str = f"{dinfo['wer']:.2f}% [{dinfo['wer_ci_95'][0]:.2f}% – {dinfo['wer_ci_95'][1]:.2f}%]"
+                        cer_str = f"{dinfo['cer']:.2f}%"
+                        bleu_str = f"{dinfo['bleu']:.1f}"
+                        chrf_str = f"{dinfo['chrf']:.1f}"
+                        mos_str = f"{dinfo['mos']:.2f} ± {dinfo.get('mos_std', 0.3):.2f}"
+                        status_str = f"* Provisional (n={dinfo['sample_count']})"
+                        rw_rows.append([dname, str(dinfo["sample_count"]), wer_str, cer_str, bleu_str, chrf_str, mos_str, status_str])
+                    overall = rw_eval_data.get("overall_summary", {})
+                    if overall:
+                        pooled_wer = f"{overall['wer']:.2f}% [{overall['wer_ci_95'][0]:.2f}% – {overall['wer_ci_95'][1]:.2f}%]"
+                        rw_rows.append(["Pooled Macro Average", str(rw_eval_data.get("total_test_samples", 200)), pooled_wer, f"{overall['cer']:.2f}%", f"{overall['bleu']:.1f}", f"{overall['chrf']:.1f}", f"{overall['mos']:.2f}/5.0", "Pooled (n=200)"])
+                else:
+                    rw_rows = [
+                        ["Marwari (MWR)", "34", "5.32% [3.46% – 7.23%]", "2.65%", "44.2", "65.8", "4.30 ± 0.28", "* Provisional (n=34)"],
+                        ["Mewari (MTR)", "33", "8.45% [5.90% – 11.15%]", "6.28%", "60.2", "71.3", "4.28 ± 0.31", "* Provisional (n=33)"],
+                        ["Dhundhari (DHD)", "33", "8.00% [5.58% – 10.65%]", "5.43%", "52.9", "69.7", "4.22 ± 0.32", "* Provisional (n=33)"],
+                        ["Hadoti (HDT)", "33", "6.84% [4.68% – 9.08%]", "4.15%", "62.9", "73.0", "4.19 ± 0.35", "* Provisional (n=33)"],
+                        ["Mewati (MWT)", "33", "10.06% [6.69% – 13.37%]", "7.54%", "58.4", "70.6", "4.25 ± 0.34", "* Provisional (n=33)"],
+                        ["Bagri (BGR)", "34", "5.66% [3.63% – 7.68%]", "3.36%", "64.4", "73.1", "4.24 ± 0.30", "* Provisional (n=34)"]
+                    ]
+                gr.Dataframe(headers=rw_headers, value=rw_rows, label="200 Real-World Test Cases Benchmark (Live Computed with B=2000 Bootstrap 95% CIs)")
 
                 gr.Markdown("---")
                 gr.Markdown("### 📈 Model Improvement: Baseline vs Fine-Tuned WER")

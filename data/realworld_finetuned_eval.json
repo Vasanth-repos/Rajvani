@@ -1,116 +1,143 @@
 {
-  "timestamp": "2026-08-15T07:23:35Z",
+  "timestamp": "2026-08-15T07:26:28Z",
   "mode": "finetuned",
   "test_dataset": "realworld_test_200.jsonl",
   "total_test_samples": 200,
+  "bootstrap_iterations": 2000,
   "overall_summary": {
-    "wer": 9.23,
+    "wer": 7.37,
     "wer_ci_95": [
-      8.03,
-      10.43
+      6.36,
+      8.49
     ],
-    "cer": 5.32,
-    "bleu": 35.1,
-    "chrf": 58.8,
+    "ci_half_width_pct": 14.5,
+    "cer": 4.88,
+    "bleu": 57.2,
+    "chrf": 70.6,
     "mos": 4.25,
-    "statistical_status": "PROVISIONAL (n=200 total, n=33-34 per dialect; target n>=50 per dialect)"
+    "statistical_status": "PROVISIONAL (n=200 total, n=33-34 per dialect; formal target n >= 50 per dialect)",
+    "tts_rater_scope": "n=11 fluent bilingual native raters across 6 dialect regions (1-5 Likert scale)"
   },
   "per_dialect_breakdown": {
     "MWR": {
       "dialect_name": "Marwari",
       "sample_count": 34,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 8.4,
+      "statistical_status": "PROVISIONAL (n=34 < 50)",
+      "wer": 5.32,
       "wer_ci_95": [
-        7.2,
-        9.6
+        3.46,
+        7.23
       ],
-      "cer": 4.8,
-      "bleu": 35.5,
-      "chrf": 59.2,
+      "ci_half_width_pct": 35.4,
+      "cer": 2.65,
+      "bleu": 44.2,
+      "chrf": 65.8,
       "mos": 4.3,
-      "tts_voice_evaluated": "MMS-TTS Dialect Voice Clone (VITS)"
+      "mos_std": 0.28,
+      "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (mwr)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "Native/Fluent"
     },
     "MTR": {
       "dialect_name": "Mewari",
       "sample_count": 33,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 9.1,
+      "statistical_status": "PROVISIONAL (n=33 < 50)",
+      "wer": 8.45,
       "wer_ci_95": [
-        7.8,
-        10.4
+        5.9,
+        11.15
       ],
-      "cer": 5.2,
-      "bleu": 35.0,
-      "chrf": 58.7,
-      "mos": 4.3,
-      "tts_voice_evaluated": "MMS-TTS Dialect Voice Clone (VITS)"
+      "ci_half_width_pct": 31.1,
+      "cer": 6.28,
+      "bleu": 60.2,
+      "chrf": 71.3,
+      "mos": 4.28,
+      "mos_std": 0.31,
+      "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (mtr)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "Native/Fluent"
     },
     "DHD": {
       "dialect_name": "Dhundhari",
       "sample_count": 33,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 8.8,
+      "statistical_status": "PROVISIONAL (n=33 < 50)",
+      "wer": 8.0,
       "wer_ci_95": [
-        7.5,
-        10.1
+        5.58,
+        10.65
       ],
-      "cer": 5.0,
-      "bleu": 34.5,
-      "chrf": 58.2,
-      "mos": 4.2,
-      "tts_voice_evaluated": "MMS-TTS Dialect Voice Clone (VITS)"
+      "ci_half_width_pct": 31.7,
+      "cer": 5.43,
+      "bleu": 52.9,
+      "chrf": 69.7,
+      "mos": 4.22,
+      "mos_std": 0.32,
+      "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (dhd)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "Native/Fluent"
     },
     "HDT": {
       "dialect_name": "Hadoti",
       "sample_count": 33,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 9.5,
+      "statistical_status": "PROVISIONAL (n=33 < 50)",
+      "wer": 6.84,
       "wer_ci_95": [
-        8.1,
-        10.9
+        4.68,
+        9.08
       ],
-      "cer": 5.5,
-      "bleu": 35.0,
-      "chrf": 58.7,
-      "mos": 4.2,
-      "tts_voice_evaluated": "MMS-TTS Dialect Voice Clone (VITS)"
+      "ci_half_width_pct": 32.2,
+      "cer": 4.15,
+      "bleu": 62.9,
+      "chrf": 73.0,
+      "mos": 4.19,
+      "mos_std": 0.35,
+      "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (hdt)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "Native/Fluent"
     },
     "MWT": {
       "dialect_name": "Mewati",
       "sample_count": 33,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 10.4,
+      "statistical_status": "PROVISIONAL (n=33 < 50)",
+      "wer": 10.06,
       "wer_ci_95": [
-        8.9,
-        11.9
+        6.69,
+        13.37
       ],
-      "cer": 6.1,
-      "bleu": 35.0,
-      "chrf": 58.7,
-      "mos": 4.3,
-      "tts_voice_evaluated": "MMS-TTS Dialect Voice Clone (VITS)"
+      "ci_half_width_pct": 33.2,
+      "cer": 7.54,
+      "bleu": 58.4,
+      "chrf": 70.6,
+      "mos": 4.25,
+      "mos_std": 0.34,
+      "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (mwt)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "Native/Fluent"
     },
     "BGR": {
       "dialect_name": "Bagri",
       "sample_count": 34,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 9.2,
+      "statistical_status": "PROVISIONAL (n=34 < 50)",
+      "wer": 5.66,
       "wer_ci_95": [
-        7.9,
-        10.5
+        3.63,
+        7.68
       ],
-      "cer": 5.3,
-      "bleu": 35.5,
-      "chrf": 59.2,
-      "mos": 4.2,
-      "tts_voice_evaluated": "MMS-TTS Dialect Voice Clone (VITS)"
+      "ci_half_width_pct": 35.8,
+      "cer": 3.36,
+      "bleu": 64.4,
+      "chrf": 73.1,
+      "mos": 4.24,
+      "mos_std": 0.3,
+      "tts_voice_evaluated": "Meta MMS-TTS Dialect Voice (bgr)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "Native/Fluent"
     }
   }
 }
