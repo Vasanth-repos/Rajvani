@@ -1,7 +1,16 @@
 from typing import Dict, Any, List
+try:
+    import sacrebleu
+except ImportError:
+    sacrebleu = None
 
 def compute_bleu_score(reference: str, hypothesis: str) -> float:
-    """Computes BLEU score based on n-gram precision."""
+    """Computes BLEU score using standard SacreBLEU tokenizer/scorer."""
+    if not reference or not hypothesis:
+        return 0.0
+    if sacrebleu:
+        return round(float(sacrebleu.sentence_bleu(hypothesis, [reference]).score), 2)
+    
     ref_tokens = reference.strip().split()
     hyp_tokens = hypothesis.strip().split()
     if not ref_tokens or not hyp_tokens:
@@ -13,7 +22,12 @@ def compute_bleu_score(reference: str, hypothesis: str) -> float:
     return round(bp * precision * 100.0, 2)
 
 def compute_chrf_score(reference: str, hypothesis: str) -> float:
-    """Computes character n-gram F-score (chrF)."""
+    """Computes character n-gram F-score (chrF++) using SacreBLEU."""
+    if not reference or not hypothesis:
+        return 0.0
+    if sacrebleu:
+        return round(float(sacrebleu.sentence_chrf(hypothesis, [reference]).score), 2)
+        
     ref_chars = set(reference.strip())
     hyp_chars = set(hypothesis.strip())
     if not ref_chars or not hyp_chars:

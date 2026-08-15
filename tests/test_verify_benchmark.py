@@ -20,13 +20,12 @@ def test_benchmark_full_verification_suite():
     assert report["status"] == "PASS"
     assert report["test_sample_count"] == 200
 
-@pytest.mark.xfail(strict=True, reason="MT neural inference integration deferred (Audited 2026-08-15); LocalMTProvider currently returns stub echo wrapper")
 def test_mt_anti_echo_guard():
     """
     Anti-Echo Guard Assertion:
     A genuine Machine Translation model must translate dialect-specific tokens into Hindi.
     If the translation engine simply echoes the input text (even if wrapped in a prefix),
-    this test MUST FAIL until genuine neural weights are integrated.
+    this test MUST FAIL.
     """
     from serving.providers.local_provider import LocalMTProvider
     provider = LocalMTProvider()

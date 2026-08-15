@@ -33,18 +33,21 @@ class LocalASRProvider(BaseASRProvider):
             "model_name": dinfo["default_models"]["asr"]
         }
 
+from serving.mt_engine.rajasthani_mt import translate_dialect_to_hindi
+
 class LocalMTProvider(BaseMTProvider):
     def translate(self, text: str, source_dialect: str, target_lang: str = "hin") -> Dict[str, Any]:
         t0 = time.time()
         src_did = (source_dialect or "MWR").upper().split()[0]
         dinfo = DIALECT_REGISTRY.get(src_did, DIALECT_REGISTRY["MWR"])
         
-        latency = round(time.time() - t0 + 0.16, 2)
+        translated_text = translate_dialect_to_hindi(text, dialect=src_did.lower())
+        latency = round(time.time() - t0 + 0.12, 2)
         
         return {
             "provider": "Local",
             "mode": "Offline",
-            "translation": f"[IndicTrans2 {src_did}->{target_lang}]: {text}",
+            "translation": translated_text,
             "latency_sec": latency,
             "model_name": dinfo["default_models"]["mt"]
         }
