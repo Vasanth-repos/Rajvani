@@ -33,7 +33,8 @@ def test_section5_idiom_bank_intake_and_eval():
         register="proverb",
         usage_context="Harvest",
         consent_basis="explicit_written",
-        public_release_ok=False
+        public_release_ok=False,
+        save_to_disk=False
     )
 
     # Parity check: idiom_dialect holds normalized form, idiom_dialect_raw holds raw form

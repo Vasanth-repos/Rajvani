@@ -40,10 +40,12 @@ run_section_check "Section 8 (Serving API, ULCA Adapter & Content Moderation)" "
 run_section_check "Section 8.5 (Public Benchmark & k-Anonymity Filter)" "tests/test_section8_5.py"
 run_section_check "Section 9 (Secondary Storage Backup Sync)" "tests/test_section9.py"
 run_section_check "Section 10 (Telephony IVR Channel)" "tests/test_section10.py"
+run_section_check "Section 11 (Evaluation Consistency Gate)" "tests/test_eval_consistency.py"
+run_section_check "Section 12 (Benchmark Leakage & Verification Gate)" "tests/test_verify_benchmark.py"
 
 echo "---------------------------------------------------------"
 if [ $FAILURES -eq 0 ]; then
-    echo "=== ALL SECTION CHECKS PASSED SUCCESSFULLY (10/10) ✅ ==="
+    echo "=== ALL SECTION CHECKS PASSED SUCCESSFULLY (12/12) ✅ ==="
     exit 0
 else
     echo "=== VERIFICATION FAILED: $FAILURES section(s) regressed! ❌ ==="

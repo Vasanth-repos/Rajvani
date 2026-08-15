@@ -1,0 +1,500 @@
+{
+  "status": "PASS",
+  "leak_audit": {
+    "status": "PASS",
+    "total_leak_count": 0,
+    "dialects": {
+      "mwr": {
+        "test_sample_count": 34,
+        "targets_checked": [
+          {
+            "target_file": "data\\splits\\mwr\\train.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\mwr\\dev.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\mwr\\dev_canary.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\mwr\\dev_promotion.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\synthetic\\mwr\\backtranslation.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          }
+        ],
+        "leak_free": true
+      },
+      "mtr": {
+        "test_sample_count": 33,
+        "targets_checked": [
+          {
+            "target_file": "data\\splits\\mtr\\train.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\mtr\\dev.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\mtr\\dev_canary.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\mtr\\dev_promotion.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\synthetic\\mtr\\backtranslation.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          }
+        ],
+        "leak_free": true
+      },
+      "dhd": {
+        "test_sample_count": 33,
+        "targets_checked": [
+          {
+            "target_file": "data\\splits\\dhd\\train.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\dhd\\dev.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\dhd\\dev_canary.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\dhd\\dev_promotion.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\synthetic\\dhd\\backtranslation.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          }
+        ],
+        "leak_free": true
+      },
+      "hdt": {
+        "test_sample_count": 33,
+        "targets_checked": [
+          {
+            "target_file": "data\\splits\\hdt\\train.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\hdt\\dev.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\hdt\\dev_canary.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\hdt\\dev_promotion.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\synthetic\\hdt\\backtranslation.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          }
+        ],
+        "leak_free": true
+      },
+      "mwt": {
+        "test_sample_count": 33,
+        "targets_checked": [
+          {
+            "target_file": "data\\splits\\mwt\\train.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\mwt\\dev.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\mwt\\dev_canary.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\mwt\\dev_promotion.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\synthetic\\mwt\\backtranslation.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          }
+        ],
+        "leak_free": true
+      },
+      "bgr": {
+        "test_sample_count": 34,
+        "targets_checked": [
+          {
+            "target_file": "data\\splits\\bgr\\train.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\bgr\\dev.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\bgr\\dev_canary.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\splits\\bgr\\dev_promotion.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          },
+          {
+            "target_file": "data\\synthetic\\bgr\\backtranslation.jsonl",
+            "id_overlap": 0,
+            "text_overlap": 0,
+            "is_clean": true
+          }
+        ],
+        "leak_free": true
+      }
+    }
+  },
+  "multi_metric_ci": {
+    "MWR": {
+      "sample_count": 34,
+      "finetuned_wer": {
+        "point_estimate": 7.14,
+        "ci_95": [
+          4.54,
+          9.92
+        ]
+      },
+      "baseline_wer": {
+        "point_estimate": 15.09,
+        "ci_95": [
+          11.6,
+          18.76
+        ]
+      },
+      "bleu": {
+        "point_estimate": 44.2,
+        "ci_95": [
+          38.47,
+          49.51
+        ]
+      },
+      "chrf": {
+        "point_estimate": 65.8,
+        "ci_95": [
+          62.21,
+          69.13
+        ]
+      },
+      "mos": {
+        "point_estimate": 4.36,
+        "ci_95": [
+          4.09,
+          4.64
+        ],
+        "raters_evaluated": 11
+      }
+    },
+    "MTR": {
+      "sample_count": 33,
+      "finetuned_wer": {
+        "point_estimate": 5.02,
+        "ci_95": [
+          3.03,
+          7.38
+        ]
+      },
+      "baseline_wer": {
+        "point_estimate": 12.24,
+        "ci_95": [
+          9.07,
+          15.56
+        ]
+      },
+      "bleu": {
+        "point_estimate": 60.2,
+        "ci_95": [
+          55.66,
+          64.92
+        ]
+      },
+      "chrf": {
+        "point_estimate": 71.3,
+        "ci_95": [
+          69.98,
+          72.69
+        ]
+      },
+      "mos": {
+        "point_estimate": 4.27,
+        "ci_95": [
+          4.0,
+          4.55
+        ],
+        "raters_evaluated": 11
+      }
+    },
+    "DHD": {
+      "sample_count": 33,
+      "finetuned_wer": {
+        "point_estimate": 3.16,
+        "ci_95": [
+          1.4,
+          5.16
+        ]
+      },
+      "baseline_wer": {
+        "point_estimate": 6.79,
+        "ci_95": [
+          4.19,
+          9.76
+        ]
+      },
+      "bleu": {
+        "point_estimate": 52.9,
+        "ci_95": [
+          50.56,
+          55.36
+        ]
+      },
+      "chrf": {
+        "point_estimate": 69.7,
+        "ci_95": [
+          68.1,
+          71.24
+        ]
+      },
+      "mos": {
+        "point_estimate": 4.18,
+        "ci_95": [
+          4.0,
+          4.45
+        ],
+        "raters_evaluated": 11
+      }
+    },
+    "HDT": {
+      "sample_count": 33,
+      "finetuned_wer": {
+        "point_estimate": 5.79,
+        "ci_95": [
+          3.51,
+          8.07
+        ]
+      },
+      "baseline_wer": {
+        "point_estimate": 13.62,
+        "ci_95": [
+          10.19,
+          16.99
+        ]
+      },
+      "bleu": {
+        "point_estimate": 62.9,
+        "ci_95": [
+          59.47,
+          66.15
+        ]
+      },
+      "chrf": {
+        "point_estimate": 73.0,
+        "ci_95": [
+          71.82,
+          74.13
+        ]
+      },
+      "mos": {
+        "point_estimate": 4.18,
+        "ci_95": [
+          4.0,
+          4.45
+        ],
+        "raters_evaluated": 11
+      }
+    },
+    "MWT": {
+      "sample_count": 33,
+      "finetuned_wer": {
+        "point_estimate": 3.46,
+        "ci_95": [
+          1.6,
+          5.65
+        ]
+      },
+      "baseline_wer": {
+        "point_estimate": 13.44,
+        "ci_95": [
+          9.95,
+          17.19
+        ]
+      },
+      "bleu": {
+        "point_estimate": 58.4,
+        "ci_95": [
+          55.6,
+          61.24
+        ]
+      },
+      "chrf": {
+        "point_estimate": 70.6,
+        "ci_95": [
+          68.91,
+          72.38
+        ]
+      },
+      "mos": {
+        "point_estimate": 4.27,
+        "ci_95": [
+          4.0,
+          4.55
+        ],
+        "raters_evaluated": 11
+      }
+    },
+    "BGR": {
+      "sample_count": 34,
+      "finetuned_wer": {
+        "point_estimate": 7.28,
+        "ci_95": [
+          4.8,
+          9.67
+        ]
+      },
+      "baseline_wer": {
+        "point_estimate": 14.85,
+        "ci_95": [
+          12.06,
+          17.85
+        ]
+      },
+      "bleu": {
+        "point_estimate": 64.4,
+        "ci_95": [
+          62.33,
+          66.51
+        ]
+      },
+      "chrf": {
+        "point_estimate": 73.1,
+        "ci_95": [
+          72.04,
+          74.26
+        ]
+      },
+      "mos": {
+        "point_estimate": 4.18,
+        "ci_95": [
+          4.0,
+          4.45
+        ],
+        "raters_evaluated": 11
+      }
+    }
+  },
+  "mos_audit": {
+    "total_ratings": 66,
+    "total_unique_raters": 66,
+    "by_dialect": {
+      "MWR": {
+        "raters": 11,
+        "ratings": 11
+      },
+      "MTR": {
+        "raters": 11,
+        "ratings": 11
+      },
+      "DHD": {
+        "raters": 11,
+        "ratings": 11
+      },
+      "HDT": {
+        "raters": 11,
+        "ratings": 11
+      },
+      "MWT": {
+        "raters": 11,
+        "ratings": 11
+      },
+      "BGR": {
+        "raters": 11,
+        "ratings": 11
+      }
+    }
+  },
+  "test_sample_count": 200,
+  "per_dialect_test_counts": {
+    "mwr": 34,
+    "mtr": 33,
+    "dhd": 33,
+    "hdt": 33,
+    "mwt": 33,
+    "bgr": 34
+  }
+}

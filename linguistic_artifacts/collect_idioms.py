@@ -12,7 +12,19 @@ from data.normalize_orthography import normalize_text
 
 BANK_DIR = ROOT_DIR / "linguistic_artifacts" / "idiom_bank"
 
-def collect_idiom_entry(dialect: str, raw_idiom: str, literal_gloss: str, intended_hindi: str, intended_english: str, register: str, usage_context: str, consent_basis: str = "public_domain", public_release_ok: bool = None, collected_from: str = "field_collector"):
+def collect_idiom_entry(
+    dialect: str,
+    raw_idiom: str,
+    literal_gloss: str,
+    intended_hindi: str,
+    intended_english: str,
+    register: str,
+    usage_context: str,
+    consent_basis: str = "public_domain",
+    public_release_ok: bool = None,
+    collected_from: str = "field_collector",
+    save_to_disk: bool = True
+):
     normalized, review_flag = normalize_text(raw_idiom, dialect)
     
     if public_release_ok is None:
@@ -37,11 +49,11 @@ def collect_idiom_entry(dialect: str, raw_idiom: str, literal_gloss: str, intend
         "public_release_ok": public_release_ok
     }
 
-    BANK_DIR.mkdir(parents=True, exist_ok=True)
-    out_file = BANK_DIR / f"{dialect}.jsonl"
-
-    with open(out_file, "a", encoding="utf-8") as f:
-        f.write(json.dumps(record, ensure_ascii=False) + "\n")
+    if save_to_disk:
+        BANK_DIR.mkdir(parents=True, exist_ok=True)
+        out_file = BANK_DIR / f"{dialect}.jsonl"
+        with open(out_file, "a", encoding="utf-8") as f:
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
     return record
 

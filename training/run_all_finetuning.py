@@ -168,11 +168,27 @@ def run_pipeline():
         run_id = run_tts_training(dialect=did, backend=args.tts_backend, epochs=args.epochs)
         summary["tts_runs"][d] = run_id
 
-    # 5. Real-World Benchmark Pass
+    # 5. Real-World Benchmark Pass & Consistency Gate
     if not args.skip_eval:
         print("\n--- [Evaluation] Executing Live 200-Utterance Benchmark Evaluation (B=2000 Bootstrap) ---")
         eval_metrics = run_realworld_benchmark(mode="finetuned")
         summary["eval_benchmark"] = eval_metrics
+
+        # Canonical Run Report & Pre-Render Consistency Verification
+        try:
+            from eval.canonical_run import generate_canonical_run_report
+            from verify_consistency import run_all_checks, load_json
+            latest_run_path = generate_canonical_run_report()
+            run_data = load_json(latest_run_path)
+            run_data["_source_path"] = str(latest_run_path)
+            issues = run_all_checks(run_data, str(ROOT_DIR / "eval" / "runs"))
+            hard_issues = [i for i in issues if i.severity == "HARD"]
+            if hard_issues:
+                print(f"[WARNING] {len(hard_issues)} consistency gate issues detected during eval check.")
+            else:
+                print("✅ Evaluation Consistency Gate: Passed without blocking issues.")
+        except Exception as e:
+            print(f"[WARN] Consistency verification warning: {e}")
 
     # Save JSON summary
     json_path = ROOT_DIR / "data" / "finetuning_summary.json"

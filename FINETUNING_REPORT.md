@@ -4,7 +4,7 @@
 - **Dialects Covered**: MWR, MTR, DHD, HDT, MWT, BGR
 - **Hyperparameters**: Epochs=5, LoRA Rank=16, LoRA Alpha=32
 - **TTS Synthesis Backend**: `MMS` (Meta MMS-TTS VITS)
-- **Statistical Rigor**: Genuine per-utterance evaluation ($N=200$) with Non-Parametric Bootstrap 95% Confidence Intervals ($B=2000$ iterations).
+- **Statistical Rigor**: Genuine per-utterance evaluation (N=200) with Non-Parametric Bootstrap 95% Confidence Intervals (B=2000 iterations).
 
 ---
 
@@ -23,20 +23,20 @@
 
 ## 2. Empirical Benchmark on 200 Held-Out Real-World Utterances
 
-| Dialect | Sample Size ($n$) | ASR WER (%) ↓ | 95% Bootstrap CI ↓ | CI Spread | ASR CER (%) ↓ | MT BLEU ↑ | MT chrF++ ↑ | TTS Naturalness MOS ↑ (n=11 raters, 1–5 scale) | Reliability Status |
+| Dialect | Sample Size (N) | Baseline WER (%) | Fine-Tuned WER (%) ↓ | 95% Bootstrap CI ↓ | ASR CER (%) ↓ | MT BLEU / chrF++ | TTS Naturalness MOS ↑ (n=11 raters, 1–5 scale) | Target Status (WER ≤ 10%) | Reliability Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`MWR`** | 34 | **5.32%** | [3.46% – 7.23%] | ±35.4% | 2.65% | **44.2** | 65.8 | **4.30 ± 0.28** | `* Provisional (n=34)` |
-| **`MTR`** | 33 | **8.45%** | [5.90% – 11.15%] | ±31.1% | 6.28% | **60.2** | 71.3 | **4.28 ± 0.31** | `* Provisional (n=33)` |
-| **`DHD`** | 33 | **8.00%** | [5.58% – 10.65%] | ±31.7% | 5.43% | **52.9** | 69.7 | **4.22 ± 0.32** | `* Provisional (n=33)` |
-| **`HDT`** | 33 | **6.84%** | [4.68% – 9.08%] | ±32.2% | 4.15% | **62.9** | 73.0 | **4.19 ± 0.35** | `* Provisional (n=33)` |
-| **`MWT`** | 33 | **10.06%** | [6.69% – 13.37%] | ±33.2% | 7.54% | **58.4** | 70.6 | **4.25 ± 0.34** | `* Provisional (n=33)` |
-| **`BGR`** | 34 | **5.66%** | [3.63% – 7.68%] | ±35.8% | 3.36% | **64.4** | 73.1 | **4.24 ± 0.30** | `* Provisional (n=34)` |
-| **Pooled Macro Avg** | **200** | **7.37%** | **[6.36% – 8.49%]** | **±14.5%** | **4.88%** | **57.2** | **70.6** | **4.25/5.0** | `Pooled (n=200)` |
+| **`MWR`** | 34 | 15.09% | **7.14%** | [4.54% – 9.92%] | 4.74% | *Pending Neural NMT* | **4.36 ± 0.48** [4.09 – 4.64] | ✅ PASS | Provisional (N=34 < 50) |
+| **`MTR`** | 33 | 12.24% | **5.02%** | [3.03% – 7.38%] | 4.05% | *Pending Neural NMT* | **4.27 ± 0.45** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
+| **`DHD`** | 33 | 6.79% | **3.16%** | [1.40% – 5.16%] | 1.95% | *Pending Neural NMT* | **4.18 ± 0.39** [4.00 – 4.45] | ✅ PASS | Provisional (N=33 < 50) |
+| **`HDT`** | 33 | 13.62% | **5.79%** | [3.51% – 8.07%] | 3.54% | *Pending Neural NMT* | **4.18 ± 0.39** [4.00 – 4.45] | ✅ PASS | Provisional (N=33 < 50) |
+| **`MWT`** | 33 | 13.44% | **3.46%** | [1.60% – 5.65%] | 1.87% | *Pending Neural NMT* | **4.27 ± 0.45** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
+| **`BGR`** | 34 | 14.85% | **7.28%** | [4.80% – 9.67%] | 4.51% | *Pending Neural NMT* | **4.18 ± 0.39** [4.00 – 4.45] | ✅ PASS | Provisional (N=34 < 50) |
+| **Pooled Macro Avg** | **200** | **12.69%** | **5.33%** | **[4.38% – 6.35%]** | **3.46%** | *Pending Neural NMT* | **4.24 / 5.0** | **✅ ALL PASS** | **Complete Suite (N=200)** |
 
 ---
 
 ### 🔬 Statistical Methodology Notes & Verification
-1. **Live Per-Utterance Computation**: Error metrics are computed per utterance via Levenshtein distance on words/characters and sacreBLEU n-gram precision across `data/realworld_test_200.jsonl`.
-2. **Non-Parametric Bootstrap Confidence Intervals**: Resampled $B=2,000$ times with replacement over empirical per-utterance distributions. Notice how pooling $n=200$ samples shrinks the relative uncertainty interval from $\approx \pm 15\%$ down to $\approx \pm 6\%$, closely following the theoretical $\sqrt{N}$ scaling factor ($\approx \sqrt{6} \approx 2.45\times$).
-3. **TTS Naturalness MOS Scope**: Evaluated on synthesized dialect speech (Meta MMS-TTS dialect checkpoints) by $n=11$ fluent bilingual native evaluators across regional dialect zones on a standardized 1–5 Likert scale.
-4. **Provisional Marker**: All individual dialect metrics ($n=33\text{--}34$) remain explicitly tagged as `* Provisional (n < 50)` adhering to the project's statistical commitment.
+1. **Live Per-Utterance ASR & TTS**: Error metrics are computed per utterance via Levenshtein edit distance on words/characters (`data/realworld_test_200.jsonl`), and TTS naturalness is evaluated across 66 independent native rater scores (`eval/mos_ratings.jsonl`).
+2. **Non-Parametric Bootstrap Confidence Intervals**: Resampled B=2,000 times with replacement over empirical distributions with fixed master seed 42.
+3. **Audit Incident Disclosure (MT Evaluation)**: Per-utterance inspection identified that `LocalMTProvider` was returning an echo wrapper around the input text (`[IndicTrans2 <src>->hin]: <text>`). Consequently, previously reported BLEU (~57.1) / chrF++ (~70.6) scores reflected dialect-to-Hindi lexical overlap on ground-truth text rather than live neural translation output. Machine Translation is designated as `Pending Neural NMT Inference` until live IndicTrans2 transformer model weights are integrated into the local serving runtime.
+4. **Provisional Marker**: All individual dialect metrics remain explicitly tagged as `Provisional (N < 50)` adhering to the project's statistical convergence commitment.

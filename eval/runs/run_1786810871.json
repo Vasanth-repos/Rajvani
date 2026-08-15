@@ -1,0 +1,287 @@
+{
+  "run_id": "2026-08-15T16:20:20Z",
+  "commit_hash": "8f77895",
+  "dialects": [
+    "MWR",
+    "MTR",
+    "DHD",
+    "HDT",
+    "MWT",
+    "BGR"
+  ],
+  "per_dialect": {
+    "MWR": {
+      "samples": 34,
+      "baseline_wer": 15.09,
+      "finetuned_wer": 7.14,
+      "wer_ci_95": [
+        4.54,
+        9.92
+      ],
+      "cer": 4.74,
+      "baseline_bleu": 24.2,
+      "finetuned_bleu": 44.2,
+      "bleu_ci_95": [
+        38.47,
+        49.51
+      ],
+      "baseline_chrf": 45.0,
+      "finetuned_chrf": 65.8,
+      "chrf_ci_95": [
+        62.21,
+        69.13
+      ],
+      "mos": {
+        "score": 4.36,
+        "mos_ci_95": [
+          4.09,
+          4.64
+        ],
+        "voice_model": "Meta MMS-TTS Dialect Voice (mwr)",
+        "n_raters": 11,
+        "baseline_score": 2.73,
+        "baseline_voice_model": "Hindi Fallback Voice (gTTS)"
+      },
+      "provisional": true
+    },
+    "MTR": {
+      "samples": 33,
+      "baseline_wer": 12.24,
+      "finetuned_wer": 5.02,
+      "wer_ci_95": [
+        3.03,
+        7.38
+      ],
+      "cer": 4.05,
+      "baseline_bleu": 24.2,
+      "finetuned_bleu": 60.2,
+      "bleu_ci_95": [
+        55.66,
+        64.92
+      ],
+      "baseline_chrf": 45.0,
+      "finetuned_chrf": 71.3,
+      "chrf_ci_95": [
+        69.98,
+        72.69
+      ],
+      "mos": {
+        "score": 4.27,
+        "mos_ci_95": [
+          4.0,
+          4.55
+        ],
+        "voice_model": "Meta MMS-TTS Dialect Voice (mtr)",
+        "n_raters": 11,
+        "baseline_score": 2.73,
+        "baseline_voice_model": "Hindi Fallback Voice (gTTS)"
+      },
+      "provisional": true
+    },
+    "DHD": {
+      "samples": 33,
+      "baseline_wer": 6.79,
+      "finetuned_wer": 3.16,
+      "wer_ci_95": [
+        1.4,
+        5.16
+      ],
+      "cer": 1.95,
+      "baseline_bleu": 24.2,
+      "finetuned_bleu": 52.9,
+      "bleu_ci_95": [
+        50.56,
+        55.36
+      ],
+      "baseline_chrf": 45.0,
+      "finetuned_chrf": 69.7,
+      "chrf_ci_95": [
+        68.1,
+        71.24
+      ],
+      "mos": {
+        "score": 4.18,
+        "mos_ci_95": [
+          4.0,
+          4.45
+        ],
+        "voice_model": "Meta MMS-TTS Dialect Voice (dhd)",
+        "n_raters": 11,
+        "baseline_score": 2.73,
+        "baseline_voice_model": "Hindi Fallback Voice (gTTS)"
+      },
+      "provisional": true
+    },
+    "HDT": {
+      "samples": 33,
+      "baseline_wer": 13.62,
+      "finetuned_wer": 5.79,
+      "wer_ci_95": [
+        3.51,
+        8.07
+      ],
+      "cer": 3.54,
+      "baseline_bleu": 24.2,
+      "finetuned_bleu": 62.9,
+      "bleu_ci_95": [
+        59.47,
+        66.15
+      ],
+      "baseline_chrf": 45.0,
+      "finetuned_chrf": 73.0,
+      "chrf_ci_95": [
+        71.82,
+        74.13
+      ],
+      "mos": {
+        "score": 4.18,
+        "mos_ci_95": [
+          4.0,
+          4.45
+        ],
+        "voice_model": "Meta MMS-TTS Dialect Voice (hdt)",
+        "n_raters": 11,
+        "baseline_score": 2.73,
+        "baseline_voice_model": "Hindi Fallback Voice (gTTS)"
+      },
+      "provisional": true
+    },
+    "MWT": {
+      "samples": 33,
+      "baseline_wer": 13.44,
+      "finetuned_wer": 3.46,
+      "wer_ci_95": [
+        1.6,
+        5.65
+      ],
+      "cer": 1.87,
+      "baseline_bleu": 24.2,
+      "finetuned_bleu": 58.4,
+      "bleu_ci_95": [
+        55.6,
+        61.24
+      ],
+      "baseline_chrf": 45.0,
+      "finetuned_chrf": 70.6,
+      "chrf_ci_95": [
+        68.91,
+        72.38
+      ],
+      "mos": {
+        "score": 4.27,
+        "mos_ci_95": [
+          4.0,
+          4.55
+        ],
+        "voice_model": "Meta MMS-TTS Dialect Voice (mwt)",
+        "n_raters": 11,
+        "baseline_score": 2.73,
+        "baseline_voice_model": "Hindi Fallback Voice (gTTS)"
+      },
+      "provisional": true
+    },
+    "BGR": {
+      "samples": 34,
+      "baseline_wer": 14.85,
+      "finetuned_wer": 7.28,
+      "wer_ci_95": [
+        4.8,
+        9.67
+      ],
+      "cer": 4.51,
+      "baseline_bleu": 24.2,
+      "finetuned_bleu": 64.4,
+      "bleu_ci_95": [
+        62.33,
+        66.51
+      ],
+      "baseline_chrf": 45.0,
+      "finetuned_chrf": 73.1,
+      "chrf_ci_95": [
+        72.04,
+        74.26
+      ],
+      "mos": {
+        "score": 4.18,
+        "mos_ci_95": [
+          4.0,
+          4.45
+        ],
+        "voice_model": "Meta MMS-TTS Dialect Voice (bgr)",
+        "n_raters": 11,
+        "baseline_score": 2.73,
+        "baseline_voice_model": "Hindi Fallback Voice (gTTS)"
+      },
+      "provisional": true
+    }
+  },
+  "pooled": {
+    "wer": 5.33,
+    "wer_ci_95": [
+      4.38,
+      6.35
+    ],
+    "cer": 3.46,
+    "bleu": 57.1,
+    "chrf": 70.6
+  },
+  "cross_dialect_transfer_matrix": {
+    "MWR": {
+      "MWR": 7.14,
+      "MTR": 11.2,
+      "DHD": 12.5,
+      "HDT": 14.1,
+      "MWT": 16.8,
+      "BGR": 18.2
+    },
+    "MTR": {
+      "MWR": 10.8,
+      "MTR": 5.02,
+      "DHD": 11.4,
+      "HDT": 13.0,
+      "MWT": 15.2,
+      "BGR": 17.0
+    },
+    "DHD": {
+      "MWR": 12.1,
+      "MTR": 11.0,
+      "DHD": 3.16,
+      "HDT": 11.8,
+      "MWT": 14.5,
+      "BGR": 16.1
+    },
+    "HDT": {
+      "MWR": 13.5,
+      "MTR": 12.4,
+      "DHD": 11.2,
+      "HDT": 5.79,
+      "MWT": 12.9,
+      "BGR": 14.8
+    },
+    "MWT": {
+      "MWR": 15.8,
+      "MTR": 14.1,
+      "DHD": 13.6,
+      "HDT": 12.2,
+      "MWT": 3.46,
+      "BGR": 13.5
+    },
+    "BGR": {
+      "MWR": 17.4,
+      "MTR": 15.8,
+      "DHD": 14.9,
+      "HDT": 13.7,
+      "MWT": 12.8,
+      "BGR": 7.28
+    }
+  },
+  "leaderboard": {
+    "mt_bleu_range_ours": [
+      44.2,
+      64.4
+    ]
+  },
+  "notes": {
+    "baseline_change_reason": null
+  }
+}

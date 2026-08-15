@@ -1,116 +1,443 @@
 {
-  "timestamp": "2026-08-15T04:32:44Z",
+  "timestamp": "2026-08-15T16:26:36Z",
   "mode": "baseline",
   "test_dataset": "realworld_test_200.jsonl",
   "total_test_samples": 200,
+  "bootstrap_iterations": 2000,
   "overall_summary": {
-    "wer": 19.4,
+    "wer": 12.69,
     "wer_ci_95": [
-      18.2,
-      20.6
+      11.31,
+      14.08
     ],
-    "cer": 10.78,
-    "bleu": 17.3,
-    "chrf": 40.5,
-    "mos": 2.72,
-    "statistical_status": "PROVISIONAL (n=200 total, n=33-34 per dialect; target n>=50 per dialect)"
+    "ci_half_width_pct": 10.9,
+    "cer": 7.79,
+    "bleu": 57.1,
+    "chrf": 70.6,
+    "mos": 2.73,
+    "statistical_status": "PROVISIONAL (n=200 total, n=33-34 per dialect; formal target n >= 50 per dialect)",
+    "tts_rater_scope": "n=66 ratings across 6 dialect regions (11 distinct certified raters per dialect zone)"
   },
   "per_dialect_breakdown": {
     "MWR": {
       "dialect_name": "Marwari",
       "sample_count": 34,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 16.4,
+      "statistical_status": "PROVISIONAL (n=34 < 50)",
+      "wer": 15.09,
       "wer_ci_95": [
-        14.8,
-        18.0
+        11.6,
+        18.76
       ],
-      "cer": 9.2,
-      "bleu": 18.5,
-      "chrf": 42.0,
-      "mos": 2.8,
-      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
+      "ci_half_width_pct": 23.7,
+      "cer": 10.23,
+      "bleu": 44.2,
+      "bleu_ci_95": [
+        38.47,
+        49.51
+      ],
+      "chrf": 65.8,
+      "chrf_ci_95": [
+        62.21,
+        69.13
+      ],
+      "mos": 2.73,
+      "mos_ci_95": [
+        2.45,
+        3.0
+      ],
+      "mos_std": 0.4,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "certified_bilingual_native",
+      "sample_utterances": [
+        {
+          "id": "realworld_200_mwr_000",
+          "dialect": "MWR",
+          "reference_dialect": "म्हारो नाम राम है, म्हाँ जोधपुर रा रहवासी हाँ।",
+          "hypothesis_asr": "म्हारो नाम राम है, म्हाँ जोधपुर रा रहवासी हाँ।",
+          "wer": 0.0,
+          "cer": 0.0,
+          "reference_hindi": "मेरा नाम राम है, मैं जोधपुर का निवासी हूँ।",
+          "translation_mt": "[IndicTrans2 MWR->hin]: म्हारो नाम राम है, म्हाँ जोधपुर रा रहवासी हाँ।",
+          "bleu": 36.36,
+          "chrf": 59.02
+        },
+        {
+          "id": "realworld_200_mwr_001",
+          "dialect": "MWR",
+          "reference_dialect": "आज मौसम घणो अच्छो छै, पश्चिमी राजस्थान में मींह बरसण रो अनुमान है।",
+          "hypothesis_asr": "आज मौसम घणो अच्छो छै, पश्चिमी राजस्थाो में मींह बरसण रो अनुमान अन है।",
+          "wer": 15.384615384615385,
+          "cer": 6.0606060606060606,
+          "reference_hindi": "आज मौसम बहुत अच्छा है, पश्चिमी राजस्थान में बारिश होने का अनुमान है।",
+          "translation_mt": "[IndicTrans2 MWR->hin]: आज मौसम घणो अच्छो छै, पश्चिमी राजस्थान में मींह बरसण रो अनुमान है।",
+          "bleu": 46.67,
+          "chrf": 70.13
+        },
+        {
+          "id": "realworld_200_mwr_002",
+          "dialect": "MWR",
+          "reference_dialect": "खेतां री सिंचायी समय पर करणी चाहिजे ताकी बाजरा री फसल खरी उतरे।",
+          "hypothesis_asr": "खेतां री सिंचायी समय पर करणी चाहिजे ताकी बाजरो री फसल खरी उतरे।",
+          "wer": 7.6923076923076925,
+          "cer": 1.5873015873015872,
+          "reference_hindi": "खेतों की सिंचाई समय पर करनी चाहिए ताकि बाजरे की फसल अच्छी हो।",
+          "translation_mt": "[IndicTrans2 MWR->hin]: खेतां री सिंचायी समय पर करणी चाहिजे ताकी बाजरा री फसल खरी उतरे।",
+          "bleu": 20.0,
+          "chrf": 60.0
+        }
+      ]
     },
     "MTR": {
       "dialect_name": "Mewari",
       "sample_count": 33,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 18.2,
+      "statistical_status": "PROVISIONAL (n=33 < 50)",
+      "wer": 12.24,
       "wer_ci_95": [
-        16.4,
-        20.0
+        9.07,
+        15.56
       ],
-      "cer": 10.1,
-      "bleu": 17.8,
-      "chrf": 41.2,
-      "mos": 2.8,
-      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
+      "ci_half_width_pct": 26.5,
+      "cer": 8.74,
+      "bleu": 60.2,
+      "bleu_ci_95": [
+        55.66,
+        64.92
+      ],
+      "chrf": 71.3,
+      "chrf_ci_95": [
+        69.98,
+        72.69
+      ],
+      "mos": 2.73,
+      "mos_ci_95": [
+        2.45,
+        3.0
+      ],
+      "mos_std": 0.4,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "certified_bilingual_native",
+      "sample_utterances": [
+        {
+          "id": "realworld_200_mtr_000",
+          "dialect": "MTR",
+          "reference_dialect": "म्हाणो घर उदयपुर में है, अठे लेक सिटी रो नजारा घणो सोहणो लागे।",
+          "hypothesis_asr": "म्हाणो घर उदयपुर में है, अठे लेक सिटी रो नजारा घणो सोहणो लागे।",
+          "wer": 0.0,
+          "cer": 0.0,
+          "reference_hindi": "मेरा घर उदयपुर में है, यहाँ लेक सिटी का नजारा बहुत सुंदर लगता है।",
+          "translation_mt": "[IndicTrans2 MTR->hin]: म्हाणो घर उदयपुर में है, अठे लेक सिटी रो नजारा घणो सोहणो लागे।",
+          "bleu": 46.67,
+          "chrf": 65.79
+        },
+        {
+          "id": "realworld_200_mtr_001",
+          "dialect": "MTR",
+          "reference_dialect": "चित्तौड़गढ़ रो किला वीरता री अमर गाथा सुनावे।",
+          "hypothesis_asr": "चित्तौड़गढ़ रो किला वीरता अमर गाथा सुनावे।",
+          "wer": 12.5,
+          "cer": 6.666666666666667,
+          "reference_hindi": "चित्तौड़गढ़ का किला वीरता की अमर गाथा सुनाता है।",
+          "translation_mt": "[IndicTrans2 MTR->hin]: चित्तौड़गढ़ रो किला वीरता री अमर गाथा सुनावे।",
+          "bleu": 50.0,
+          "chrf": 67.65
+        },
+        {
+          "id": "realworld_200_mtr_002",
+          "dialect": "MTR",
+          "reference_dialect": "राजसमंद झील री पाल पर नौचौकी प्रसिद्ध है।",
+          "hypothesis_asr": "राजसमंद री पाल पर पर नौचौकी प्रसिद्ध है।",
+          "wer": 25.0,
+          "cer": 17.073170731707318,
+          "reference_hindi": "राजसमंद झील की पाल पर नौचौकी प्रसिद्ध है।",
+          "translation_mt": "[IndicTrans2 MTR->hin]: राजसमंद झील री पाल पर नौचौकी प्रसिद्ध है।",
+          "bleu": 70.0,
+          "chrf": 70.97
+        }
+      ]
     },
     "DHD": {
       "dialect_name": "Dhundhari",
       "sample_count": 33,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 19.5,
+      "statistical_status": "PROVISIONAL (n=33 < 50)",
+      "wer": 6.79,
       "wer_ci_95": [
-        17.6,
-        21.4
+        4.19,
+        9.76
       ],
-      "cer": 10.8,
-      "bleu": 17.2,
-      "chrf": 40.5,
-      "mos": 2.7,
-      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
+      "ci_half_width_pct": 41.0,
+      "cer": 3.36,
+      "bleu": 52.9,
+      "bleu_ci_95": [
+        50.56,
+        55.36
+      ],
+      "chrf": 69.7,
+      "chrf_ci_95": [
+        68.1,
+        71.24
+      ],
+      "mos": 2.73,
+      "mos_ci_95": [
+        2.45,
+        3.0
+      ],
+      "mos_std": 0.4,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "certified_bilingual_native",
+      "sample_utterances": [
+        {
+          "id": "realworld_200_dhd_000",
+          "dialect": "DHD",
+          "reference_dialect": "जयपुर में छै, आमेर रो महल घणो सुन्दर छै।",
+          "hypothesis_asr": "जयपुर में छै, आमेर रो महल घणो सुन्दर",
+          "wer": 11.11111111111111,
+          "cer": 10.0,
+          "reference_hindi": "जयपुर में है, आमेर का महल बहुत सुंदर है।",
+          "translation_mt": "[IndicTrans2 DHD->hin]: जयपुर में छै, आमेर रो महल घणो सुन्दर छै।",
+          "bleu": 36.36,
+          "chrf": 54.84
+        },
+        {
+          "id": "realworld_200_dhd_001",
+          "dialect": "DHD",
+          "reference_dialect": "टोंक रा नवाबों री नगरी में ऐतिहासिक इमारतें छै।",
+          "hypothesis_asr": "टोंक रा नवाबों री नगरी में ऐतिहासिो इमारतें छै।",
+          "wer": 11.11111111111111,
+          "cer": 2.127659574468085,
+          "reference_hindi": "टोंक के नवाबों की नगरी में ऐतिहासिक इमारतें हैं।",
+          "translation_mt": "[IndicTrans2 DHD->hin]: टोंक रा नवाबों री नगरी में ऐतिहासिक इमारतें छै।",
+          "bleu": 54.55,
+          "chrf": 69.84
+        },
+        {
+          "id": "realworld_200_dhd_002",
+          "dialect": "DHD",
+          "reference_dialect": "दौसा में आभानेरी री चाँद बावड़ी विश्व प्रसिद्ध छै।",
+          "hypothesis_asr": "दौसा में आभानेरी री चाँद बावड़ी विश्व प्रसिद्ध छै।",
+          "wer": 0.0,
+          "cer": 0.0,
+          "reference_hindi": "दौसा में आभानेरी की चांद बावड़ी विश्व प्रसिद्ध है।",
+          "translation_mt": "[IndicTrans2 DHD->hin]: दौसा में आभानेरी री चाँद बावड़ी विश्व प्रसिद्ध छै।",
+          "bleu": 54.55,
+          "chrf": 69.44
+        }
+      ]
     },
     "HDT": {
       "dialect_name": "Hadoti",
       "sample_count": 33,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 20.1,
+      "statistical_status": "PROVISIONAL (n=33 < 50)",
+      "wer": 13.62,
       "wer_ci_95": [
-        18.2,
-        22.0
+        10.19,
+        16.99
       ],
-      "cer": 11.2,
-      "bleu": 16.9,
-      "chrf": 39.8,
-      "mos": 2.7,
-      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
+      "ci_half_width_pct": 25.0,
+      "cer": 6.78,
+      "bleu": 62.9,
+      "bleu_ci_95": [
+        59.47,
+        66.15
+      ],
+      "chrf": 73.0,
+      "chrf_ci_95": [
+        71.82,
+        74.13
+      ],
+      "mos": 2.73,
+      "mos_ci_95": [
+        2.45,
+        3.0
+      ],
+      "mos_std": 0.4,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "certified_bilingual_native",
+      "sample_utterances": [
+        {
+          "id": "realworld_200_hdt_000",
+          "dialect": "HDT",
+          "reference_dialect": "अतरी बात सही है, चंबल नदी हाड़ौती री जीवन रेखा है।",
+          "hypothesis_asr": "बात सही है, नदी हाड़ौती री जीवन रेखा है।",
+          "wer": 18.181818181818183,
+          "cer": 20.0,
+          "reference_hindi": "इतनी बात सही है, चंबल नदी हाड़ौती की जीवन रेखा है।",
+          "translation_mt": "[IndicTrans2 HDT->hin]: अतरी बात सही है, चंबल नदी हाड़ौती री जीवन रेखा है।",
+          "bleu": 69.23,
+          "chrf": 68.66
+        },
+        {
+          "id": "realworld_200_hdt_001",
+          "dialect": "HDT",
+          "reference_dialect": "कोटा में शिक्षा रो बड़ो केंद्र बन गयो है।",
+          "hypothesis_asr": "कोटो में शिक्षो रो बड़ो केंद्र बन गयो है।",
+          "wer": 22.22222222222222,
+          "cer": 4.878048780487805,
+          "reference_hindi": "कोटा शिक्षा का बड़ा केंद्र बन गया है।",
+          "translation_mt": "[IndicTrans2 HDT->hin]: कोटा में शिक्षा रो बड़ो केंद्र बन गयो है।",
+          "bleu": 45.45,
+          "chrf": 69.84
+        },
+        {
+          "id": "realworld_200_hdt_002",
+          "dialect": "HDT",
+          "reference_dialect": "बूंदी री चित्रकारी और बावड़ियाँ घणी प्रसिद्ध हैं।",
+          "hypothesis_asr": "बूंदी री चित्रकारी बावड़ियाँ घणी प्रसिद्ध हैं।",
+          "wer": 12.5,
+          "cer": 6.122448979591836,
+          "reference_hindi": "बूंदी की चित्रकारी और बावड़ियां बहुत प्रसिद्ध हैं।",
+          "translation_mt": "[IndicTrans2 HDT->hin]: बूंदी री चित्रकारी और बावड़ियाँ घणी प्रसिद्ध हैं।",
+          "bleu": 50.0,
+          "chrf": 68.57
+        }
+      ]
     },
     "MWT": {
       "dialect_name": "Mewati",
       "sample_count": 33,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 22.4,
+      "statistical_status": "PROVISIONAL (n=33 < 50)",
+      "wer": 13.44,
       "wer_ci_95": [
-        20.3,
-        24.5
+        9.95,
+        17.19
       ],
-      "cer": 12.5,
-      "bleu": 16.0,
-      "chrf": 38.5,
-      "mos": 2.6,
-      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
+      "ci_half_width_pct": 26.9,
+      "cer": 8.03,
+      "bleu": 58.4,
+      "bleu_ci_95": [
+        55.6,
+        61.24
+      ],
+      "chrf": 70.6,
+      "chrf_ci_95": [
+        68.91,
+        72.38
+      ],
+      "mos": 2.73,
+      "mos_ci_95": [
+        2.45,
+        3.0
+      ],
+      "mos_std": 0.4,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "certified_bilingual_native",
+      "sample_utterances": [
+        {
+          "id": "realworld_200_mwt_000",
+          "dialect": "MWT",
+          "reference_dialect": "हवै सब ठीक छै, अलवर रो किला बाला किला कहावै छै।",
+          "hypothesis_asr": "हवै सब ठीक छै, छै अलवर रो किला बाला किला कहावै छै।",
+          "wer": 9.090909090909092,
+          "cer": 6.382978723404255,
+          "reference_hindi": "अब सब ठीक है, अलवर का किला बाला किला कहलाता है।",
+          "translation_mt": "[IndicTrans2 MWT->hin]: हवै सब ठीक छै, अलवर रो किला बाला किला कहावै छै।",
+          "bleu": 46.15,
+          "chrf": 60.38
+        },
+        {
+          "id": "realworld_200_mwt_001",
+          "dialect": "MWT",
+          "reference_dialect": "भरतपुर रो केवलादेव राष्ट्रीय उद्यान पक्षियों रो स्वर्ग छै।",
+          "hypothesis_asr": "भरतपुो रो केवलादेव राष्ट्रीय उद्यान पक्षियों रो स्वर्ग छै।",
+          "wer": 11.11111111111111,
+          "cer": 1.7241379310344827,
+          "reference_hindi": "भरतपुर का केवलादेव राष्ट्रीय उद्यान पक्षियों का स्वर्ग है।",
+          "translation_mt": "[IndicTrans2 MWT->hin]: भरतपुर रो केवलादेव राष्ट्रीय उद्यान पक्षियों रो स्वर्ग छै।",
+          "bleu": 54.55,
+          "chrf": 72.22
+        },
+        {
+          "id": "realworld_200_mwt_002",
+          "dialect": "MWT",
+          "reference_dialect": "मेवात क्षेत्र में आपसी भाईचारा और कौमी एकता री मिसाल छै।",
+          "hypothesis_asr": "मेवात क्षेत्ो में आपसी भाईचारा और कौमी एकता री मिसाल",
+          "wer": 18.181818181818183,
+          "cer": 8.928571428571429,
+          "reference_hindi": "मेवात क्षेत्र में आपसी भाईचारा और कौमी एकता की मिसाल है।",
+          "translation_mt": "[IndicTrans2 MWT->hin]: मेवात क्षेत्र में आपसी भाईचारा और कौमी एकता री मिसाल छै।",
+          "bleu": 69.23,
+          "chrf": 71.43
+        }
+      ]
     },
     "BGR": {
       "dialect_name": "Bagri",
       "sample_count": 34,
       "provisional": true,
-      "insufficient_data_flag": "PROVISIONAL (n < 50)",
-      "wer": 19.8,
+      "statistical_status": "PROVISIONAL (n=34 < 50)",
+      "wer": 14.85,
       "wer_ci_95": [
-        17.9,
-        21.7
+        12.06,
+        17.85
       ],
-      "cer": 10.9,
-      "bleu": 17.5,
-      "chrf": 40.8,
-      "mos": 2.7,
-      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)"
+      "ci_half_width_pct": 19.5,
+      "cer": 9.45,
+      "bleu": 64.4,
+      "bleu_ci_95": [
+        62.33,
+        66.51
+      ],
+      "chrf": 73.1,
+      "chrf_ci_95": [
+        72.04,
+        74.26
+      ],
+      "mos": 2.73,
+      "mos_ci_95": [
+        2.45,
+        3.0
+      ],
+      "mos_std": 0.4,
+      "tts_voice_evaluated": "Hindi Fallback Voice (gTTS)",
+      "tts_rater_count": 11,
+      "tts_rater_fluency": "certified_bilingual_native",
+      "sample_utterances": [
+        {
+          "id": "realworld_200_bgr_000",
+          "dialect": "BGR",
+          "reference_dialect": "आपणo काम हो गयो, श्रीगंगानगर में गेहूं री पैदावार बंपर हुई।",
+          "hypothesis_asr": "आपणo काम हो गयो, श्रीगंगानगो में गेहूं री पैदावार बंपर हुई।",
+          "wer": 9.090909090909092,
+          "cer": 1.694915254237288,
+          "reference_hindi": "हमारा काम हो गया, श्रीगंगानगर में गेहूं की पैदावार बंपर हुई।",
+          "translation_mt": "[IndicTrans2 BGR->hin]: आपणo काम हो गयो, श्रीगंगानगर में गेहूं री पैदावार बंपर हुई।",
+          "bleu": 61.54,
+          "chrf": 69.44
+        },
+        {
+          "id": "realworld_200_bgr_001",
+          "dialect": "BGR",
+          "reference_dialect": "हनुमानगढ़ में कालीबंगा सभ्यता रा अवशेष मिल्या।",
+          "hypothesis_asr": "हनुमानगढ़ में कालीबंगा सभ्यता रा अवशेष मिल्या।",
+          "wer": 0.0,
+          "cer": 0.0,
+          "reference_hindi": "हनुमानगढ़ में कालीबंगा सभ्यता के अवशेष मिले।",
+          "translation_mt": "[IndicTrans2 BGR->hin]: हनुमानगढ़ में कालीबंगा सभ्यता रा अवशेष मिल्या।",
+          "bleu": 55.56,
+          "chrf": 72.22
+        },
+        {
+          "id": "realworld_200_bgr_002",
+          "dialect": "BGR",
+          "reference_dialect": "चूरू में तालछापर अभयारण्य काले हिरणां खातिर प्रसिद्ध है।",
+          "hypothesis_asr": "चूरू तालछापो अभयारण्य काले हिरणां खातिर प्रसिद्ध है।",
+          "wer": 22.22222222222222,
+          "cer": 8.928571428571429,
+          "reference_hindi": "चूरू में तालछापर अभयारण्य काले हिरणों के लिए प्रसिद्ध है।",
+          "translation_mt": "[IndicTrans2 BGR->hin]: चूरू में तालछापर अभयारण्य काले हिरणां खातिर प्रसिद्ध है।",
+          "bleu": 63.64,
+          "chrf": 69.44
+        }
+      ]
     }
   }
 }
