@@ -24,8 +24,8 @@
         "required": ["start", "end", "lang"]
       }
     },
-    "source": { "type": "string", "enum": ["field_collection", "crowd", "scraped", "synthetic_backtranslation"] },
-    "consent_basis": { "type": "string", "enum": ["explicit_written", "explicit_verbal", "public_domain", "synthetic"] },
+    "source": { "type": "string", "enum": ["field_collection", "crowd", "scraped", "synthetic_backtranslation", "open_dataset"] },
+    "consent_basis": { "type": "string", "enum": ["explicit_written", "explicit_verbal", "public_domain", "synthetic", "open_license_third_party"] },
     "validated": { "type": "boolean" },
     "validator_id": { "type": ["string", "null"] },
     "confidence_score": { "type": ["number", "null"] },
