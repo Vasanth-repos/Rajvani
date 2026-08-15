@@ -2,48 +2,65 @@
   "dataset": "Rajasthan-ASR-v0.1",
   "eval_script": "eval/asr_eval.py",
   "library": "jiwer v3.0.3",
-  "benchmark_summary": {
+  "provenance": {
+    "dataset_name": "Rajasthan-ASR-v0.1",
+    "evaluation_script": "eval/asr_eval.py",
+    "wer_library": "jiwer v3.0.3",
+    "normalization": "orthography_v1",
+    "split_type": "Speaker-Disjoint (Zero Leakage)",
+    "evaluation_date": "2026-08-13"
+  },
+  "sample_size_notice": "Provisional benchmarks evaluated on held-out speaker-disjoint dev splits (n=8 utterances per dialect).",
+  "provisional_benchmark_summary": {
     "MWR": {
       "wer": 8.4,
       "cer": 4.8,
       "bleu": 34.2,
       "chrf": 58.4,
-      "mos": 4.1
+      "mos": "pending_eval"
     },
     "MTR": {
       "wer": 9.1,
       "cer": 5.2,
-      "bleu": 33.1,
-      "chrf": 56.8,
-      "mos": 4.0
+      "bleu": 32.0,
+      "chrf": 56.1,
+      "mos": "pending_eval"
     },
     "DHD": {
       "wer": 8.8,
-      "cer": 4.9,
-      "bleu": 34.0,
-      "chrf": 57.9,
-      "mos": 4.2
+      "cer": 5.0,
+      "bleu": 33.5,
+      "chrf": 57.8,
+      "mos": "pending_eval"
     },
     "HDT": {
       "wer": 9.5,
       "cer": 5.5,
-      "bleu": 32.5,
+      "bleu": 31.8,
       "chrf": 55.4,
-      "mos": 3.9
+      "mos": "pending_eval"
     },
     "MWT": {
-      "wer": 9.3,
-      "cer": 5.4,
-      "bleu": 32.8,
-      "chrf": 55.9,
-      "mos": 4.0
+      "wer": 10.4,
+      "cer": 6.1,
+      "bleu": 29.5,
+      "chrf": 53.2,
+      "mos": "pending_eval"
     },
     "BGR": {
-      "wer": 9.0,
-      "cer": 5.1,
-      "bleu": 33.5,
-      "chrf": 57.1,
-      "mos": 4.1
+      "wer": 9.2,
+      "cer": 5.3,
+      "bleu": 31.0,
+      "chrf": 54.9,
+      "mos": "pending_eval"
     }
+  },
+  "human_eval_summary": {
+    "total_trials": 11,
+    "avg_asr_score": 5.0,
+    "avg_mt_score": 4.18,
+    "avg_cultural_score": 5.0,
+    "avg_tts_score": 4.18,
+    "avg_usefulness": 5.0
   }
 }
