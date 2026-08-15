@@ -4,7 +4,7 @@
 
 ## 1. Machine Translation (MT) Inference Integration Status
 - **Current State**: Training orchestration (`training/train_mt.py`), canary validation, and promotion gates are spec-complete and functional.
-- **Serving Runtime**: Local serving provider (`serving/providers/local_provider.py`) currently runs offline fallback harness rather than full 1B-parameter PyTorch `ai4bharat/indictrans2-indic-indic-1B` transformer weights.
+- **Serving Runtime**: Local serving provider (`serving/providers/local_provider.py`) currently runs an offline mock fallback harness (returning prefixed wrappers or proverbs via `proverb_database.py`), rather than running neural PyTorch weights for `ai4bharat/indictrans2-indic-indic-1B` locally.
 - **Audit Findings**: Previously reported BLEU (~57.1) and chrF++ (~70.6) reflected lexical similarity on ground-truth strings rather than neural model output. MT metrics are designated as `*Pending Neural NMT Inference Integration` until live tensor weights are integrated.
 - **Regression Protection**: Active automated test `tests/test_verify_benchmark.py::test_mt_anti_echo_guard` is annotated with `xfail(strict=True)` to block untranslated echo returns.
 
@@ -24,10 +24,10 @@
 
 ---
 
-## 4. Code-Switched & Narrowband Audio Performance Gaps
-- **Code-Switching Degradation**: ASR WER degrades by +5.6 pts on mixed English/Hindi/Rajasthani code-switched speech relative to monolingual speech.
-- **Telephony & Narrowband Audio Gap**: Narrowband $8\text{kHz }\mu\text{-law}$ telephony audio introduces a $\sim 4.2\text{ pts}$ WER degradation relative to $16\text{kHz}$ studio recordings.
-- **Cross-Dialect Zero-Shot Transfer Floor**: Distant dialect pairs exhibit significant zero-shot degradation (worst ASR pair: Bagri $\to$ Marwari at 36.6% WER).
+## 4. Code-Switched & Telephony Evaluation Scope (Architectural Disclosures)
+- **Code-Switching Representation**: In the current held-out test suite (`data/realworld_test_200.jsonl`), 6 of 200 utterances (3.0%) contain tagged English/Hindi code-switching tokens. The previously cited "+5.6 pts WER gap" originated from the simulation stub in `eval/wer.py` rather than a dedicated empirical code-switched benchmark. Formal empirical code-switching evaluation requires expanding `test_codeswitched.jsonl` via `codeswitch/cs_eval_set_builder.py`.
+- **Telephony & Narrowband Audio**: The "~4.2 pts degradation" is an architectural estimate from the IVR telephony specification (`serving/ivr/`), pending acoustic evaluation over an 8kHz $\mu$-law test split.
+- **Cross-Dialect Zero-Shot Transfer**: Zero-shot cross-dialect transfer matrices reflect vocabulary and phonological distance across dialect pairs (e.g., Bagri to Marwari zero-shot baseline).
 
 ---
 
