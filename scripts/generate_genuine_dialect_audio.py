@@ -10,9 +10,20 @@ import io
 import sys
 import shutil
 from pathlib import Path
-from gtts import gTTS
-import soundfile as sf
-import librosa
+try:
+    from gtts import gTTS  # type: ignore
+except ImportError:
+    gTTS = None  # type: ignore
+
+try:
+    import soundfile as sf  # type: ignore
+except ImportError:
+    sf = None  # type: ignore
+
+try:
+    import librosa  # type: ignore
+except ImportError:
+    librosa = None  # type: ignore
 
 sys.stdout.reconfigure(encoding="utf-8")
 
