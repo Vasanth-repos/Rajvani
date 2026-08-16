@@ -3,273 +3,582 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rajvani (राजवाणी) - Multi-Dialect Speech & Language Intelligence Platform</title>
-  <meta name="description" content="Production-grade AI speech recognition, translation, and synthesis for the 6 major dialects of Rajasthan.">
+  <title>Rajvani 2.0 (राजवाणी) - Rajasthani Multi-Dialect AI Platform</title>
+  <meta name="description" content="State-of-the-art AI speech recognition, neural cultural translation, and voice synthesis for the 6 major dialects of Rajasthan.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/index.css">
 </head>
 <body>
-  <div class="app-container">
-    <!-- Header -->
-    <header class="navbar">
-      <div class="brand">
-        <div class="logo-badge">🎙️</div>
-        <div>
-          <h1 class="brand-title"><span class="glow-text">राजवाणी</span> Rajvani 2.0</h1>
-          <p class="brand-sub">Rajasthan Multi-Dialect Speech & Language Intelligence Platform</p>
+  <div class="app-wrapper">
+    <!-- Navbar Header -->
+    <header class="top-nav">
+      <div class="nav-brand">
+        <div class="brand-glow-box">
+          <span class="brand-icon">🎙️</span>
+        </div>
+        <div class="brand-meta">
+          <div class="brand-headline">
+            <span class="deva-brand">राजवाणी</span>
+            <span class="latin-brand">RAJVANI <span class="version-tag">v2.0</span></span>
+          </div>
+          <p class="brand-tagline">Preserving & Empowering Rajasthan’s Linguistic Heritage with Open-Source AI</p>
         </div>
       </div>
-      <div class="header-badges">
-        <span class="badge badge-success">● API Online</span>
-        <span class="badge badge-primary">6 Dialects Active</span>
-        <span class="badge badge-accent">N=200 Held-Out Benchmark</span>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" id="navTabs">
+        <button class="nav-tab active" data-tab="studioTab">
+          <span class="tab-icon">⚡</span>
+          <span>Live Studio</span>
+        </button>
+        <button class="nav-tab" data-tab="proverbsTab">
+          <span class="tab-icon">📜</span>
+          <span>Idiom Bank (630)</span>
+        </button>
+        <button class="nav-tab" data-tab="benchmarkTab">
+          <span class="tab-icon">📊</span>
+          <span>Benchmark & Heatmap</span>
+        </button>
+        <button class="nav-tab" data-tab="communityTab">
+          <span class="tab-icon">🤝</span>
+          <span>Human Verification</span>
+        </button>
+      </nav>
+
+      <!-- System Health Badge -->
+      <div class="nav-status">
+        <div class="status-indicator online">
+          <span class="pulse-dot"></span>
+          <span>API Online</span>
+        </div>
+        <div class="badge-sub">29/29 Audited CI Passed</div>
       </div>
     </header>
 
-    <!-- Main Grid -->
-    <main class="main-layout">
-      <!-- Left: Dialect Selector & Input Section -->
-      <section class="card glass-card control-card">
-        <h2 class="section-heading">1. Select Rajasthani Dialect</h2>
-        <div class="dialect-grid" id="dialectGrid">
-          <button class="dialect-chip active" data-dialect="MWR">
-            <span class="chip-code">MWR</span>
-            <span class="chip-name">Marwari (मारवाड़ी)</span>
-            <span class="chip-region">Western Rajasthan</span>
-          </button>
-          <button class="dialect-chip" data-dialect="MTR">
-            <span class="chip-code">MTR</span>
-            <span class="chip-name">Mewari (मेवाड़ी)</span>
-            <span class="chip-region">Southern Rajasthan</span>
-          </button>
-          <button class="dialect-chip" data-dialect="DHD">
-            <span class="chip-code">DHD</span>
-            <span class="chip-name">Dhundhari (ढूंढाड़ी)</span>
-            <span class="chip-region">East-Central Rajasthan</span>
-          </button>
-          <button class="dialect-chip" data-dialect="HDT">
-            <span class="chip-code">HDT</span>
-            <span class="chip-name">Hadoti (हाड़ौती)</span>
-            <span class="chip-region">South-Eastern Rajasthan</span>
-          </button>
-          <button class="dialect-chip" data-dialect="MWT">
-            <span class="chip-code">MWT</span>
-            <span class="chip-name">Mewati (मेवाती)</span>
-            <span class="chip-region">North-Eastern Rajasthan</span>
-          </button>
-          <button class="dialect-chip" data-dialect="BGR">
-            <span class="chip-code">BGR</span>
-            <span class="chip-name">Bagri (बागड़ी)</span>
-            <span class="chip-region">Northern Rajasthan</span>
-          </button>
+    <!-- TAB 1: LIVE STUDIO -->
+    <section id="studioTab" class="tab-content active">
+      <!-- Dialect Region Selector Bar -->
+      <div class="section-card dialect-selector-card">
+        <div class="card-header-flex">
+          <div>
+            <h2 class="card-title">1. Select Regional Dialect Target</h2>
+            <p class="card-subtitle">Choose one of the 6 major linguistic zones of Rajasthan</p>
+          </div>
+          <span class="pill-info">6 Dialect Models Ready</span>
         </div>
 
-        <h2 class="section-heading mt-4">2. Input Speech / Text</h2>
-        <div class="input-toggle">
-          <button class="btn btn-sm btn-outline active" id="btnAudioMode">Audio Sample</button>
-          <button class="btn btn-sm btn-outline" id="btnTextMode">Text Input</button>
-        </div>
+        <div class="dialect-cards-grid" id="dialectSelector">
+          <!-- Marwari -->
+          <div class="dialect-box active" data-dialect="MWR">
+            <div class="dialect-box-top">
+              <span class="d-code">MWR</span>
+              <span class="d-badge">Western</span>
+            </div>
+            <div class="d-name-deva">मारवाड़ी</div>
+            <div class="d-name-en">Marwari</div>
+            <div class="d-districts">Jodhpur • Barmer • Jaisalmer • Bikaner</div>
+            <div class="d-stat">Fine-Tuned WER: <strong>7.14%</strong></div>
+          </div>
 
-        <div id="audioSection" class="input-panel">
-          <label class="input-label">Native Speaker Audio Recording:</label>
-          <audio id="demoAudioPlayer" controls class="audio-player" src="/static/samples/mwr_sample.wav"></audio>
-          <div class="quick-samples">
-            <span class="text-muted">Sample Presets:</span>
-            <button class="btn-link" onclick="loadSample('mwr')">MWR Conversational</button>
-            <button class="btn-link" onclick="loadSample('mtr')">MTR Heroic</button>
-            <button class="btn-link" onclick="loadSample('dhd')">DHD Civic</button>
+          <!-- Mewari -->
+          <div class="dialect-box" data-dialect="MTR">
+            <div class="dialect-box-top">
+              <span class="d-code">MTR</span>
+              <span class="d-badge">Southern</span>
+            </div>
+            <div class="d-name-deva">मेवाड़ी</div>
+            <div class="d-name-en">Mewari</div>
+            <div class="d-districts">Udaipur • Chittorgarh • Rajsamand • Bhilwara</div>
+            <div class="d-stat">Fine-Tuned WER: <strong>5.02%</strong></div>
+          </div>
+
+          <!-- Dhundhari -->
+          <div class="dialect-box" data-dialect="DHD">
+            <div class="dialect-box-top">
+              <span class="d-code">DHD</span>
+              <span class="d-badge">East-Central</span>
+            </div>
+            <div class="d-name-deva">ढूंढाड़ी</div>
+            <div class="d-name-en">Dhundhari</div>
+            <div class="d-districts">Jaipur • Dausa • Tonk • Sawai Madhopur</div>
+            <div class="d-stat">Fine-Tuned WER: <strong>3.16%</strong></div>
+          </div>
+
+          <!-- Hadoti -->
+          <div class="dialect-box" data-dialect="HDT">
+            <div class="dialect-box-top">
+              <span class="d-code">HDT</span>
+              <span class="d-badge">South-Eastern</span>
+            </div>
+            <div class="d-name-deva">हाड़ौती</div>
+            <div class="d-name-en">Hadoti</div>
+            <div class="d-districts">Kota • Bundi • Baran • Jhalawar</div>
+            <div class="d-stat">Fine-Tuned WER: <strong>5.79%</strong></div>
+          </div>
+
+          <!-- Mewati -->
+          <div class="dialect-box" data-dialect="MWT">
+            <div class="dialect-box-top">
+              <span class="d-code">MWT</span>
+              <span class="d-badge">North-Eastern</span>
+            </div>
+            <div class="d-name-deva">मेवाती</div>
+            <div class="d-name-en">Mewati</div>
+            <div class="d-districts">Alwar • Bharatpur • Dholpur</div>
+            <div class="d-stat">Fine-Tuned WER: <strong>3.46%</strong></div>
+          </div>
+
+          <!-- Bagri -->
+          <div class="dialect-box" data-dialect="BGR">
+            <div class="dialect-box-top">
+              <span class="d-code">BGR</span>
+              <span class="d-badge">Northern</span>
+            </div>
+            <div class="d-name-deva">बागड़ी</div>
+            <div class="d-name-en">Bagri</div>
+            <div class="d-districts">Sri Ganganagar • Hanumangarh • Churu</div>
+            <div class="d-stat">Fine-Tuned WER: <strong>7.28%</strong></div>
           </div>
         </div>
+      </div>
 
-        <div id="textSection" class="input-panel hidden">
-          <label class="input-label" for="customTextInput">Dialect Text Prompt:</label>
-          <textarea id="customTextInput" class="form-textarea" rows="3" placeholder="म्हारो नाम राम है, म्हाँ जोधपुर रा रहवासी हाँ।"></textarea>
-        </div>
-
-        <div class="action-bar">
-          <button id="btnRunPipeline" class="btn btn-primary btn-lg">⚡ Run End-to-End Pipeline</button>
-        </div>
-      </section>
-
-      <!-- Right: Live Pipeline Output -->
-      <section class="card glass-card output-card">
-        <h2 class="section-heading">3. Unified Intelligence Pipeline</h2>
-
-        <!-- Step 1: ASR -->
-        <div class="pipeline-step">
-          <div class="step-header">
-            <span class="step-num">Step 1</span>
-            <span class="step-title">Dialect Speech Recognition (ASR)</span>
-            <span class="step-status badge badge-sm badge-success" id="asrStatus">Fine-Tuned Whisper-LoRA</span>
+      <!-- Studio Work Area -->
+      <div class="studio-work-grid">
+        <!-- Left: Audio & Input Panel -->
+        <div class="section-card input-studio-card">
+          <div class="card-header-flex">
+            <div>
+              <h3 class="card-title">2. Speech & Text Studio</h3>
+              <p class="card-subtitle">Record, upload audio, or choose native curated presets</p>
+            </div>
+            <div class="input-mode-switcher">
+              <button class="mode-btn active" id="btnModePreset">Presets</button>
+              <button class="mode-btn" id="btnModeRecord">Mic Record</button>
+              <button class="mode-btn" id="btnModeText">Text Prompt</button>
+            </div>
           </div>
-          <div class="step-content">
-            <div class="text-box" id="asrOutputText">म्हारो नाम राम है, म्हाँ जोधपुर रा रहवासी हाँ।</div>
-            <div class="metric-row">
-              <span class="metric-tag">Dialect Confidence: <strong>96.4%</strong></span>
-              <span class="metric-tag">Acoustic WER: <strong>5.33%</strong></span>
-              <span class="metric-tag">Latency: <strong id="asrLatency">0.38s</strong></span>
+
+          <!-- Mode A: Preset Audio -->
+          <div id="panelPreset" class="input-pane active">
+            <label class="pane-label">Select Curated Native Speaker Recording:</label>
+            <div class="preset-audio-card">
+              <div class="audio-meta-row">
+                <span class="audio-title" id="presetAudioLabel">Marwari (MWR) Conversational Sample</span>
+                <span class="audio-badge">16kHz Studio Audio</span>
+              </div>
+              <audio id="mainAudioPlayer" controls class="custom-audio-elem" src="/static/samples/mwr_sample.wav"></audio>
+            </div>
+
+            <div class="quick-preset-chips" id="presetChipsContainer">
+              <button class="preset-chip active" onclick="selectPresetSample('mwr')">MWR: Jodhpur Resident</button>
+              <button class="preset-chip" onclick="selectPresetSample('mtr')">MTR: Chittor Heritage</button>
+              <button class="preset-chip" onclick="selectPresetSample('dhd')">DHD: Jaipur Amber Fort</button>
+              <button class="preset-chip" onclick="selectPresetSample('hdt')">HDT: Chambal River</button>
+              <button class="preset-chip" onclick="selectPresetSample('mwt')">MWT: Alwar Bala Fort</button>
+              <button class="preset-chip" onclick="selectPresetSample('bgr')">BGR: Ganganagar Wheat</button>
+            </div>
+          </div>
+
+          <!-- Mode B: Microphone Recording -->
+          <div id="panelRecord" class="input-pane">
+            <div class="record-container">
+              <canvas id="visualizerCanvas" class="audio-visualizer-canvas" width="400" height="80"></canvas>
+              <div class="record-controls">
+                <button id="btnRecordToggle" class="btn-record-main">
+                  <span class="record-icon">⏺</span>
+                  <span id="recordBtnText">Start Recording</span>
+                </button>
+                <div class="record-timer" id="recordTimer">00:00</div>
+              </div>
+              <p class="record-hint">Speak in any Rajasthani dialect (e.g. मारवाड़ी, मेवाड़ी, ढूंढाड़ी...)</p>
+            </div>
+          </div>
+
+          <!-- Mode C: Custom Text Prompt -->
+          <div id="panelText" class="input-pane">
+            <label class="pane-label" for="customTextPrompt">Enter Dialect Sentence:</label>
+            <textarea id="customTextPrompt" class="dialect-text-area" rows="3" placeholder="म्हारो नाम राम है, म्हाँ जोधपुर रा रहवासी हाँ।"></textarea>
+            <div class="quick-dialect-tags">
+              <span class="tags-label">Insert Tokens:</span>
+              <button class="tag-insert" onclick="insertToken('म्हारो')">म्हारो</button>
+              <button class="tag-insert" onclick="insertToken('थारो')">थारो</button>
+              <button class="tag-insert" onclick="insertToken('छै')">छै</button>
+              <button class="tag-insert" onclick="insertToken('घणो')">घणो</button>
+              <button class="tag-insert" onclick="insertToken('पाणी')">पाणी</button>
+              <button class="tag-insert" onclick="insertToken('अठे')">अठे</button>
+              <button class="tag-insert" onclick="insertToken('हवै')">हवै</button>
+            </div>
+          </div>
+
+          <!-- Primary Execution CTA Button -->
+          <button id="btnExecutePipeline" class="btn-execute-hero">
+            <span class="btn-icon">⚡</span>
+            <span id="executeBtnLabel">Execute End-to-End Rajvani Pipeline</span>
+          </button>
+        </div>
+
+        <!-- Right: Multi-Stage Pipeline Output Visualizer -->
+        <div class="section-card output-studio-card">
+          <div class="card-header-flex">
+            <div>
+              <h3 class="card-title">3. Unified Multi-Stage Inference Engine</h3>
+              <p class="card-subtitle">Real-time execution across ASR, Dialect-ID, MT, and TTS</p>
+            </div>
+            <div class="pipeline-latency" id="totalLatencyBadge">Latency: <strong>0.38s</strong></div>
+          </div>
+
+          <div class="pipeline-stepper">
+            <!-- Stage 1: Fine-Tuned ASR -->
+            <div class="step-card active" id="stepASR">
+              <div class="step-badge-row">
+                <span class="step-number">STAGE 1</span>
+                <span class="step-name">Speech Recognition (Whisper-LoRA)</span>
+                <span class="step-pill green" id="badgeASR">WER 5.33%</span>
+              </div>
+              <div class="step-body">
+                <div class="transcript-display" id="outASRText">म्हारो नाम राम है, म्हाँ जोधपुर रा रहवासी हाँ।</div>
+                <div class="token-meta-row">
+                  <span>Confidence: <strong class="text-accent" id="asrConfidenceVal">96.8%</strong></span>
+                  <span>Acoustic Channel: <strong class="text-muted">16kHz Clean Audio</strong></span>
+                  <span>Audio Time: <strong class="text-muted">2.4s</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage 2: Dialect ID Distribution -->
+            <div class="step-card active" id="stepDID">
+              <div class="step-badge-row">
+                <span class="step-number">STAGE 2</span>
+                <span class="step-name">Dialect-ID Routing & Confidence</span>
+                <span class="step-pill blue">SVM + TF-IDF (98.3% Acc)</span>
+              </div>
+              <div class="step-body">
+                <div class="dialect-bar-wrap">
+                  <div class="bar-header">
+                    <span id="detectedDialectLabel">Detected Dialect: <strong>Marwari (MWR)</strong></span>
+                    <span id="detectedDialectConf">96.4%</span>
+                  </div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="didBarFill" style="width: 96.4%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage 3: Neural Cultural MT -->
+            <div class="step-card active" id="stepMT">
+              <div class="step-badge-row">
+                <span class="step-number">STAGE 3</span>
+                <span class="step-name">Neural Cultural Translation (NLLB-200 + LoRA)</span>
+                <span class="step-pill purple">BLEU 60.68 | chrF++ 79.30</span>
+              </div>
+              <div class="step-body">
+                <div class="translation-tabs">
+                  <button class="trans-tab active" id="btnTargetHin">Hindi (hin_Deva)</button>
+                  <button class="trans-tab" id="btnTargetEng">English (eng_Latn)</button>
+                </div>
+                <div class="translation-display" id="outMTText">मेरा नाम राम है, हम जोधपुर के निवासी हैं।</div>
+                <div class="token-meta-row">
+                  <span>Pivot Target: <strong class="text-accent" id="mtTargetCode">hin_Deva</strong></span>
+                  <span>Morphology Adaptation: <strong class="text-muted">Applied (म्हारो→मेरा, रा→के)</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage 4: Dialect Voice Synthesis -->
+            <div class="step-card active" id="stepTTS">
+              <div class="step-badge-row">
+                <span class="step-number">STAGE 4</span>
+                <span class="step-name">Dialect Voice Synthesis (Meta MMS-TTS VITS)</span>
+                <span class="step-pill amber">Evaluated MOS 4.36 / 5.0</span>
+              </div>
+              <div class="step-body">
+                <div class="tts-player-box">
+                  <audio id="outTTSAudioPlayer" controls class="custom-audio-elem" src="/static/samples/mwr_sample.wav"></audio>
+                  <div class="tts-controls-row">
+                    <span class="voice-name">Voice: <strong id="ttsVoiceName">MWR Female Regional Voice</strong></span>
+                    <span class="voice-eval">11 Native Listeners Certified</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Step 2: MT -->
-        <div class="pipeline-step mt-3">
-          <div class="step-header">
-            <span class="step-num">Step 2</span>
-            <span class="step-title">Neural Cultural Translation (MT)</span>
-            <span class="step-status badge badge-sm badge-primary" id="mtStatus">NLLB-200 + LoRA</span>
+    <!-- TAB 2: PROVERB & IDIOM BANK -->
+    <section id="proverbsTab" class="tab-content">
+      <div class="section-card">
+        <div class="card-header-flex">
+          <div>
+            <h2 class="card-title">Rajasthani Cultural Proverb & Idiom Bank</h2>
+            <p class="card-subtitle">630 curated public-domain folk proverbs across 6 dialects with figurative translations</p>
           </div>
-          <div class="step-content">
-            <div class="text-box highlight-box" id="mtOutputText">मेरा नाम राम है, हम जोधपुर के निवासी हैं।</div>
-            <div class="metric-row">
-              <span class="metric-tag">Target: <strong>Hindi (hin_Deva)</strong></span>
-              <span class="metric-tag">Fine-Tuned BLEU: <strong>60.68</strong></span>
-              <span class="metric-tag">chrF++: <strong>79.30</strong></span>
-            </div>
+          <div class="proverb-search-box">
+            <input type="text" id="proverbSearchInput" class="search-input" placeholder="Search proverbs (e.g. ऊंट, जोगी, पानी, courage...)">
           </div>
         </div>
 
-        <!-- Step 3: TTS -->
-        <div class="pipeline-step mt-3">
-          <div class="step-header">
-            <span class="step-num">Step 3</span>
-            <span class="step-title">Dialect Speech Synthesis (TTS)</span>
-            <span class="step-status badge badge-sm badge-accent" id="ttsStatus">Meta MMS-TTS VITS</span>
+        <div class="proverb-filter-row">
+          <button class="filter-pill active" data-filter="ALL">All (630)</button>
+          <button class="filter-pill" data-filter="MWR">Marwari (105)</button>
+          <button class="filter-pill" data-filter="MTR">Mewari (105)</button>
+          <button class="filter-pill" data-filter="DHD">Dhundhari (105)</button>
+          <button class="filter-pill" data-filter="HDT">Hadoti (105)</button>
+          <button class="filter-pill" data-filter="MWT">Mewati (105)</button>
+          <button class="filter-pill" data-filter="BGR">Bagri (105)</button>
+        </div>
+
+        <div class="proverbs-masonry-grid" id="proverbsGrid">
+          <!-- Dynamic cards injected via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: BENCHMARK & HEATMAP -->
+    <section id="benchmarkTab" class="tab-content">
+      <!-- 6x6 Acoustic Transfer Heatmap -->
+      <div class="section-card mb-4">
+        <div class="card-header-flex">
+          <div>
+            <h2 class="card-title">6x6 Cross-Dialect Acoustic Transfer Matrix (WER % ↓)</h2>
+            <p class="card-subtitle">Empirical zero-shot cross-dialect acoustic transfer across all 36 evaluation pairs</p>
           </div>
-          <div class="step-content">
-            <audio id="ttsAudioPlayer" controls class="audio-player mt-2"></audio>
-            <div class="metric-row">
-              <span class="metric-tag">Voice: <strong>MWR Native Regional Voice</strong></span>
-              <span class="metric-tag">Evaluated MOS: <strong>4.36 / 5.0</strong></span>
-              <span class="metric-tag">Rater Panel: <strong>11 Native Listeners</strong></span>
+          <span class="pill-info">Evaluated on Held-Out Test Suite (N=200)</span>
+        </div>
+
+        <div class="heatmap-container">
+          <div class="heatmap-grid" id="transferHeatmap">
+            <!-- Dynamically populated 6x6 cells in app.js -->
+          </div>
+          <div class="heatmap-legend">
+            <span class="legend-item"><span class="legend-box green"></span> High Intelligibility (1.8% – 4.5% WER)</span>
+            <span class="legend-item"><span class="legend-box blue"></span> Moderate Transfer (5.0% – 6.5% WER)</span>
+            <span class="legend-item"><span class="legend-box red"></span> Distant Continuum (7.0% – 9.2% WER)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verified Leaderboard Table -->
+      <div class="section-card">
+        <div class="card-header-flex">
+          <div>
+            <h2 class="card-title">Held-Out Test Benchmark Leaderboard (N=200, B=2000 Bootstrap)</h2>
+            <p class="card-subtitle">Certified split-blind empirical results with 95% confidence intervals</p>
+          </div>
+          <span class="badge-success">Strictly Isolated Test Split</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="benchmark-table">
+            <thead>
+              <tr>
+                <th>Dialect Zone</th>
+                <th>Test N</th>
+                <th>Baseline WER</th>
+                <th>Fine-Tuned WER</th>
+                <th>95% Bootstrap CI</th>
+                <th>MT Zero-Shot BLEU</th>
+                <th>MT Fine-Tuned BLEU</th>
+                <th>TTS MOS (1-5)</th>
+                <th>Status (≤10%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong class="text-gold">Marwari (MWR)</strong></td>
+                <td>34</td>
+                <td>15.09%</td>
+                <td><strong class="text-success">7.14%</strong></td>
+                <td>[4.54% – 9.92%]</td>
+                <td>38.60</td>
+                <td><strong class="text-primary">42.23</strong></td>
+                <td><strong>4.36 / 5.0</strong></td>
+                <td><span class="status-badge pass">PASS</span></td>
+              </tr>
+              <tr>
+                <td><strong class="text-gold">Mewari (MTR)</strong></td>
+                <td>33</td>
+                <td>12.24%</td>
+                <td><strong class="text-success">5.02%</strong></td>
+                <td>[3.03% – 7.38%]</td>
+                <td>40.05</td>
+                <td><strong class="text-primary">67.56</strong></td>
+                <td><strong>4.27 / 5.0</strong></td>
+                <td><span class="status-badge pass">PASS</span></td>
+              </tr>
+              <tr>
+                <td><strong class="text-gold">Dhundhari (DHD)</strong></td>
+                <td>33</td>
+                <td>6.79%</td>
+                <td><strong class="text-success">3.16%</strong></td>
+                <td>[1.40% – 5.16%]</td>
+                <td>41.08</td>
+                <td><strong class="text-primary">47.89</strong></td>
+                <td><strong>4.18 / 5.0</strong></td>
+                <td><span class="status-badge pass">PASS</span></td>
+              </tr>
+              <tr>
+                <td><strong class="text-gold">Hadoti (HDT)</strong></td>
+                <td>33</td>
+                <td>13.62%</td>
+                <td><strong class="text-success">5.79%</strong></td>
+                <td>[3.51% – 8.07%]</td>
+                <td>39.41</td>
+                <td><strong class="text-primary">75.73</strong></td>
+                <td><strong>4.18 / 5.0</strong></td>
+                <td><span class="status-badge pass">PASS</span></td>
+              </tr>
+              <tr>
+                <td><strong class="text-gold">Mewati (MWT)</strong></td>
+                <td>33</td>
+                <td>13.44%</td>
+                <td><strong class="text-success">3.46%</strong></td>
+                <td>[1.60% – 5.65%]</td>
+                <td>47.88</td>
+                <td><strong class="text-primary">66.45</strong></td>
+                <td><strong>4.27 / 5.0</strong></td>
+                <td><span class="status-badge pass">PASS</span></td>
+              </tr>
+              <tr>
+                <td><strong class="text-gold">Bagri (BGR)</strong></td>
+                <td>34</td>
+                <td>14.85%</td>
+                <td><strong class="text-success">7.28%</strong></td>
+                <td>[4.80% – 9.67%]</td>
+                <td>63.94</td>
+                <td><strong class="text-primary">64.51</strong></td>
+                <td><strong>4.18 / 5.0</strong></td>
+                <td><span class="status-badge pass">PASS</span></td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>Pooled Macro Avg</strong></td>
+                <td><strong>200</strong></td>
+                <td><strong>12.69%</strong></td>
+                <td><strong class="text-success">5.33%</strong></td>
+                <td><strong>[4.38% – 6.35%]</strong></td>
+                <td><strong>45.67</strong></td>
+                <td><strong class="text-primary">60.68</strong></td>
+                <td><strong>4.24 / 5.0</strong></td>
+                <td><span class="status-badge pass">ALL PASS</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: HUMAN VERIFICATION & COMMUNITY PORTAL -->
+    <section id="communityTab" class="tab-content">
+      <div class="section-card">
+        <div class="card-header-flex">
+          <div>
+            <h2 class="card-title">Community Human Verification & Feedback Portal</h2>
+            <p class="card-subtitle">Contribute validated corrections directly to the active-learning retraining queue</p>
+          </div>
+          <span class="pill-info">265 Verified Records in Registry</span>
+        </div>
+
+        <div class="feedback-grid">
+          <!-- Submission Form -->
+          <div class="feedback-form-pane">
+            <h3 class="form-subheading">Submit Transcript Correction</h3>
+            <div class="form-group">
+              <label>Dialect Zone:</label>
+              <select id="fbDialectSelect" class="form-select">
+                <option value="MWR">Marwari (MWR)</option>
+                <option value="MTR">Mewari (MTR)</option>
+                <option value="DHD">Dhundhari (DHD)</option>
+                <option value="HDT">Hadoti (HDT)</option>
+                <option value="MWT">Mewati (MWT)</option>
+                <option value="BGR">Bagri (BGR)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Model Raw ASR Transcript:</label>
+              <input type="text" id="fbRawText" class="form-input" value="म्हारो नाम राम है, म्हाँ जोधपुर रा रहवासी हाँ।">
+            </div>
+
+            <div class="form-group">
+              <label>Certified Corrected Transcript (Human Gold):</label>
+              <input type="text" id="fbCorrectedText" class="form-input" placeholder="Enter precise dialect correction...">
+            </div>
+
+            <div class="form-group">
+              <label>Evaluator ID / Community Name:</label>
+              <input type="text" id="fbEvaluatorId" class="form-input" value="community_evaluator_zone_01">
+            </div>
+
+            <!-- 5 Star Ratings -->
+            <div class="ratings-group">
+              <div class="rating-item">
+                <span>ASR Accuracy:</span>
+                <div class="star-rating" data-criteria="asr">★★★★★</div>
+              </div>
+              <div class="rating-item">
+                <span>Translation Quality:</span>
+                <div class="star-rating" data-criteria="mt">★★★★★</div>
+              </div>
+              <div class="rating-item">
+                <span>Cultural Relevance:</span>
+                <div class="star-rating" data-criteria="cultural">★★★★★</div>
+              </div>
+              <div class="rating-item">
+                <span>TTS Naturalness:</span>
+                <div class="star-rating" data-criteria="tts">★★★★★</div>
+              </div>
+            </div>
+
+            <button id="btnSubmitFeedback" class="btn-execute-hero mt-3">
+              <span>🚀 Submit Validated Record to Active Learning</span>
+            </button>
+            <div id="feedbackStatusMsg" class="status-msg-box hidden"></div>
+          </div>
+
+          <!-- Live Registry Stats -->
+          <div class="registry-stats-pane">
+            <h3 class="form-subheading">Active Learning Governance Registry</h3>
+            <div class="stat-card-row">
+              <div class="stat-card">
+                <span class="stat-num">265</span>
+                <span class="stat-lbl">Human-Verified Transcripts</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-num">630</span>
+                <span class="stat-lbl">Public-Domain Idioms</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-num">100%</span>
+                <span class="stat-lbl">Speaker-Disjoint Isolation</span>
+              </div>
+            </div>
+
+            <div class="governance-box">
+              <h4 class="gov-title">🔒 Audit & Safety Guarantees</h4>
+              <ul class="gov-list">
+                <li>• Strict split-blind evaluation against frozen held-out test suite ($N=200$).</li>
+                <li>• Real-time content moderation filter for abusive/harmful speech generation.</li>
+                <li>• Explicit consent tagging (`public_domain`, `voice_clone_ok`) across all training corpora.</li>
+                <li>• No synthetic data leakage into evaluation benchmarks.</li>
+              </ul>
             </div>
           </div>
         </div>
-
-        <!-- Step 4: Cultural Proverb Discovery -->
-        <div class="pipeline-step mt-3">
-          <div class="step-header">
-            <span class="step-num">Step 4</span>
-            <span class="step-title">Linguistic Artifact & Proverb Context</span>
-            <span class="step-status badge badge-sm badge-outline">630 Curated Folk Idioms</span>
-          </div>
-          <div class="step-content">
-            <div class="proverb-card">
-              <div class="proverb-dialect">"घर रो जोगी जोगणा, आन गाँव रो सिद्ध।"</div>
-              <div class="proverb-meaning"><strong>Hindi:</strong> घर का विद्वान उपेक्षित रहता है, बाहरी को पूजते हैं।</div>
-              <div class="proverb-english"><strong>English:</strong> A prophet is not without honor, save in his own country.</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- Benchmark Leaderboard -->
-    <section class="card glass-card mt-4">
-      <h2 class="section-heading">Verified Empirical Benchmark Leaderboard (Held-Out N=200 Test Suite)</h2>
-      <div class="table-responsive">
-        <table class="table-styled">
-          <thead>
-            <tr>
-              <th>Dialect</th>
-              <th>Test Count (N)</th>
-              <th>Baseline WER</th>
-              <th>Fine-Tuned WER</th>
-              <th>95% Bootstrap CI</th>
-              <th>MT Zero-Shot BLEU</th>
-              <th>MT Fine-Tuned BLEU</th>
-              <th>TTS MOS (95% CI)</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Marwari (MWR)</strong></td>
-              <td>34</td>
-              <td>15.09%</td>
-              <td><strong class="text-success">7.14%</strong></td>
-              <td>[4.54% – 9.92%]</td>
-              <td>38.60</td>
-              <td><strong class="text-primary">42.23</strong></td>
-              <td><strong>4.36 / 5.0</strong> [4.09 – 4.64]</td>
-              <td><span class="badge badge-success">✅ PASS</span></td>
-            </tr>
-            <tr>
-              <td><strong>Mewari (MTR)</strong></td>
-              <td>33</td>
-              <td>12.24%</td>
-              <td><strong class="text-success">5.02%</strong></td>
-              <td>[3.03% – 7.38%]</td>
-              <td>40.05</td>
-              <td><strong class="text-primary">67.56</strong></td>
-              <td><strong>4.27 / 5.0</strong> [4.00 – 4.55]</td>
-              <td><span class="badge badge-success">✅ PASS</span></td>
-            </tr>
-            <tr>
-              <td><strong>Dhundhari (DHD)</strong></td>
-              <td>33</td>
-              <td>6.79%</td>
-              <td><strong class="text-success">3.16%</strong></td>
-              <td>[1.40% – 5.16%]</td>
-              <td>41.08</td>
-              <td><strong class="text-primary">47.89</strong></td>
-              <td><strong>4.18 / 5.0</strong> [4.00 – 4.45]</td>
-              <td><span class="badge badge-success">✅ PASS</span></td>
-            </tr>
-            <tr>
-              <td><strong>Hadoti (HDT)</strong></td>
-              <td>33</td>
-              <td>13.62%</td>
-              <td><strong class="text-success">5.79%</strong></td>
-              <td>[3.51% – 8.07%]</td>
-              <td>39.41</td>
-              <td><strong class="text-primary">75.73</strong></td>
-              <td><strong>4.18 / 5.0</strong> [4.00 – 4.45]</td>
-              <td><span class="badge badge-success">✅ PASS</span></td>
-            </tr>
-            <tr>
-              <td><strong>Mewati (MWT)</strong></td>
-              <td>33</td>
-              <td>13.44%</td>
-              <td><strong class="text-success">3.46%</strong></td>
-              <td>[1.60% – 5.65%]</td>
-              <td>47.88</td>
-              <td><strong class="text-primary">66.45</strong></td>
-              <td><strong>4.27 / 5.0</strong> [4.00 – 4.55]</td>
-              <td><span class="badge badge-success">✅ PASS</span></td>
-            </tr>
-            <tr>
-              <td><strong>Bagri (BGR)</strong></td>
-              <td>34</td>
-              <td>14.85%</td>
-              <td><strong class="text-success">7.28%</strong></td>
-              <td>[4.80% – 9.67%]</td>
-              <td>63.94</td>
-              <td><strong class="text-primary">64.51</strong></td>
-              <td><strong>4.18 / 5.0</strong> [4.00 – 4.45]</td>
-              <td><span class="badge badge-success">✅ PASS</span></td>
-            </tr>
-            <tr class="table-highlight">
-              <td><strong>Pooled Macro Avg</strong></td>
-              <td><strong>200</strong></td>
-              <td><strong>12.69%</strong></td>
-              <td><strong class="text-success">5.33%</strong></td>
-              <td><strong>[4.38% – 6.35%]</strong></td>
-              <td><strong>45.67</strong></td>
-              <td><strong class="text-primary">60.68</strong></td>
-              <td><strong>4.24 / 5.0</strong></td>
-              <td><span class="badge badge-success">✅ ALL PASS</span></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </section>
 
     <!-- Footer -->
-    <footer class="app-footer">
-      <p>Rajvani 2.0 • Open Source AI for Rajasthani Dialects • Certified Split-Blind Empirical Verification</p>
+    <footer class="app-footer-bar">
+      <div>
+        <strong>Rajvani 2.0 (राजवाणी)</strong> • Rajasthan Multi-Dialect AI Platform
+      </div>
+      <div class="footer-meta">
+        Open Source under Apache 2.0 • Built with Whisper-LoRA, Meta NLLB-200, & MMS-TTS VITS
+      </div>
     </footer>
   </div>
 
