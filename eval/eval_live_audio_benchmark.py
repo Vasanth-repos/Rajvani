@@ -12,7 +12,7 @@ import json
 import time
 from pathlib import Path
 from typing import Dict, Any, List
-import numpy as np
+import numpy as np  # type: ignore
 from gtts import gTTS  # type: ignore
 import soundfile as sf  # type: ignore
 import sacrebleu  # type: ignore

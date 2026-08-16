@@ -9,7 +9,7 @@ Quantifies natural dialect-Hindi lexical overlap without any model in the loop.
 import json
 import sys
 from pathlib import Path
-import numpy as np
+import numpy as np  # type: ignore
 import sacrebleu
 
 ROOT_DIR = Path(__file__).parent.parent

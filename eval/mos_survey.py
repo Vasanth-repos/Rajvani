@@ -2,7 +2,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-import numpy as np
+import numpy as np  # type: ignore
 
 def calculate_mos(ratings: list):
     """

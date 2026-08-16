@@ -13,7 +13,7 @@ import time
 import random
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
-import numpy as np
+import numpy as np  # type: ignore
 
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))

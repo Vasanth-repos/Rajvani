@@ -14,7 +14,7 @@ import sys
 import json
 import random
 from pathlib import Path
-import numpy as np
+import numpy as np  # type: ignore
 from typing import List, Tuple, Dict, Any, Callable
 
 ROOT_DIR = Path(__file__).parent.parent

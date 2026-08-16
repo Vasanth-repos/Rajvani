@@ -3,7 +3,7 @@ import json
 import os
 import sys
 from pathlib import Path
-import numpy as np
+import numpy as np  # type: ignore
 
 ROOT_DIR = Path(__file__).parent.parent
 

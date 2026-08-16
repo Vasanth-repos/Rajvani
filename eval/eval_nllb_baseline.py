@@ -10,7 +10,7 @@ import json
 import sys
 import time
 from pathlib import Path
-import numpy as np
+import numpy as np  # type: ignore
 import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import sacrebleu
