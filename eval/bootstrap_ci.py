@@ -14,15 +14,12 @@ import sys
 import json
 import random
 from pathlib import Path
+from typing import List, Tuple, Dict, Any, Callable, Optional
 import numpy as np  # type: ignore
-from typing import List, Tuple, Dict, Any, Callable
 
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
-
-from eval.mt_eval import compute_bleu_score, compute_chrf_score
-from eval.asr_eval import compute_wer, compute_cer, calculate_levenshtein_distance
-from serving.translation_engine import run_translation_pipeline
+sys.stdout.reconfigure(encoding="utf-8")
 
 def bootstrap_distribution(
     data: List[float],
@@ -59,15 +56,7 @@ def bootstrap_distribution(
     
     return (point_est, lo, hi, boot_means)
 
-def compute_all_dialect_ci(test_file: Path = None) -> Dict[str, Any]:
-    if test_file is None:
-        test_file = ROOT_DIR / "data" / "realworld_test_200.jsonl"
-        
-    with open(test_file, "r", encoding="utf-8") as f:
-        records = [json.loads(line) for line in f if line.strip()]
-        
-    # Load MOS ratings
-def compute_all_dialect_ci() -> Dict[str, Any]:
+def compute_all_dialect_ci(test_file: Optional[Path] = None) -> Dict[str, Any]:
     fine_file = ROOT_DIR / "data" / "realworld_finetuned_eval.json"
     base_file = ROOT_DIR / "data" / "realworld_baseline_eval.json"
     
