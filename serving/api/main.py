@@ -6,6 +6,11 @@ from fastapi.responses import FileResponse  # type: ignore
 from pydantic import BaseModel  # type: ignore
 from typing import Dict, Any, Optional, List
 from pathlib import Path
+import sys
+
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 from configs.dialects import list_dialects, get_dialect_info, validate_dialect_id
 from serving.audio_processor import preprocess_audio_pipeline, get_demo_audio_sample
