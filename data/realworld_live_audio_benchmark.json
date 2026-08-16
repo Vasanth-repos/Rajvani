@@ -1,0 +1,136 @@
+{
+  "test_suite": "data/realworld_test_200.jsonl",
+  "audio_source": "Live Online Spoken Voice Speech (gTTS 16kHz PCM Stream)",
+  "sample_count": 200,
+  "execution_time_sec": 12.42,
+  "pooled_wer": 5.77,
+  "pooled_wer_ci": [
+    4.89,
+    6.64
+  ],
+  "pooled_cer": 3.55,
+  "pooled_bleu": 59.53,
+  "pooled_chrf": 79.25,
+  "per_dialect": {
+    "bgr": {
+      "n": 34,
+      "wer": 5.59,
+      "wer_ci": [
+        3.63,
+        7.73
+      ],
+      "cer": 3.12,
+      "cer_ci": [
+        1.8,
+        4.76
+      ],
+      "bleu": 64.51,
+      "bleu_ci": [
+        56.92,
+        67.74
+      ],
+      "chrf": 84.83,
+      "status": "PASS"
+    },
+    "dhd": {
+      "n": 33,
+      "wer": 5.81,
+      "wer_ci": [
+        3.7,
+        8.07
+      ],
+      "cer": 3.19,
+      "cer_ci": [
+        1.76,
+        4.88
+      ],
+      "bleu": 47.89,
+      "bleu_ci": [
+        41.29,
+        51.4
+      ],
+      "chrf": 75.87,
+      "status": "PASS"
+    },
+    "hdt": {
+      "n": 33,
+      "wer": 6.68,
+      "wer_ci": [
+        4.52,
+        8.84
+      ],
+      "cer": 3.68,
+      "cer_ci": [
+        2.27,
+        5.26
+      ],
+      "bleu": 75.73,
+      "bleu_ci": [
+        65.15,
+        80.51
+      ],
+      "chrf": 88.01,
+      "status": "PASS"
+    },
+    "mtr": {
+      "n": 33,
+      "wer": 6.33,
+      "wer_ci": [
+        4.0,
+        8.96
+      ],
+      "cer": 4.24,
+      "cer_ci": [
+        2.2,
+        6.54
+      ],
+      "bleu": 67.56,
+      "bleu_ci": [
+        57.54,
+        77.97
+      ],
+      "chrf": 80.61,
+      "status": "PASS"
+    },
+    "mwr": {
+      "n": 34,
+      "wer": 4.99,
+      "wer_ci": [
+        3.3,
+        6.82
+      ],
+      "cer": 4.3,
+      "cer_ci": [
+        2.62,
+        6.13
+      ],
+      "bleu": 42.23,
+      "bleu_ci": [
+        34.66,
+        49.48
+      ],
+      "chrf": 62.65,
+      "status": "PASS"
+    },
+    "mwt": {
+      "n": 33,
+      "wer": 5.25,
+      "wer_ci": [
+        2.97,
+        7.66
+      ],
+      "cer": 2.74,
+      "cer_ci": [
+        1.43,
+        4.28
+      ],
+      "bleu": 66.45,
+      "bleu_ci": [
+        62.45,
+        70.47
+      ],
+      "chrf": 84.56,
+      "status": "PASS"
+    }
+  }
+}
