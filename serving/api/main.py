@@ -208,6 +208,14 @@ def get_transfer_matrix_endpoint(task: Optional[str] = Query("asr"), mode: Optio
         "matrix": get_cross_dialect_matrix(task=task, mode=mode)
     }
 
+@app.get("/api/benchmarks")
+def get_benchmarks_endpoint():
+    bench_file = ROOT_DIR / "data" / "realworld_live_audio_benchmark.json"
+    if bench_file.exists():
+        with open(bench_file, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {"status": "available", "source": "realworld_test_200.jsonl"}
+
 @app.get("/api/evaluation/na-explain")
 def explain_na_cell_endpoint(train_dialect: str, eval_dialect: str):
     return explain_na_cell(train_dialect, eval_dialect)

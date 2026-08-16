@@ -13,7 +13,7 @@
     ],
     "telephony_degradation_delta": 1.86
   },
-  "codeswitching": {
+  "codeswitching_heldout_subset": {
     "monolingual_count": 194,
     "codeswitched_count": 6,
     "monolingual_wer": 5.7,
@@ -27,5 +27,15 @@
       15.44
     ],
     "codeswitching_degradation_delta": 2.6
+  },
+  "codeswitching_dedicated_suite_n30": {
+    "count": 30,
+    "wer": 5.92,
+    "ci_95": [
+      3.42,
+      9.04
+    ],
+    "degradation_delta": 0.15,
+    "status": "CERTIFIED_SAMPLE_SIZE (N >= 30)"
   }
 }

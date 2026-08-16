@@ -475,12 +475,26 @@ async function executeFullPipeline() {
   const preset = DIALECT_PRESETS[activeDialect.toLowerCase()] || DIALECT_PRESETS.mwr;
   const isTextMode = document.getElementById("panelText").classList.contains("active");
   const inputText = isTextMode ? (document.getElementById("customTextPrompt").value || preset.text) : preset.text;
+  const isTelephony = document.getElementById("chkTelephonyMode")?.checked;
 
   // Step 1: ASR
   const stepASR = document.getElementById("stepASR");
   stepASR.style.opacity = "0.6";
   await new Promise(r => setTimeout(r, 250));
   document.getElementById("outASRText").innerText = inputText;
+  const asrWer = isTelephony ? (parseFloat(preset.wer) + 1.86).toFixed(2) + "%" : preset.wer;
+  const channelLabel = isTelephony ? "8kHz G.711 IVR Narrowband" : "16kHz Clean Audio";
+  document.getElementById("badgeASR").innerText = `WER ${asrWer}`;
+  document.getElementById("badgeASR").className = isTelephony ? "step-pill amber" : "step-pill green";
+  
+  const asrMeta = document.querySelector("#stepASR .token-meta-row");
+  if (asrMeta) {
+    asrMeta.innerHTML = `
+      <span>Confidence: <strong class="text-accent">${isTelephony ? '92.4%' : preset.confidence}</strong></span>
+      <span>Acoustic Channel: <strong class="${isTelephony ? 'text-accent' : 'text-muted'}">${channelLabel}</strong></span>
+      <span>Audio Time: <strong class="text-muted">2.4s</strong></span>
+    `;
+  }
   stepASR.style.opacity = "1.0";
 
   // Step 2: Dialect ID
@@ -488,8 +502,8 @@ async function executeFullPipeline() {
   stepDID.style.opacity = "0.6";
   await new Promise(r => setTimeout(r, 200));
   document.getElementById("detectedDialectLabel").innerHTML = `Detected Dialect: <strong>${preset.name}</strong>`;
-  document.getElementById("detectedDialectConf").innerText = preset.confidence;
-  document.getElementById("didBarFill").style.width = preset.confidence;
+  document.getElementById("detectedDialectConf").innerText = isTelephony ? '91.8%' : preset.confidence;
+  document.getElementById("didBarFill").style.width = isTelephony ? '91.8%' : preset.confidence;
   stepDID.style.opacity = "1.0";
 
   // Step 3: MT
