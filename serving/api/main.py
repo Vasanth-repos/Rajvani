@@ -1,9 +1,9 @@
 import time
-import uvicorn
-from fastapi import FastAPI, HTTPException, Header, Depends, Query, UploadFile, File, Form
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-from pydantic import BaseModel
+import uvicorn  # type: ignore
+from fastapi import FastAPI, HTTPException, Header, Depends, Query, UploadFile, File, Form  # type: ignore
+from fastapi.staticfiles import StaticFiles  # type: ignore
+from fastapi.responses import FileResponse  # type: ignore
+from pydantic import BaseModel  # type: ignore
 from typing import Dict, Any, Optional, List
 from pathlib import Path
 
