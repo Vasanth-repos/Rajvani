@@ -1,6 +1,6 @@
 # Rajvani Multi-Dialect Model Fine-Tuning & Evaluation Report
 
-- **Execution Timestamp**: `2026-08-16T11:33:45Z`
+- **Execution Timestamp**: `2026-08-16T17:05:49Z`
 - **Dialects Covered**: MWR, MTR, DHD, HDT, MWT, BGR
 - **Hyperparameters**: Epochs=5, LoRA Rank=16, LoRA Alpha=32
 - **TTS Synthesis Backend**: `MMS` (Meta MMS-TTS VITS)
@@ -12,12 +12,12 @@
 
 | Dialect Code | Dialect Name | MT Checkpoint (IndicTrans2) | ASR Checkpoint (Whisper-v3) | TTS Checkpoint (Meta MMS) | Promotion Gate |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`MWR`** | Marwari | `mt_mwr_hin_26aac1` | `asr_mwr_695d4e` | `tts_mwr_mms_2317a4` | `PROMOTED` |
-| **`MTR`** | Mewari | `mt_mtr_hin_028922` | `asr_mtr_b35baf` | `tts_mtr_mms_1fc729` | `PROMOTED` |
-| **`DHD`** | Dhundhari | `mt_dhd_hin_bfdb6f` | `asr_dhd_6a6c25` | `tts_dhd_mms_7c74ec` | `PROMOTED` |
-| **`HDT`** | Hadoti | `mt_hdt_hin_a0b061` | `asr_hdt_29b376` | `tts_hdt_mms_a18afe` | `PROMOTED` |
-| **`MWT`** | Mewati | `mt_mwt_hin_38cc1d` | `asr_mwt_1693ac` | `tts_mwt_mms_9d0861` | `PROMOTED` |
-| **`BGR`** | Bagri | `mt_bgr_hin_911ab4` | `asr_bgr_551296` | `tts_bgr_mms_13ca94` | `PROMOTED` |
+| **`MWR`** | Marwari | `mt_mwr_hin_66913a` | `asr_mwr_5c19b5` | `tts_mwr_mms_90a5c1` | `PROMOTED` |
+| **`MTR`** | Mewari | `mt_mtr_hin_b43760` | `asr_mtr_42aa76` | `tts_mtr_mms_afe22f` | `PROMOTED` |
+| **`DHD`** | Dhundhari | `mt_dhd_hin_4a00c4` | `asr_dhd_41d2ff` | `tts_dhd_mms_7a7d1a` | `PROMOTED` |
+| **`HDT`** | Hadoti | `mt_hdt_hin_8e4a57` | `asr_hdt_d66b40` | `tts_hdt_mms_6d066e` | `PROMOTED` |
+| **`MWT`** | Mewati | `mt_mwt_hin_8f270e` | `asr_mwt_d856b4` | `tts_mwt_mms_b849b9` | `PROMOTED` |
+| **`BGR`** | Bagri | `mt_bgr_hin_fda704` | `asr_bgr_126c95` | `tts_bgr_mms_9e8b5a` | `PROMOTED` |
 
 ---
 

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-16T11:33:45Z",
+  "timestamp": "2026-08-16T17:05:49Z",
   "dialects": [
     "MWR",
     "MTR",
@@ -17,31 +17,31 @@
   },
   "dialect_id": "checkpoints\\dialect_id",
   "mt_runs": {
-    "MWR": "mt_mwr_hin_26aac1",
-    "MTR": "mt_mtr_hin_028922",
-    "DHD": "mt_dhd_hin_bfdb6f",
-    "HDT": "mt_hdt_hin_a0b061",
-    "MWT": "mt_mwt_hin_38cc1d",
-    "BGR": "mt_bgr_hin_911ab4"
+    "MWR": "mt_mwr_hin_66913a",
+    "MTR": "mt_mtr_hin_b43760",
+    "DHD": "mt_dhd_hin_4a00c4",
+    "HDT": "mt_hdt_hin_8e4a57",
+    "MWT": "mt_mwt_hin_8f270e",
+    "BGR": "mt_bgr_hin_fda704"
   },
   "asr_runs": {
-    "MWR": "asr_mwr_695d4e",
-    "MTR": "asr_mtr_b35baf",
-    "DHD": "asr_dhd_6a6c25",
-    "HDT": "asr_hdt_29b376",
-    "MWT": "asr_mwt_1693ac",
-    "BGR": "asr_bgr_551296"
+    "MWR": "asr_mwr_5c19b5",
+    "MTR": "asr_mtr_42aa76",
+    "DHD": "asr_dhd_41d2ff",
+    "HDT": "asr_hdt_d66b40",
+    "MWT": "asr_mwt_d856b4",
+    "BGR": "asr_bgr_126c95"
   },
   "tts_runs": {
-    "MWR": "tts_mwr_mms_2317a4",
-    "MTR": "tts_mtr_mms_1fc729",
-    "DHD": "tts_dhd_mms_7c74ec",
-    "HDT": "tts_hdt_mms_a18afe",
-    "MWT": "tts_mwt_mms_9d0861",
-    "BGR": "tts_bgr_mms_13ca94"
+    "MWR": "tts_mwr_mms_90a5c1",
+    "MTR": "tts_mtr_mms_afe22f",
+    "DHD": "tts_dhd_mms_7a7d1a",
+    "HDT": "tts_hdt_mms_6d066e",
+    "MWT": "tts_mwt_mms_b849b9",
+    "BGR": "tts_bgr_mms_9e8b5a"
   },
   "eval_benchmark": {
-    "timestamp": "2026-08-16T11:40:08Z",
+    "timestamp": "2026-08-16T17:11:27Z",
     "mode": "finetuned",
     "test_dataset": "realworld_test_200.jsonl",
     "total_test_samples": 200,
