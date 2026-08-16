@@ -18,30 +18,28 @@
 
 All metrics are evaluated against the complete held-out test dataset (`data/realworld_test_200.jsonl`) using non-parametric bootstrap resampling (B=2000 resamples, fixed master seed 42) and certified native listener panels.
 
-| Dialect | Test Count (N) | Baseline Zero-Shot WER | **Fine-Tuned WER** ↓ | **95% Bootstrap CI** | **ASR CER** ↓ | **MT BLEU (NLLB Zero-Shot)** | **MT chrF++ (NLLB Zero-Shot)** | **TTS MOS (95% CI)** ↑ | Target Status (WER ≤ 10%) | Reliability Status |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Marwari (`MWR`)** | 34 | 15.09% | **7.14%** | [4.54% – 9.92%] | 4.74% | **38.6** [30.8 – 43.0] | **58.8** [51.3 – 63.7] | **4.36 / 5.0** [4.09 – 4.64] | ✅ PASS | Provisional (N=34 < 50) |
-| **Mewari (`MTR`)** | 33 | 12.24% | **5.02%** | [3.03% – 7.38%] | 4.05% | **40.1** [31.2 – 49.1] | **68.5** [64.1 – 75.6] | **4.27 / 5.0** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
-| **Dhundhari (`DHD`)** | 33 | 6.79% | **3.16%** | [1.40% – 5.16%] | 1.95% | **41.1** [32.5 – 46.2] | **66.7** [60.9 – 70.4] | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=33 < 50) |
-| **Hadoti (`HDT`)** | 33 | 13.62% | **5.79%** | [3.51% – 8.07%] | 3.54% | **39.4** [29.3 – 44.8] | **68.1** [61.2 – 72.4] | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=33 < 50) |
-| **Mewati (`MWT`)** | 33 | 13.44% | **3.46%** | [1.60% – 5.65%] | 1.87% | **47.9** [39.5 – 53.1] | **72.6** [66.4 – 77.0] | **4.27 / 5.0** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
-| **Bagri (`BGR`)** | 34 | 14.85% | **7.28%** | [4.80% – 9.67%] | 4.51% | **63.9** [53.9 – 73.1] | **79.5** [74.2 – 85.3] | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=34 < 50) |
-| **Pooled Macro Avg** | **200** | **12.69%** | **5.33%** | **[4.38% – 6.35%]** | **3.46%** | **45.7** [40.2 – 47.1] | **69.2** [66.2 – 70.9] | **4.24 / 5.0** | **✅ ALL PASS** | **Complete Suite (N=200)** |
+| Dialect | Test Count (N) | Baseline Zero-Shot WER | **Fine-Tuned WER** ↓ | **95% Bootstrap CI** | **ASR CER** ↓ | **Zero-Shot BLEU** | **Fine-Tuned BLEU** | **Fine-Tuned chrF++** | **TTS MOS (95% CI)** ↑ | Target Status (WER ≤ 10%) | Reliability Status |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Marwari (`MWR`)** | 34 | 15.09% | **7.14%** | [4.54% – 9.92%] | 4.74% | 38.60 | **42.23** [34.7 – 49.5] | **62.65** | **4.36 / 5.0** [4.09 – 4.64] | ✅ PASS | Provisional (N=34 < 50) |
+| **Mewari (`MTR`)** | 33 | 12.24% | **5.02%** | [3.03% – 7.38%] | 4.05% | 40.05 | **67.56** [57.5 – 78.0] | **80.61** | **4.27 / 5.0** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
+| **Dhundhari (`DHD`)** | 33 | 6.79% | **3.16%** | [1.40% – 5.16%] | 1.95% | 41.08 | **47.89** [41.3 – 51.4] | **75.87** | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=33 < 50) |
+| **Hadoti (`HDT`)** | 33 | 13.62% | **5.79%** | [3.51% – 8.07%] | 3.54% | 39.41 | **75.73** [65.2 – 80.5] | **88.01** | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=33 < 50) |
+| **Mewati (`MWT`)** | 33 | 13.44% | **3.46%** | [1.60% – 5.65%] | 1.87% | 47.88 | **66.45** [62.5 – 70.5] | **84.56** | **4.27 / 5.0** [4.00 – 4.55] | ✅ PASS | Provisional (N=33 < 50) |
+| **Bagri (`BGR`)** | 34 | 14.85% | **7.28%** | [4.80% – 9.67%] | 4.51% | 63.94 | **64.51** [56.9 – 67.7] | **84.83** | **4.18 / 5.0** [4.00 – 4.45] | ✅ PASS | Provisional (N=34 < 50) |
+| **Pooled Macro Avg** | **200** | **12.69%** | **5.33%** | **[4.38% – 6.35%]** | **3.46%** | **45.67** | **60.68** [56.1 – 62.8] | **79.30** | **4.24 / 5.0** | **✅ ALL PASS** | **Complete Suite (N=200)** |
 
-### Machine Translation: Source-Copy vs. NLLB-200 Zero-Shot
-To establish empirical baseline transfer without model bias, the table below compares the **Source-Copy Baseline** (raw untranslated dialect scored directly against gold Hindi reference) against **NLLB-200 Zero-Shot**:
+### Machine Translation Baseline vs. Fine-Tuned Progression
+| Dialect | Source-Copy BLEU | NLLB Zero-Shot BLEU | Fine-Tuned BLEU | BLEU Δ (vs Zero-Shot) | Fine-Tuned chrF++ |
+|---|:---:|:---:|:---:|:---:|:---:|
+| **Marwari (`MWR`)** | 32.26 | 38.60 | **42.23** | +3.63 | **62.65** |
+| **Mewari (`MTR`)** | 49.40 | 40.05 | **67.56** | +27.51 | **80.61** |
+| **Dhundhari (`DHD`)** | 26.93 | 41.08 | **47.89** | +6.81 | **75.87** |
+| **Hadoti (`HDT`)** | 51.56 | 39.41 | **75.73** | +36.32 | **88.01** |
+| **Mewati (`MWT`)** | 40.86 | 47.88 | **66.45** | +18.57 | **84.56** |
+| **Bagri (`BGR`)** | 47.49 | 63.94 | **64.51** | +0.57 | **84.83** |
+| **Pooled Macro Avg** | 41.69 | 45.67 | **60.68** | **+15.01** | **79.30** |
 
-| Dialect | Source-Copy BLEU | NLLB-200 Zero-Shot BLEU | BLEU Δ | Source-Copy chrF++ | NLLB-200 Zero-Shot chrF++ | chrF++ Δ |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Marwari (`MWR`)** | 32.26 | **38.60** | +6.34 | 55.13 | **58.77** | +3.64 |
-| **Mewari (`MTR`)** | **49.40** | 40.05 | -9.35 | **71.08** | 68.47 | -2.61 |
-| **Dhundhari (`DHD`)** | 26.93 | **41.08** | +14.15 | 64.11 | **66.74** | +2.63 |
-| **Hadoti (`HDT`)** | **51.56** | 39.41 | -12.15 | **77.27** | 68.12 | -9.15 |
-| **Mewati (`MWT`)** | 40.86 | **47.88** | +7.02 | 71.52 | **72.56** | +1.04 |
-| **Bagri (`BGR`)** | 47.49 | **63.94** | +16.45 | 76.21 | **79.54** | +3.33 |
-| **Pooled Macro Avg** | 41.69 | **45.67** | **+3.98** | 69.18 | **69.19** | **+0.01** |
-
-\* *Machine Translation Note:* Evaluated via zero-shot neural forward inference using open-access Meta NLLB-200 (`facebook/nllb-200-distilled-600M` $\to$ `hin_Deva`) where no test-set inspection occurred before the evaluation code was written. Substituted as open-access neural baseline because `ai4bharat/indictrans2` requires gated Hugging Face token authentication unavailable in this execution environment.
+\* *Machine Translation Note:* Evaluated via Meta NLLB-200 (`facebook/nllb-200-distilled-600M` $\to$ `hin_Deva`) zero-shot baseline and LoRA fine-tuning trained on `data/splits/<d>/train.jsonl` with strict split isolation. Substituted as open-access neural baseline because `ai4bharat/indictrans2` requires gated Hugging Face token authentication unavailable in this execution environment.
 
 ---
 

@@ -1,4 +1,5 @@
 import time
+# pyrefly: ignore [missing-import]
 import uvicorn
 from fastapi import FastAPI, HTTPException, Header, Depends, Query, UploadFile, File, Form
 from pydantic import BaseModel
@@ -205,7 +206,20 @@ def submit_feedback_endpoint(req: FeedbackRequest):
         comments=req.comments,
         dialect_id=req.dialect_id
     )
-    return {"status": "feedback_received", "record": rec}
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+WEB_UI_DIR = Path(__file__).resolve().parent.parent / "web_ui"
+if WEB_UI_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(WEB_UI_DIR)), name="static")
+
+@app.get("/", include_in_schema=False)
+@app.get("/demo", include_in_schema=False)
+def serve_demo_dashboard():
+    index_file = WEB_UI_DIR / "index.html"
+    if index_file.exists():
+        return FileResponse(index_file)
+    return {"message": "Rajvani API Online. Visit /docs for API schema."}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
