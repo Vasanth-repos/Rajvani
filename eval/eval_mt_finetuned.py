@@ -9,8 +9,8 @@ Compares Zero-Shot Baseline vs. Fine-Tuned MT, computing exact BLEU, chrF++, del
 import json
 import sys
 from pathlib import Path
-import numpy as np
-import sacrebleu
+import numpy as np  # type: ignore
+import sacrebleu  # type: ignore
 
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))

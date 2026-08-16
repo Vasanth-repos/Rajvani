@@ -9,17 +9,15 @@ Computes exact empirical WER, error counts, and non-parametric bootstrap 95% con
 
 import json
 import sys
-import math
 import random
 from pathlib import Path
-import numpy as np
+import numpy as np  # type: ignore
 
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 sys.stdout.reconfigure(encoding="utf-8")
 
 from eval.eval_realworld_200 import (
-    calculate_levenshtein_distance,
     compute_per_utterance_wer,
     compute_bootstrap_ci,
     simulate_asr_hypothesis

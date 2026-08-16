@@ -9,7 +9,7 @@ Evaluates zero-shot cross-dialect acoustic transfer (WER %) and neural MT transf
 import json
 import sys
 from pathlib import Path
-import numpy as np
+import numpy as np  # type: ignore
 
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
@@ -19,7 +19,6 @@ from eval.eval_realworld_200 import (
     compute_per_utterance_wer,
     simulate_asr_hypothesis
 )
-import sacrebleu
 
 DIALECTS = ["MWR", "MTR", "DHD", "HDT", "MWT", "BGR"]
 
