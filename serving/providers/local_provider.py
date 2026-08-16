@@ -6,6 +6,11 @@ from serving.providers.base import BaseASRProvider, BaseMTProvider, BaseTTSProvi
 from serving.audio_processor import get_demo_audio_sample, generate_audible_wav_sample
 from configs.dialects import DIALECT_REGISTRY
 
+try:
+    from gtts import gTTS  # type: ignore
+except ImportError:
+    gTTS = None  # type: ignore
+
 class LocalASRProvider(BaseASRProvider):
     def transcribe(self, audio_path: str, dialect_id: Optional[str] = None) -> Dict[str, Any]:
         t0 = time.time()
@@ -62,9 +67,8 @@ class LocalTTSProvider(BaseTTSProvider):
         clean_text = (text or "").strip()
 
         # Try Google Text-to-Speech (gTTS) for real audible spoken Hindi/dialect audio
-        if clean_text:
+        if clean_text and gTTS is not None:
             try:
-                from gtts import gTTS
                 tts_dir = Path("data/processed")
                 tts_dir.mkdir(parents=True, exist_ok=True)
                 text_hash = hashlib.md5(clean_text.encode("utf-8")).hexdigest()[:8]
@@ -77,7 +81,7 @@ class LocalTTSProvider(BaseTTSProvider):
                 
                 if out_file.exists() and out_file.stat().st_size > 0:
                     audio_output_path = str(out_file)
-            except Exception as e:
+            except Exception:
                 # Log and fallback to acoustic wave synthesis if offline or gTTS fails
                 pass
 
