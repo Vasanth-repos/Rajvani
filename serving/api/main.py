@@ -1,7 +1,8 @@
 import time
-# pyrefly: ignore [missing-import]
 import uvicorn
 from fastapi import FastAPI, HTTPException, Header, Depends, Query, UploadFile, File, Form
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import Dict, Any, Optional, List
 from pathlib import Path
@@ -60,7 +61,7 @@ class FeedbackRequest(BaseModel):
     cultural_relevance: int
     tts_naturalness: int
     overall_usefulness: int
-    comments: Optional[str] = ""
+    comments: Optional[str] = None
     dialect_id: Optional[str] = "MWR"
 
 class TranscriptCorrectionRequest(BaseModel):
@@ -69,34 +70,53 @@ class TranscriptCorrectionRequest(BaseModel):
     dialect_id: str
     speaker_id: Optional[str] = "community_evaluator_01"
 
-# --- Endpoints ---
+# --- Static Files & Web UI Mount ---
+WEB_UI_DIR = Path(__file__).resolve().parent.parent / "web_ui"
+if WEB_UI_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(WEB_UI_DIR)), name="static")
 
+@app.get("/", include_in_schema=False)
+@app.get("/demo", include_in_schema=False)
+def serve_demo_dashboard():
+    index_file = WEB_UI_DIR / "index.html"
+    if index_file.exists():
+        return FileResponse(index_file)
+    return {"message": "Rajvani API Online. Visit /docs for API schema."}
+
+# --- Health & Dialect Info Endpoints ---
 @app.get("/health")
+@app.get("/api/health")
 def health_check():
-    return {"status": "ok", "service": "rajasthani-lm-api", "version": "2.0"}
+    return {
+        "status": "online",
+        "version": "2.0.0",
+        "supported_dialects": list_dialects()
+    }
 
 @app.get("/api/dialects")
-def get_dialects_registry():
+def get_dialects_endpoint():
     return {"dialects": list_dialects()}
 
+@app.get("/api/dialects/{dialect_id}")
+def get_dialect_endpoint(dialect_id: str):
+    info = get_dialect_info(dialect_id)
+    if not info:
+        raise HTTPException(status_code=404, detail=f"Dialect {dialect_id} not found.")
+    return info
+
 @app.get("/api/providers/status")
-def get_providers_status_panel():
+def get_providers_status_endpoint():
     return get_provider_status()
 
-@app.get("/api/demo-samples")
-def list_demo_samples():
-    dialects = ["mwr", "mtr", "dhd", "hdt", "mwt", "bgr"]
-    samples = {d.upper(): get_demo_audio_sample(d) for d in dialects}
-    return {"demo_samples": samples}
-
-@app.post("/api/speech/transcribe", dependencies=[Depends(verify_api_key)])
-def transcribe_audio_endpoint(
-    dialect: Optional[str] = Form("MWR"),
-    preferred_provider: Optional[str] = Form("local"),
-    file: UploadFile = File(...)
+# --- Core Processing Endpoints ---
+@app.post("/api/asr", dependencies=[Depends(verify_api_key)])
+async def asr_endpoint(
+    file: UploadFile = File(...),
+    dialect: Optional[str] = Form(None),
+    preferred_provider: str = Form("local")
 ):
-    temp_dir = Path("data/uploads")
-    temp_dir.mkdir(parents=True, exist_ok=True)
+    temp_dir = Path("temp_uploads")
+    temp_dir.mkdir(exist_ok=True)
     temp_file = temp_dir / file.filename
     with open(temp_file, "wb") as f:
         f.write(file.file.read())
@@ -159,6 +179,7 @@ def get_proverbs_endpoint(query: Optional[str] = Query(None), dialect: Optional[
         return {"proverbs": search_proverbs(query, dialect_filter=dialect)}
     return {"proverbs": list_proverbs(dialect_filter=dialect)}
 
+# --- Evaluation & Metric Endpoints ---
 @app.get("/api/evaluation/summary")
 def get_evaluation_summary():
     return {
@@ -186,6 +207,7 @@ def get_transfer_matrix_endpoint(task: Optional[str] = Query("asr"), mode: Optio
 def explain_na_cell_endpoint(train_dialect: str, eval_dialect: str):
     return explain_na_cell(train_dialect, eval_dialect)
 
+# --- Verification & Feedback Endpoints ---
 @app.post("/api/transcript/verify")
 def verify_transcript_endpoint(req: TranscriptCorrectionRequest):
     return save_human_verified_transcript(
@@ -206,20 +228,7 @@ def submit_feedback_endpoint(req: FeedbackRequest):
         comments=req.comments,
         dialect_id=req.dialect_id
     )
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-
-WEB_UI_DIR = Path(__file__).resolve().parent.parent / "web_ui"
-if WEB_UI_DIR.exists():
-    app.mount("/static", StaticFiles(directory=str(WEB_UI_DIR)), name="static")
-
-@app.get("/", include_in_schema=False)
-@app.get("/demo", include_in_schema=False)
-def serve_demo_dashboard():
-    index_file = WEB_UI_DIR / "index.html"
-    if index_file.exists():
-        return FileResponse(index_file)
-    return {"message": "Rajvani API Online. Visit /docs for API schema."}
+    return {"status": "feedback_received", "record": rec}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
