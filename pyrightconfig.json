@@ -8,13 +8,23 @@
     ".git"
   ],
   "typeCheckingMode": "off",
-  "reportMissingImports": false,
-  "reportMissingTypeStubs": false,
-  "reportGeneralTypeIssues": false,
-  "reportUnknownMemberType": false,
-  "reportUnknownVariableType": false,
-  "reportUnknownArgumentType": false,
-  "reportOptionalMemberAccess": false,
-  "reportOptionalSubscript": false,
-  "reportPrivateImportUsage": false
+  "reportMissingImports": "none",
+  "reportMissingTypeStubs": "none",
+  "reportGeneralTypeIssues": "none",
+  "reportUnknownMemberType": "none",
+  "reportUnknownVariableType": "none",
+  "reportUnknownArgumentType": "none",
+  "reportOptionalMemberAccess": "none",
+  "reportOptionalSubscript": "none",
+  "reportPrivateImportUsage": "none",
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "extraPaths": [
+        ".",
+        "C:\\Users\\baska\\AppData\\Roaming\\Python\\Python311\\site-packages",
+        "C:\\Users\\baska\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages"
+      ]
+    }
+  ]
 }
