@@ -1,0 +1,31 @@
+{
+  "sample_size": 200,
+  "telephony": {
+    "clean_16k_wer": 5.78,
+    "clean_ci": [
+      4.84,
+      6.79
+    ],
+    "narrowband_8k_wer": 7.63,
+    "telephony_ci": [
+      6.51,
+      8.81
+    ],
+    "telephony_degradation_delta": 1.86
+  },
+  "codeswitching": {
+    "monolingual_count": 194,
+    "codeswitched_count": 6,
+    "monolingual_wer": 5.7,
+    "monolingual_ci": [
+      4.75,
+      6.68
+    ],
+    "codeswitched_wer": 8.29,
+    "codeswitched_ci": [
+      1.39,
+      15.44
+    ],
+    "codeswitching_degradation_delta": 2.6
+  }
+}

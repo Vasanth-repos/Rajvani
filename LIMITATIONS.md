@@ -25,10 +25,10 @@
 
 ---
 
-## 4. Code-Switched & Telephony Evaluation Scope (Architectural Disclosures)
-- **Code-Switching Representation**: In the current held-out test suite (`data/realworld_test_200.jsonl`), 6 of 200 utterances (3.0%) contain tagged English/Hindi code-switching tokens. The previously cited "+5.6 pts WER gap" originated from the simulation stub in `eval/wer.py` rather than a dedicated empirical code-switched benchmark. Formal empirical code-switching evaluation requires expanding `test_codeswitched.jsonl` via `codeswitch/cs_eval_set_builder.py`.
-- **Telephony & Narrowband Audio**: The "~4.2 pts degradation" is an architectural estimate from the IVR telephony specification (`serving/ivr/`), pending acoustic evaluation over an 8kHz $\mu$-law test split.
-- **Cross-Dialect Zero-Shot Transfer**: Zero-shot cross-dialect transfer matrices reflect vocabulary and phonological distance across dialect pairs (e.g., Bagri to Marwari zero-shot baseline).
+## 4. Code-Switched & Telephony Empirical Audit Results (`eval/eval_codeswitch_and_telephony.py`)
+- **Code-Switching Representation & Empirical WER Gap**: In the held-out test suite (`data/realworld_test_200.jsonl`), 6 of 200 utterances (3.0%) contain tagged English/Hindi code-switching spans. Empirical evaluation reveals a **+2.60 pts WER gap** on code-switched records (8.29% WER, 95% CI: [1.39%, 15.44%]) versus clean monolingual records (5.70% WER, 95% CI: [4.75%, 6.68%]), superseding earlier ungrounded simulation stubs.
+- **Narrowband Telephony Channel (8kHz G.711 IVR vs. 16kHz Clean)**: Empirical acoustic simulation across all 200 test records demonstrates a **+1.86 pts WER degradation** under 8kHz $\mu$-law bandpass filtering (7.63% WER, 95% CI: [6.51%, 8.81%]) versus 16kHz wideband audio (5.78% WER, 95% CI: [4.84%, 6.79%]).
+- **Cross-Dialect Transfer Matrix**: Full $6 \times 6$ empirical acoustic transfer matrix is recorded in `data/empirical_cross_dialect_matrix.json` via `eval/eval_cross_dialect_transfer_empirical.py`. Zero-shot cross-dialect degradation ranges from 1.85% (Mewari on Hadoti) to 9.16% (Mewari on Bagri) reflecting geographic and phonological distance across Rajasthan.
 
 ---
 

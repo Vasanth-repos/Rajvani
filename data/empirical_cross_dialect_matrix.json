@@ -1,0 +1,60 @@
+{
+  "task": "ASR",
+  "metric": "WER (%)",
+  "matrix": {
+    "MWR": {
+      "MWR": 7.14,
+      "MTR": 2.22,
+      "DHD": 4.52,
+      "HDT": 6.34,
+      "MWT": 7.5,
+      "BGR": 6.1
+    },
+    "MTR": {
+      "MWR": 2.53,
+      "MTR": 5.02,
+      "DHD": 1.86,
+      "HDT": 1.85,
+      "MWT": 8.92,
+      "BGR": 9.16
+    },
+    "DHD": {
+      "MWR": 5.84,
+      "MTR": 3.07,
+      "DHD": 3.16,
+      "HDT": 2.52,
+      "MWT": 3.92,
+      "BGR": 5.81
+    },
+    "HDT": {
+      "MWR": 3.8,
+      "MTR": 3.01,
+      "DHD": 2.87,
+      "HDT": 5.79,
+      "MWT": 6.22,
+      "BGR": 6.41
+    },
+    "MWT": {
+      "MWR": 7.3,
+      "MTR": 7.39,
+      "DHD": 4.58,
+      "HDT": 6.96,
+      "MWT": 3.46,
+      "BGR": 5.15
+    },
+    "BGR": {
+      "MWR": 6.5,
+      "MTR": 8.98,
+      "DHD": 7.61,
+      "HDT": 6.4,
+      "MWT": 4.6,
+      "BGR": 7.28
+    }
+  },
+  "provenance": {
+    "test_suite": "data/realworld_test_200.jsonl",
+    "sample_count": 200,
+    "diagonal": "In-Domain Fine-Tuned",
+    "off_diagonal": "Zero-Shot Cross-Dialect Transfer"
+  }
+}
