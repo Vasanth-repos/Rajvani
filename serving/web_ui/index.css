@@ -438,18 +438,30 @@ body {
    ========================================================================== */
 .studio-work-grid {
   display: grid;
-  grid-template-columns: 1fr 1.35fr;
-  gap: 22px;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1020px) {
   .studio-work-grid {
     grid-template-columns: 1fr;
   }
 }
 
 .input-studio-card, .output-studio-card {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  margin-bottom: 0;
+}
+
+.studio-bottom-actions {
+  margin-top: auto;
+  padding-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* Input Mode Switcher */
@@ -696,7 +708,7 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 0;
 }
 
 .switch-label {
@@ -1218,8 +1230,9 @@ body {
    ========================================================================== */
 .feedback-grid {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 22px;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
 }
 
 @media (max-width: 900px) {

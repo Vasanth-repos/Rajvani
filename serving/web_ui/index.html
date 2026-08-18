@@ -218,23 +218,28 @@
               <button class="tag-insert" onclick="insertToken('अठे')">अठे</button>
               <button class="tag-insert" onclick="insertToken('हवै')">हवै</button>
             </div>
-          <!-- Telephony / IVR Simulation Toggle -->
-          <div class="telephony-toggle-box">
-            <label class="switch-label">
-              <input type="checkbox" id="chkTelephonyMode">
-              <span class="switch-slider"></span>
-            </label>
-            <div class="telephony-meta">
-              <div class="tel-title">📞 8kHz Narrowband Telephony Mode (IVR Channel)</div>
-              <div class="tel-sub">Simulates <3.4kHz rural call degradation (+1.86% WER)</div>
-            </div>
           </div>
 
-          <!-- Primary Execution CTA Button -->
-          <button id="btnExecutePipeline" class="btn-execute-hero">
-            <span class="btn-icon">⚡</span>
-            <span id="executeBtnLabel">Execute End-to-End Rajvani Pipeline</span>
-          </button>
+          <!-- Bottom Action Area (Always Visible Across All Modes) -->
+          <div class="studio-bottom-actions">
+            <!-- Telephony / IVR Simulation Toggle -->
+            <div class="telephony-toggle-box">
+              <label class="switch-label">
+                <input type="checkbox" id="chkTelephonyMode">
+                <span class="switch-slider"></span>
+              </label>
+              <div class="telephony-meta">
+                <div class="tel-title">📞 8kHz Narrowband Telephony Mode (IVR Channel)</div>
+                <div class="tel-sub">Simulates rural mobile call acoustic degradation (+1.86% WER)</div>
+              </div>
+            </div>
+
+            <!-- Primary Execution CTA Button -->
+            <button id="btnExecutePipeline" class="btn-execute-hero">
+              <span class="btn-icon">⚡</span>
+              <span id="executeBtnLabel">Execute End-to-End Rajvani Pipeline</span>
+            </button>
+          </div>
         </div>
 
         <!-- Right: Multi-Stage Pipeline Output Visualizer -->
