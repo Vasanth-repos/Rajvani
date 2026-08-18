@@ -1,0 +1,22 @@
+# Pyrefly configuration for Rajasthani Language Model project
+
+python-interpreter-path = "C:/Users/baska/AppData/Local/Programs/Python/Python311/python.exe"
+
+search-path = [
+    ".",
+    "C:/Users/baska/AppData/Local/Programs/Python/Python311/Lib/site-packages",
+    "C:/Users/baska/AppData/Roaming/Python/Python311/site-packages"
+]
+
+project-includes = [
+    "**/*.py"
+]
+
+project-excludes = [
+    "**/__pycache__",
+    "**/.git",
+    "**/.pytest_cache"
+]
+
+[errors]
+missing-source-for-stubs = false

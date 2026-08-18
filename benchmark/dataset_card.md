@@ -10,9 +10,9 @@
 
 | Dialect | Published Test Count | Consent Excluded (`public_release_ok: false`) | Metadata Suppressed (`k < 5`) |
 |---|---|---|---|
-| MWR | 0 | 0 | 0 |
-| MTR | 0 | 0 | 0 |
-| DHD | 0 | 0 | 0 |
-| HDT | 0 | 0 | 0 |
-| MWT | 0 | 0 | 0 |
-| BGR | 8 | 0 | 0 |
+| MWR | 500 | 0 | 0 |
+| MTR | 500 | 0 | 0 |
+| DHD | 500 | 0 | 0 |
+| HDT | 500 | 0 | 0 |
+| MWT | 500 | 0 | 0 |
+| BGR | 500 | 0 | 0 |

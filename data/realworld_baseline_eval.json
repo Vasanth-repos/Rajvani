@@ -12,8 +12,8 @@
     ],
     "ci_half_width_pct": 10.9,
     "cer": 7.79,
-    "bleu": 43.4,
-    "chrf": 68.3,
+    "bleu": 44.86,
+    "chrf": 68.83,
     "mos": 2.73,
     "statistical_status": "PROVISIONAL (n=200 total, n=33-34 per dialect; formal target n >= 50 per dialect)",
     "tts_rater_scope": "n=66 ratings across 6 dialect regions (11 distinct certified raters per dialect zone)"
@@ -31,15 +31,15 @@
       ],
       "ci_half_width_pct": 23.7,
       "cer": 10.23,
-      "bleu": 35.4,
+      "bleu": 38.6,
       "bleu_ci_95": [
-        28.62,
-        42.05
+        30.8,
+        42.99
       ],
-      "chrf": 56.5,
+      "chrf": 58.77,
       "chrf_ci_95": [
-        49.27,
-        63.41
+        51.27,
+        63.72
       ],
       "mos": 2.73,
       "mos_ci_95": [
@@ -102,12 +102,12 @@
       ],
       "ci_half_width_pct": 26.5,
       "cer": 8.74,
-      "bleu": 39.6,
+      "bleu": 40.05,
       "bleu_ci_95": [
         31.18,
-        49.07
+        49.06
       ],
-      "chrf": 69.7,
+      "chrf": 68.47,
       "chrf_ci_95": [
         64.1,
         75.6
@@ -173,12 +173,12 @@
       ],
       "ci_half_width_pct": 41.0,
       "cer": 3.36,
-      "bleu": 39.2,
+      "bleu": 41.08,
       "bleu_ci_95": [
-        32.46,
+        32.47,
         46.2
       ],
-      "chrf": 65.7,
+      "chrf": 66.74,
       "chrf_ci_95": [
         60.85,
         70.41
@@ -244,15 +244,15 @@
       ],
       "ci_half_width_pct": 25.0,
       "cer": 6.78,
-      "bleu": 36.8,
+      "bleu": 39.41,
       "bleu_ci_95": [
         29.27,
         44.8
       ],
-      "chrf": 66.8,
+      "chrf": 68.12,
       "chrf_ci_95": [
         61.17,
-        72.4
+        72.41
       ],
       "mos": 2.73,
       "mos_ci_95": [
@@ -315,12 +315,12 @@
       ],
       "ci_half_width_pct": 26.9,
       "cer": 8.03,
-      "bleu": 46.1,
+      "bleu": 47.88,
       "bleu_ci_95": [
-        39.54,
+        39.53,
         53.07
       ],
-      "chrf": 71.8,
+      "chrf": 72.56,
       "chrf_ci_95": [
         66.35,
         77.01
@@ -386,12 +386,12 @@
       ],
       "ci_half_width_pct": 19.5,
       "cer": 9.45,
-      "bleu": 63.2,
+      "bleu": 63.94,
       "bleu_ci_95": [
         53.93,
         73.11
       ],
-      "chrf": 79.6,
+      "chrf": 79.54,
       "chrf_ci_95": [
         74.16,
         85.34

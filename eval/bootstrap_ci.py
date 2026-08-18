@@ -36,20 +36,20 @@ def bootstrap_distribution(
         return (0.0, 0.0, 0.0, [])
     
     n = len(data)
-    point_est = round(float(agg_fn(data)), 2)
+    point_est = round(agg_fn(data), 2)
     rng = random.Random(seed)
     
     boot_means = []
     for _ in range(B):
         sample = [data[rng.randrange(n)] for _ in range(n)]
-        boot_means.append(float(agg_fn(sample)))
+        boot_means.append(agg_fn(sample))
         
     boot_means.sort()
     lo_idx = int((alpha / 2.0) * B)
     hi_idx = int((1.0 - alpha / 2.0) * B)
     
-    lo = round(float(boot_means[lo_idx]), 2)
-    hi = round(float(boot_means[hi_idx]), 2)
+    lo = round(boot_means[lo_idx], 2)
+    hi = round(boot_means[hi_idx], 2)
     
     # Mathematical sanity assertion
     assert lo <= point_est <= hi, f"Bootstrap violation: point_est={point_est} not in [{lo}, {hi}]"

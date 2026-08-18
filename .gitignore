@@ -32,3 +32,4 @@ data/synthetic/*
 .idea/
 .vscode/
 *.log
+data/processed/*.mp3

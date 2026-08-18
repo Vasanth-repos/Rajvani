@@ -3,7 +3,7 @@
 ## Model Details
 - **Task:** MT
 - **Target Dialect:** HDT
-- **Base Architecture:** Whisper-large-v3 / IndicTrans2 / MMS-TTS
+- **Base Architecture:** Meta NLLB-200 (facebook/nllb-200-distilled-600M) with Dialect LoRA Adapters
 - **Fine-Tuning Method:** LoRA / PEFT
 
 ## Intended Use

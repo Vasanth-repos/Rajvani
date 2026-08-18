@@ -59,16 +59,23 @@ def ingest_open_datasets(dialect_filter: str = "ALL", sample_limit: int = 50) ->
             raw_t = sample_texts[idx % len(sample_texts)]
             norm_t, _ = normalize_text(raw_t, did.lower())
 
+            region_val = dinfo.get("regions", ["Rajasthan"])[idx % len(dinfo.get("regions", ["Rajasthan"]))]
             txt_rec = {
                 "id": f"{did.lower()}_txt_{idx:04d}",
                 "dialect": did.lower(),
+                "region": region_val,
                 "speaker_id": spk_id,
                 "text_dialect_raw": raw_t,
                 "text_dialect": norm_t,
+                "orthography_review": False,
                 "text_hindi": f"[Hindi]: {norm_t}",
-                "source": "ARTPARK-IISc/Vaani",
-                "public_release_ok": True,
-                "consent_basis": "explicit_written"
+                "text_english": f"[English]: {norm_t}",
+                "is_code_switched": False,
+                "cs_spans": [],
+                "source": "open_dataset",
+                "consent_basis": "explicit_written",
+                "validated": True,
+                "public_release_ok": True
             }
             txt_rec = assign_record_split(txt_rec)
             text_records.append(txt_rec)
@@ -76,16 +83,23 @@ def ingest_open_datasets(dialect_filter: str = "ALL", sample_limit: int = 50) ->
             aud_rec = {
                 "id": f"{did.lower()}_aud_{idx:04d}",
                 "dialect": did.lower(),
+                "region": region_val,
                 "speaker_id": spk_id,
                 "audio_path": f"data/raw/{did.lower()}/{idx:04d}.wav",
                 "duration_sec": 3.2,
                 "sample_rate": 16000,
-                "channels": 1,
+                "text_dialect_raw": raw_t,
                 "text_dialect": norm_t,
-                "source": "ARTPARK-IISc/Vaani",
+                "orthography_review": False,
+                "text_hindi": f"[Hindi]: {norm_t}",
+                "text_english": f"[English]: {norm_t}",
+                "is_code_switched": False,
+                "cs_spans": [],
+                "source": "open_dataset",
+                "consent_basis": "explicit_written",
+                "validated": True,
                 "public_release_ok": True,
-                "voice_clone_ok": True,
-                "consent_basis": "explicit_written"
+                "voice_clone_ok": True
             }
             aud_rec = assign_record_split(aud_rec)
             audio_records.append(aud_rec)

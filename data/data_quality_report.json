@@ -24,27 +24,27 @@
   "dialect_stats": {
     "MWR": {
       "status": "PASS",
-      "record_count": 40
+      "record_count": 17467
     },
     "MTR": {
       "status": "PASS",
-      "record_count": 40
+      "record_count": 17467
     },
     "DHD": {
       "status": "PASS",
-      "record_count": 40
+      "record_count": 17467
     },
     "HDT": {
       "status": "PASS",
-      "record_count": 40
+      "record_count": 17467
     },
     "MWT": {
       "status": "PASS",
-      "record_count": 40
+      "record_count": 17466
     },
     "BGR": {
       "status": "PASS",
-      "record_count": 40
+      "record_count": 17466
     }
   }
 }

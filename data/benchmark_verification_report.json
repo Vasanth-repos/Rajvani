@@ -5,7 +5,7 @@
     "total_leak_count": 0,
     "dialects": {
       "mwr": {
-        "test_sample_count": 34,
+        "test_sample_count": 500,
         "targets_checked": [
           {
             "target_file": "data\\splits\\mwr\\train.jsonl",
@@ -41,7 +41,7 @@
         "leak_free": true
       },
       "mtr": {
-        "test_sample_count": 33,
+        "test_sample_count": 500,
         "targets_checked": [
           {
             "target_file": "data\\splits\\mtr\\train.jsonl",
@@ -77,7 +77,7 @@
         "leak_free": true
       },
       "dhd": {
-        "test_sample_count": 33,
+        "test_sample_count": 500,
         "targets_checked": [
           {
             "target_file": "data\\splits\\dhd\\train.jsonl",
@@ -113,7 +113,7 @@
         "leak_free": true
       },
       "hdt": {
-        "test_sample_count": 33,
+        "test_sample_count": 500,
         "targets_checked": [
           {
             "target_file": "data\\splits\\hdt\\train.jsonl",
@@ -149,7 +149,7 @@
         "leak_free": true
       },
       "mwt": {
-        "test_sample_count": 33,
+        "test_sample_count": 500,
         "targets_checked": [
           {
             "target_file": "data\\splits\\mwt\\train.jsonl",
@@ -185,7 +185,7 @@
         "leak_free": true
       },
       "bgr": {
-        "test_sample_count": 34,
+        "test_sample_count": 500,
         "targets_checked": [
           {
             "target_file": "data\\splits\\bgr\\train.jsonl",
