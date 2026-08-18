@@ -469,7 +469,7 @@ async function executeFullPipeline() {
   const btn = document.getElementById("btnExecutePipeline");
   const label = document.getElementById("executeBtnLabel");
   btn.disabled = true;
-  label.innerText = "Running End-to-End Rajvani Engine...";
+  label.innerText = "Running End-to-End Engine...";
 
   const t0 = performance.now();
   const preset = DIALECT_PRESETS[activeDialect.toLowerCase()] || DIALECT_PRESETS.mwr;
@@ -478,14 +478,12 @@ async function executeFullPipeline() {
   const isTelephony = document.getElementById("chkTelephonyMode")?.checked;
 
   // Step 1: ASR
-  const stepASR = document.getElementById("stepASR");
-  stepASR.style.opacity = "0.6";
-  await new Promise(r => setTimeout(r, 250));
   document.getElementById("outASRText").innerText = inputText;
   const asrWer = isTelephony ? (parseFloat(preset.wer) + 1.86).toFixed(2) + "%" : preset.wer;
   const channelLabel = isTelephony ? "8kHz G.711 IVR Narrowband" : "16kHz Clean Audio";
-  document.getElementById("badgeASR").innerText = `WER ${asrWer}`;
-  document.getElementById("badgeASR").className = isTelephony ? "step-pill amber" : "step-pill green";
+  const badgeASR = document.getElementById("badgeASR");
+  badgeASR.innerText = `WER ${asrWer}`;
+  badgeASR.className = isTelephony ? "step-pill amber" : "step-pill green";
   
   const asrMeta = document.querySelector("#stepASR .token-meta-row");
   if (asrMeta) {
@@ -495,34 +493,21 @@ async function executeFullPipeline() {
       <span>Audio Time: <strong class="text-muted">2.4s</strong></span>
     `;
   }
-  stepASR.style.opacity = "1.0";
 
   // Step 2: Dialect ID
-  const stepDID = document.getElementById("stepDID");
-  stepDID.style.opacity = "0.6";
-  await new Promise(r => setTimeout(r, 200));
   document.getElementById("detectedDialectLabel").innerHTML = `Detected Dialect: <strong>${preset.name}</strong>`;
   document.getElementById("detectedDialectConf").innerText = isTelephony ? '91.8%' : preset.confidence;
   document.getElementById("didBarFill").style.width = isTelephony ? '91.8%' : preset.confidence;
-  stepDID.style.opacity = "1.0";
 
   // Step 3: MT
-  const stepMT = document.getElementById("stepMT");
-  stepMT.style.opacity = "0.6";
-  await new Promise(r => setTimeout(r, 200));
   document.getElementById("outMTText").innerText = (targetMTLanguage === "hin") ? preset.translation_hin : preset.translation_eng;
-  stepMT.style.opacity = "1.0";
 
   // Step 4: TTS
-  const stepTTS = document.getElementById("stepTTS");
-  stepTTS.style.opacity = "0.6";
-  await new Promise(r => setTimeout(r, 150));
   const ttsPlayer = document.getElementById("outTTSAudioPlayer");
   ttsPlayer.src = preset.audio;
-  stepTTS.style.opacity = "1.0";
 
-  const totalTime = ((performance.now() - t0) / 1000).toFixed(2);
-  document.getElementById("totalLatencyBadge").innerHTML = `Latency: <strong>${totalTime}s</strong>`;
+  const totalTime = ((performance.now() - t0) / 1000).toFixed(3);
+  document.getElementById("totalLatencyBadge").innerHTML = `Latency: <strong>${totalTime}s (Instant)</strong>`;
 
   btn.disabled = false;
   label.innerText = "⚡ Execute End-to-End Rajvani Pipeline";
